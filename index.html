@@ -10,6 +10,10 @@
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0f1115">
 
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+
 <style>
 
 * {
@@ -589,6 +593,57 @@ const STORAGE_KEY = "studyBattleData";
 
 
 /* =====================================================
+   FIREBASE ĐỒNG BỘ
+===================================================== */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyClJmH_HXWSIsvVmNw25Zv5UBi2zXFiU9M",
+
+    authDomain:
+        "chien-binh.firebaseapp.com",
+
+    databaseURL:
+        "https://chien-binh-default-rtdb.firebaseio.com",
+
+    projectId:
+        "chien-binh",
+
+    storageBucket:
+        "chien-binh.firebasestorage.app",
+
+    messagingSenderId:
+        "38150363155",
+
+    appId:
+        "1:38150363155:web:2465897a2a84ad02c507e6",
+
+    measurementId:
+        "G-EN1JVCQ3BH"
+
+};
+
+
+firebase.initializeApp(
+    firebaseConfig
+);
+
+
+const database =
+    firebase.database();
+
+
+const cloudDataRef =
+    database.ref("battleData");
+
+
+let firebaseReady = false;
+
+let firebaseApplyingRemote = false;
+
+
+/* =====================================================
    NGÀY HÔM NAY
 ===================================================== */
 
@@ -598,9 +653,13 @@ function getToday() {
 
     return now.getFullYear() +
         "-" +
-        String(now.getMonth() + 1).padStart(2, "0") +
+        String(
+            now.getMonth() + 1
+        ).padStart(2, "0") +
         "-" +
-        String(now.getDate()).padStart(2, "0");
+        String(
+            now.getDate()
+        ).padStart(2, "0");
 
 }
 
@@ -612,24 +671,35 @@ function getToday() {
 function formatDateVietnamese(dateString) {
 
     if (!dateString) {
+
         return "";
+
     }
 
-    const parts = dateString.split("-");
+    const parts =
+        dateString.split("-");
 
     if (parts.length !== 3) {
+
         return dateString;
+
     }
 
-    const year = Number(parts[0]);
-    const month = Number(parts[1]);
-    const day = Number(parts[2]);
+    const year =
+        Number(parts[0]);
 
-    const date = new Date(
-        year,
-        month - 1,
-        day
-    );
+    const month =
+        Number(parts[1]);
+
+    const day =
+        Number(parts[2]);
+
+    const date =
+        new Date(
+            year,
+            month - 1,
+            day
+        );
 
     return date.toLocaleDateString(
         "vi-VN",
@@ -649,7 +719,9 @@ function formatDateVietnamese(dateString) {
 ===================================================== */
 
 let data = JSON.parse(
-    localStorage.getItem(STORAGE_KEY)
+    localStorage.getItem(
+        STORAGE_KEY
+    )
 ) || {
 
     date: getToday(),
@@ -692,67 +764,120 @@ let data = JSON.parse(
 ===================================================== */
 
 if (!data.date) {
+
     data.date = getToday();
+
 }
 
 if (!("startDate" in data)) {
+
     data.startDate = "";
+
 }
 
 if (typeof data.score !== "number") {
+
     data.score = 0;
+
 }
 
 if (typeof data.studyPoints !== "number") {
+
     data.studyPoints = 0;
+
 }
 
 if (typeof data.exercisePoints !== "number") {
+
     data.exercisePoints = 0;
+
 }
 
 if (typeof data.accumulatedPoints !== "number") {
+
     data.accumulatedPoints = 0;
+
 }
 
-if (typeof data.accumulatedStudyPoints !== "number") {
+if (
+    typeof data.accumulatedStudyPoints !==
+    "number"
+) {
+
     data.accumulatedStudyPoints = 0;
+
 }
 
-if (typeof data.accumulatedExercisePoints !== "number") {
+if (
+    typeof data.accumulatedExercisePoints !==
+    "number"
+) {
+
     data.accumulatedExercisePoints = 0;
+
 }
 
-if (typeof data.accumulatedDays !== "number") {
+if (
+    typeof data.accumulatedDays !==
+    "number"
+) {
+
     data.accumulatedDays = 0;
+
 }
 
 if (typeof data.totalHours !== "number") {
+
     data.totalHours = 0;
+
 }
 
-if (typeof data.teslaAccumulated !== "number") {
+if (
+    typeof data.teslaAccumulated !==
+    "number"
+) {
+
     data.teslaAccumulated = 0;
+
 }
 
-if (typeof data.elonAccumulated !== "number") {
+if (
+    typeof data.elonAccumulated !==
+    "number"
+) {
+
     data.elonAccumulated = 0;
+
 }
 
 if (!("activeSessionType" in data)) {
+
     data.activeSessionType = null;
+
 }
 
 if (!("activeSessionStart" in data)) {
+
     data.activeSessionStart = null;
+
 }
 
-if (typeof data.savedSessionSeconds !== "number") {
+if (
+    typeof data.savedSessionSeconds !==
+    "number"
+) {
+
     data.savedSessionSeconds = 0;
+
 }
 
-if (typeof data.lastCreditedSessionHours !== "number") {
+if (
+    typeof data.lastCreditedSessionHours !==
+    "number"
+) {
+
     data.lastCreditedSessionHours = 0;
+
 }
 
 
@@ -773,6 +898,34 @@ function saveData() {
         STORAGE_KEY,
         JSON.stringify(data)
     );
+
+
+    /*
+       Lưu thêm lên Firebase.
+       firebaseApplyingRemote giúp tránh
+       vòng lặp khi Firebase gửi dữ liệu
+       ngược lại cho thiết bị.
+    */
+
+    if (
+        firebaseReady &&
+        !firebaseApplyingRemote
+    ) {
+
+        cloudDataRef
+            .set(data)
+            .catch(
+                function(error) {
+
+                    console.error(
+                        "Firebase lưu dữ liệu lỗi:",
+                        error
+                    );
+
+                }
+            );
+
+    }
 
 }
 
@@ -850,7 +1003,9 @@ function checkNewDay() {
     const today = getToday();
 
     if (data.date === today) {
+
         return false;
+
     }
 
     if (!data.startDate) {
@@ -933,16 +1088,20 @@ function calculateDaysFromStart(
 ) {
 
     if (!startDate) {
+
         return 0;
+
     }
 
-    const start = new Date(
-        startDate + "T00:00:00"
-    );
+    const start =
+        new Date(
+            startDate + "T00:00:00"
+        );
 
-    const end = new Date(
-        endDate + "T00:00:00"
-    );
+    const end =
+        new Date(
+            endDate + "T00:00:00"
+        );
 
     const diff =
         end.getTime() -
@@ -1189,7 +1348,9 @@ function startSession(type) {
 function pauseSession() {
 
     if (!data.activeSessionType) {
+
         return;
+
     }
 
     if (data.activeSessionStart) {
@@ -1325,7 +1486,8 @@ function resetCurrentSession() {
         data.accumulatedStudyPoints =
             Math.max(
                 0,
-                data.accumulatedStudyPoints - resetPoints
+                data.accumulatedStudyPoints -
+                resetPoints
             );
 
     }
@@ -1337,13 +1499,15 @@ function resetCurrentSession() {
         data.exercisePoints =
             Math.max(
                 0,
-                data.exercisePoints - resetPoints
+                data.exercisePoints -
+                resetPoints
             );
 
         data.accumulatedExercisePoints =
             Math.max(
                 0,
-                data.accumulatedExercisePoints - resetPoints
+                data.accumulatedExercisePoints -
+                resetPoints
             );
 
     }
@@ -1351,13 +1515,15 @@ function resetCurrentSession() {
     data.accumulatedPoints =
         Math.max(
             0,
-            data.accumulatedPoints - resetPoints
+            data.accumulatedPoints -
+            resetPoints
         );
 
     data.totalHours =
         Math.max(
             0,
-            data.totalHours - resetPoints
+            data.totalHours -
+            resetPoints
         );
 
     data.activeSessionType = null;
@@ -1481,7 +1647,9 @@ function deleteAllData() {
 function startTimerLoop() {
 
     if (timerInterval) {
+
         return;
+
     }
 
     timerInterval =
@@ -2054,6 +2222,154 @@ function updateDisplay() {
 
 
 /* =====================================================
+   KHỞI TẠO FIREBASE ĐỒNG BỘ
+===================================================== */
+
+async function initFirebaseSync() {
+
+    try {
+
+        const snapshot =
+            await cloudDataRef.once(
+                "value"
+            );
+
+        const cloudData =
+            snapshot.val();
+
+
+        /*
+           Nếu Firebase đã có dữ liệu:
+           lấy dữ liệu trên Firebase
+           làm dữ liệu chính.
+        */
+
+        if (cloudData) {
+
+            firebaseApplyingRemote = true;
+
+            data = {
+                ...data,
+                ...cloudData
+            };
+
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(data)
+            );
+
+            firebaseApplyingRemote = false;
+
+        }
+
+        /*
+           Nếu Firebase chưa có dữ liệu:
+           đưa dữ liệu hiện tại lên Firebase.
+        */
+
+        else {
+
+            await cloudDataRef.set(data);
+
+        }
+
+
+        firebaseReady = true;
+
+
+        /*
+           Lắng nghe thay đổi từ thiết bị khác.
+        */
+
+        cloudDataRef.on(
+            "value",
+            function(snapshot) {
+
+                const remoteData =
+                    snapshot.val();
+
+                if (!remoteData) {
+
+                    return;
+
+                }
+
+
+                firebaseApplyingRemote = true;
+
+                data = {
+                    ...data,
+                    ...remoteData
+                };
+
+                localStorage.setItem(
+                    STORAGE_KEY,
+                    JSON.stringify(data)
+                );
+
+                firebaseApplyingRemote = false;
+
+
+                /*
+                   Cập nhật giao diện ngay khi
+                   máy tính hoặc điện thoại thay đổi.
+                */
+
+                updateDisplay();
+
+                updateSessionButtons();
+
+                updateTimer();
+
+
+                /*
+                   Nếu thiết bị kia đang chạy timer,
+                   thiết bị này cũng tiếp tục hiển thị.
+                */
+
+                if (
+                    data.activeSessionType &&
+                    data.activeSessionStart
+                ) {
+
+                    startTimerLoop();
+
+                } else {
+
+                    stopTimerLoop();
+
+                }
+
+            }
+        );
+
+
+        console.log(
+            "🔥 Firebase đồng bộ thành công."
+        );
+
+    }
+
+    catch (error) {
+
+        firebaseReady = false;
+
+        console.error(
+            "Firebase lỗi:",
+            error
+        );
+
+        document.getElementById(
+            "status"
+        ).textContent =
+            "⚠️ Firebase chưa kết nối. Dữ liệu vẫn được lưu trên thiết bị.";
+
+    }
+
+}
+
+
+/* =====================================================
    KHỞI ĐỘNG
 ===================================================== */
 
@@ -2069,6 +2385,7 @@ updateSessionButtons();
 
 updateTimer();
 
+
 if (
     data.activeSessionType &&
     data.activeSessionStart
@@ -2080,17 +2397,27 @@ if (
 
 }
 
+
 setInterval(
     updateClock,
     1000
 );
 
 
+/*
+   Khởi động đồng bộ Firebase
+*/
+
+initFirebaseSync();
+
+
 /* =====================================================
    PWA SERVICE WORKER
 ===================================================== */
 
-if ("serviceWorker" in navigator) {
+if (
+    "serviceWorker" in navigator
+) {
 
     window.addEventListener(
         "load",
