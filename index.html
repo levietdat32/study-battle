@@ -1,68 +1,908 @@
-function saveStartDate() {
-    const input =
-        document.getElementById("startDateInput");
+<!DOCTYPE html>
+<html lang="vi">
 
-    const selectedDate = input.value;
+<head>
 
-    if (!selectedDate) {
-        alert("Vui lòng chọn ngày bắt đầu.");
-        return;
-    }
+<meta charset="UTF-8">
 
-    const today = getToday();
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-    if (selectedDate > today) {
-        alert("Ngày bắt đầu không thể ở tương lai.");
-        return;
-    }
+<title>TEST FIREBASE SYNC</title>
 
-    data.startDate = selectedDate;
-    data.date = today;
+<link
+    rel="manifest"
+    href="manifest.json"
+>
 
-    data.accumulatedDays =
-        calculateDaysFromStart(
-            selectedDate,
-            today
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #0f1115;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.card {
+    background: #181c23;
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #aaa;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #555;
+    background: #0f1115;
+    color: white;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 13px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.start {
+    background: #20c997;
+    color: white;
+}
+
+.stop {
+    background: #dc3545;
+    color: white;
+}
+
+#timer {
+    text-align: center;
+    font-size: 50px;
+    font-weight: bold;
+    margin: 25px 0;
+}
+
+.info {
+    margin-top: 12px;
+    padding: 12px;
+    background: #101319;
+    border-radius: 8px;
+}
+
+.status {
+    text-align: center;
+    margin-top: 20px;
+    color: #aaa;
+}
+
+.ok {
+    color: #20c997;
+}
+
+.error {
+    color: #dc3545;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+<h1>🔥 TEST FIREBASE</h1>
+
+
+<div class="card">
+
+<h2>📅 Ngày bắt đầu</h2>
+
+<label>
+Chọn ngày:
+</label>
+
+<input
+    type="date"
+    id="startDate"
+>
+
+<button
+    class="start"
+    onclick="saveStartDate()"
+>
+    LƯU NGÀY LÊN FIREBASE
+</button>
+
+<div
+    class="info"
+    id="savedDate"
+>
+    Chưa có ngày
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⏱️ Đồng hồ</h2>
+
+<div
+    id="timer"
+>
+    00:00:00
+</div>
+
+
+<button
+    class="start"
+    onclick="startTimer()"
+>
+    ▶ BẮT ĐẦU
+</button>
+
+
+<button
+    class="stop"
+    onclick="stopTimer()"
+>
+    ⏸ DỪNG
+</button>
+
+<div
+    class="info"
+    id="timerStatus"
+>
+    Chưa chạy
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>☁️ Đồng bộ</h2>
+
+<div
+    class="info"
+>
+    Thiết bị:
+
+    <b id="device">
+        Đang xác định...
+    </b>
+</div>
+
+<div
+    class="info"
+>
+    Firebase:
+
+    <b id="firebaseState">
+        Đang kết nối...
+    </b>
+</div>
+
+<div
+    class="info"
+>
+    Dữ liệu cuối:
+
+    <div id="lastUpdate">
+        -
+    </div>
+</div>
+
+</div>
+
+
+<div
+    class="status"
+    id="status"
+>
+Đang khởi động...
+</div>
+
+</div>
+
+
+<!-- FIREBASE -->
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+
+<script>
+
+/* =====================================================
+   FIREBASE CONFIG
+   =====================================================
+
+   THAY BẰNG CONFIG FIREBASE CỦA BẠN
+===================================================== */
+
+const firebaseConfig = {
+
+    apiKey: "YOUR_API_KEY",
+
+    authDomain:
+        "YOUR_PROJECT.firebaseapp.com",
+
+    databaseURL:
+        "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+
+    projectId:
+        "YOUR_PROJECT",
+
+    storageBucket:
+        "YOUR_PROJECT.appspot.com",
+
+    messagingSenderId:
+        "YOUR_SENDER_ID",
+
+    appId:
+        "YOUR_APP_ID"
+
+};
+
+
+/* =====================================================
+   FIREBASE
+===================================================== */
+
+let db = null;
+
+let cloudRef = null;
+
+let firebaseReady = false;
+
+
+try {
+
+    firebase.initializeApp(
+        firebaseConfig
+    );
+
+    db =
+        firebase.database();
+
+    /*
+       CẢ ĐIỆN THOẠI VÀ MÁY TÍNH
+       ĐỀU ĐỌC CÙNG PATH NÀY.
+    */
+
+    cloudRef =
+        db.ref(
+            "testSync"
         );
 
-    // Lưu ngay vào máy
+    firebaseReady = true;
+
+
+    document.getElementById(
+        "firebaseState"
+    ).textContent =
+        "ĐÃ KẾT NỐI";
+
+
+    document.getElementById(
+        "firebaseState"
+    ).className =
+        "ok";
+
+
+    document.getElementById(
+        "status"
+    ).textContent =
+        "☁️ Firebase đã kết nối.";
+
+
+}
+catch(error) {
+
+    console.error(error);
+
+    document.getElementById(
+        "firebaseState"
+    ).textContent =
+        "LỖI";
+
+
+    document.getElementById(
+        "firebaseState"
+    ).className =
+        "error";
+
+}
+
+
+/* =====================================================
+   DEVICE
+===================================================== */
+
+const deviceId =
+    localStorage.getItem(
+        "testDeviceId"
+    ) ||
+    (
+        "device-" +
+        Date.now() +
+        "-" +
+        Math.random()
+            .toString(36)
+            .substring(2, 8)
+    );
+
+
+localStorage.setItem(
+    "testDeviceId",
+    deviceId
+);
+
+
+document.getElementById(
+    "device"
+).textContent =
+    deviceId;
+
+
+/* =====================================================
+   LOCAL DATA
+===================================================== */
+
+let data = {
+
+    startDate: "",
+
+    timerRunning: false,
+
+    timerStartedAt: 0,
+
+    timerSeconds: 0,
+
+    lastUpdate: 0,
+
+    updatedBy: ""
+
+};
+
+
+/* =====================================================
+   LOAD LOCAL
+===================================================== */
+
+function loadLocal() {
+
+    const saved =
+        localStorage.getItem(
+            "firebaseTestData"
+        );
+
+    if (!saved) {
+        return;
+    }
+
+    try {
+
+        data =
+            JSON.parse(saved);
+
+    }
+    catch(error) {
+
+        console.error(error);
+
+    }
+
+}
+
+
+/* =====================================================
+   SAVE LOCAL
+===================================================== */
+
+function saveLocal() {
+
     localStorage.setItem(
-        STORAGE_KEY,
+        "firebaseTestData",
         JSON.stringify(data)
     );
 
-    // Ghi trực tiếp lên Firebase
-    cloudDataRef
-        .update({
-            startDate: data.startDate,
-            date: data.date,
-            accumulatedDays: data.accumulatedDays
-        })
-        .then(function() {
+}
 
-            console.log(
-                "🔥 Đã lưu ngày bắt đầu lên Firebase:",
-                data.startDate
-            );
+
+/* =====================================================
+   GHI FIREBASE
+===================================================== */
+
+function saveFirebase() {
+
+    if (!firebaseReady) {
+
+        return;
+
+    }
+
+
+    data.lastUpdate =
+        Date.now();
+
+    data.updatedBy =
+        deviceId;
+
+
+    saveLocal();
+
+
+    cloudRef
+        .set(data)
+        .then(() => {
 
             document.getElementById(
                 "status"
             ).textContent =
-                "☁️ Đã đồng bộ ngày bắt đầu.";
+                "☁️ Đã gửi dữ liệu lên Firebase.";
 
         })
-        .catch(function(error) {
+        .catch(error => {
 
-            console.error(
-                "❌ Firebase lưu ngày lỗi:",
-                error
-            );
+            console.error(error);
 
             document.getElementById(
                 "status"
             ).textContent =
-                "⚠️ Không thể lưu ngày lên Firebase.";
+                "❌ Không gửi được Firebase.";
+
         });
 
-    updateDisplay();
 }
+
+
+/* =====================================================
+   NHẬN DỮ LIỆU FIREBASE
+===================================================== */
+
+function listenFirebase() {
+
+    if (!firebaseReady) {
+        return;
+    }
+
+
+    cloudRef.on(
+        "value",
+        snapshot => {
+
+            const cloud =
+                snapshot.val();
+
+
+            if (!cloud) {
+
+                saveFirebase();
+
+                return;
+
+            }
+
+
+            /*
+               Nếu dữ liệu Firebase mới hơn
+               dữ liệu hiện tại thì nhận.
+            */
+
+            if (
+                cloud.lastUpdate >=
+                (data.lastUpdate || 0)
+            ) {
+
+                data = {
+                    ...data,
+                    ...cloud
+                };
+
+
+                saveLocal();
+
+                updateDisplay();
+
+
+                document.getElementById(
+                    "status"
+                ).textContent =
+                    "🔄 Đã nhận dữ liệu mới từ Firebase.";
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   NGÀY
+===================================================== */
+
+function saveStartDate() {
+
+    const input =
+        document.getElementById(
+            "startDate"
+        );
+
+
+    const value =
+        input.value;
+
+
+    if (!value) {
+
+        alert(
+            "Hãy chọn ngày."
+        );
+
+        return;
+
+    }
+
+
+    data.startDate =
+        value;
+
+
+    saveFirebase();
+
+    updateDisplay();
+
+}
+
+
+/* =====================================================
+   TIMER
+===================================================== */
+
+let timerInterval = null;
+
+
+/* =====================================================
+   START
+===================================================== */
+
+function startTimer() {
+
+    if (data.timerRunning) {
+
+        return;
+
+    }
+
+
+    data.timerRunning =
+        true;
+
+    data.timerStartedAt =
+        Date.now();
+
+
+    saveFirebase();
+
+    updateDisplay();
+
+
+    if (timerInterval) {
+
+        clearInterval(
+            timerInterval
+        );
+
+    }
+
+
+    timerInterval =
+        setInterval(
+            updateTimer,
+            1000
+        );
+
+}
+
+
+/* =====================================================
+   STOP
+===================================================== */
+
+function stopTimer() {
+
+    if (!data.timerRunning) {
+
+        return;
+
+    }
+
+
+    const elapsed =
+        Math.floor(
+            (
+                Date.now() -
+                data.timerStartedAt
+            ) / 1000
+        );
+
+
+    data.timerSeconds +=
+        elapsed;
+
+
+    data.timerRunning =
+        false;
+
+
+    data.timerStartedAt =
+        0;
+
+
+    saveFirebase();
+
+    updateDisplay();
+
+
+    clearInterval(
+        timerInterval
+    );
+
+
+    timerInterval =
+        null;
+
+}
+
+
+/* =====================================================
+   UPDATE TIMER
+===================================================== */
+
+function updateTimer() {
+
+    if (!data.timerRunning) {
+
+        return;
+
+    }
+
+
+    const elapsed =
+        Math.floor(
+            (
+                Date.now() -
+                data.timerStartedAt
+            ) / 1000
+        );
+
+
+    const seconds =
+        data.timerSeconds +
+        elapsed;
+
+
+    document.getElementById(
+        "timer"
+    ).textContent =
+        formatTime(
+            seconds
+        );
+
+}
+
+
+/* =====================================================
+   FORMAT TIME
+===================================================== */
+
+function formatTime(
+    seconds
+) {
+
+    seconds =
+        Math.max(
+            0,
+            Math.floor(seconds)
+        );
+
+
+    const h =
+        Math.floor(
+            seconds / 3600
+        );
+
+
+    const m =
+        Math.floor(
+            (seconds % 3600) / 60
+        );
+
+
+    const s =
+        seconds % 60;
+
+
+    return (
+        String(h).padStart(2, "0") +
+        ":" +
+        String(m).padStart(2, "0") +
+        ":" +
+        String(s).padStart(2, "0")
+    );
+
+}
+
+
+/* =====================================================
+   HIỂN THỊ
+===================================================== */
+
+function updateDisplay() {
+
+    document.getElementById(
+        "startDate"
+    ).value =
+        data.startDate || "";
+
+
+    document.getElementById(
+        "savedDate"
+    ).textContent =
+        data.startDate
+            ? "📅 " + data.startDate
+            : "Chưa có ngày";
+
+
+    document.getElementById(
+        "timerStatus"
+    ).textContent =
+        data.timerRunning
+            ? "🟢 ĐANG CHẠY"
+            : "⏸ ĐANG DỪNG";
+
+
+    let seconds =
+        data.timerSeconds || 0;
+
+
+    if (data.timerRunning) {
+
+        seconds +=
+            Math.floor(
+                (
+                    Date.now() -
+                    data.timerStartedAt
+                ) / 1000
+            );
+
+    }
+
+
+    document.getElementById(
+        "timer"
+    ).textContent =
+        formatTime(
+            seconds
+        );
+
+
+    document.getElementById(
+        "lastUpdate"
+    ).textContent =
+        data.lastUpdate
+            ? new Date(
+                data.lastUpdate
+              ).toLocaleString(
+                  "vi-VN"
+              ) +
+              " — " +
+              data.updatedBy
+            : "-";
+
+}
+
+
+/* =====================================================
+   KHỞI ĐỘNG
+===================================================== */
+
+loadLocal();
+
+updateDisplay();
+
+listenFirebase();
+
+
+/* =====================================================
+   KHÔI PHỤC TIMER SAU F5
+===================================================== */
+
+if (data.timerRunning) {
+
+    timerInterval =
+        setInterval(
+            updateTimer,
+            1000
+        );
+
+}
+
+
+/* =====================================================
+   UPDATE GIAO DIỆN
+===================================================== */
+
+setInterval(
+    updateDisplay,
+    1000
+);
+
+
+/* =====================================================
+   SERVICE WORKER
+===================================================== */
+
+if (
+    "serviceWorker" in navigator
+) {
+
+    window.addEventListener(
+        "load",
+        () => {
+
+            navigator.serviceWorker
+                .register(
+                    "./sw.js"
+                )
+                .catch(
+                    error =>
+                        console.error(
+                            error
+                        )
+                );
+
+        }
+    );
+
+}
+
+</script>
+
+</body>
+</html>
