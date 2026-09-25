@@ -274,7 +274,6 @@ button:disabled {
 </style>
 </head>
 
-
 <body>
 
 <div class="container">
@@ -285,13 +284,11 @@ button:disabled {
         1 giờ học / 1 giờ tập luyện = 1 điểm
     </div>
 
-
     <div class="clock" id="clock">
         00:00:00
     </div>
 
     <div class="date" id="date"></div>
-
 
     <div class="card">
 
@@ -322,7 +319,6 @@ button:disabled {
         </div>
 
     </div>
-
 
     <div class="card">
 
@@ -361,7 +357,6 @@ button:disabled {
 
     </div>
 
-
     <div class="card">
 
         <div class="small">
@@ -376,7 +371,6 @@ button:disabled {
 
         </div>
 
-
         <button
             class="start"
             id="studyBtn"
@@ -385,7 +379,6 @@ button:disabled {
             ▶ BẮT ĐẦU HỌC
 
         </button>
-
 
         <button
             class="exercise-btn"
@@ -396,7 +389,6 @@ button:disabled {
 
         </button>
 
-
         <button
             class="stop"
             id="resetBtn"
@@ -405,7 +397,6 @@ button:disabled {
             ↻ RESET PHIÊN
 
         </button>
-
 
         <button
             class="delete-btn"
@@ -416,14 +407,12 @@ button:disabled {
 
         </button>
 
-
         <div
             class="status"
             id="status">
         </div>
 
     </div>
-
 
     <div class="card">
 
@@ -439,7 +428,6 @@ button:disabled {
             class="current-date-box"
             id="rankingDate">
         </div>
-
 
         <table class="table">
 
@@ -461,21 +449,16 @@ button:disabled {
 
             </thead>
 
-
             <tbody id="todayRankingBody">
             </tbody>
 
         </table>
 
-
         <div class="note">
-
             BXH tự động sắp xếp từ điểm cao xuống thấp.
-
         </div>
 
     </div>
-
 
     <div class="card">
 
@@ -491,7 +474,6 @@ button:disabled {
             class="current-date-box"
             id="accumulationInfo">
         </div>
-
 
         <table class="table">
 
@@ -515,22 +497,17 @@ button:disabled {
 
             </thead>
 
-
             <tbody id="accumulatedRankingBody">
             </tbody>
 
         </table>
 
-
         <div class="note">
-
             Điểm hôm nay được cộng ngay vào tích lũy
             khi bộ đếm đủ giờ.
-
         </div>
 
     </div>
-
 
     <div class="card">
 
@@ -576,7 +553,6 @@ button:disabled {
 
 </div>
 
-
 <script>
 
 /* =====================================================
@@ -593,7 +569,7 @@ const STORAGE_KEY = "studyBattleData";
 
 
 /* =====================================================
-   FIREBASE ĐỒNG BỘ
+   FIREBASE
 ===================================================== */
 
 const firebaseConfig = {
@@ -624,19 +600,13 @@ const firebaseConfig = {
 
 };
 
-
-firebase.initializeApp(
-    firebaseConfig
-);
-
+firebase.initializeApp(firebaseConfig);
 
 const database =
     firebase.database();
 
-
 const cloudDataRef =
     database.ref("battleData");
-
 
 let firebaseReady = false;
 
@@ -653,13 +623,9 @@ function getToday() {
 
     return now.getFullYear() +
         "-" +
-        String(
-            now.getMonth() + 1
-        ).padStart(2, "0") +
+        String(now.getMonth() + 1).padStart(2, "0") +
         "-" +
-        String(
-            now.getDate()
-        ).padStart(2, "0");
+        String(now.getDate()).padStart(2, "0");
 
 }
 
@@ -715,7 +681,7 @@ function formatDateVietnamese(dateString) {
 
 
 /* =====================================================
-   TẠO DỮ LIỆU
+   DỮ LIỆU
 ===================================================== */
 
 let data = JSON.parse(
@@ -800,8 +766,7 @@ if (typeof data.accumulatedPoints !== "number") {
 }
 
 if (
-    typeof data.accumulatedStudyPoints !==
-    "number"
+    typeof data.accumulatedStudyPoints !== "number"
 ) {
 
     data.accumulatedStudyPoints = 0;
@@ -809,8 +774,7 @@ if (
 }
 
 if (
-    typeof data.accumulatedExercisePoints !==
-    "number"
+    typeof data.accumulatedExercisePoints !== "number"
 ) {
 
     data.accumulatedExercisePoints = 0;
@@ -818,8 +782,7 @@ if (
 }
 
 if (
-    typeof data.accumulatedDays !==
-    "number"
+    typeof data.accumulatedDays !== "number"
 ) {
 
     data.accumulatedDays = 0;
@@ -833,8 +796,7 @@ if (typeof data.totalHours !== "number") {
 }
 
 if (
-    typeof data.teslaAccumulated !==
-    "number"
+    typeof data.teslaAccumulated !== "number"
 ) {
 
     data.teslaAccumulated = 0;
@@ -842,8 +804,7 @@ if (
 }
 
 if (
-    typeof data.elonAccumulated !==
-    "number"
+    typeof data.elonAccumulated !== "number"
 ) {
 
     data.elonAccumulated = 0;
@@ -863,8 +824,7 @@ if (!("activeSessionStart" in data)) {
 }
 
 if (
-    typeof data.savedSessionSeconds !==
-    "number"
+    typeof data.savedSessionSeconds !== "number"
 ) {
 
     data.savedSessionSeconds = 0;
@@ -872,8 +832,7 @@ if (
 }
 
 if (
-    typeof data.lastCreditedSessionHours !==
-    "number"
+    typeof data.lastCreditedSessionHours !== "number"
 ) {
 
     data.lastCreditedSessionHours = 0;
@@ -889,6 +848,55 @@ let timerInterval = null;
 
 
 /* =====================================================
+   DỮ LIỆU ĐỒNG BỘ LÊN FIREBASE
+===================================================== */
+
+function getCloudData() {
+
+    return {
+
+        date:
+            data.date,
+
+        startDate:
+            data.startDate,
+
+        score:
+            data.score,
+
+        studyPoints:
+            data.studyPoints,
+
+        exercisePoints:
+            data.exercisePoints,
+
+        accumulatedPoints:
+            data.accumulatedPoints,
+
+        accumulatedStudyPoints:
+            data.accumulatedStudyPoints,
+
+        accumulatedExercisePoints:
+            data.accumulatedExercisePoints,
+
+        accumulatedDays:
+            data.accumulatedDays,
+
+        totalHours:
+            data.totalHours,
+
+        teslaAccumulated:
+            data.teslaAccumulated,
+
+        elonAccumulated:
+            data.elonAccumulated
+
+    };
+
+}
+
+
+/* =====================================================
    LƯU DỮ LIỆU
 ===================================================== */
 
@@ -901,10 +909,15 @@ function saveData() {
 
 
     /*
-       Lưu thêm lên Firebase.
-       firebaseApplyingRemote giúp tránh
-       vòng lặp khi Firebase gửi dữ liệu
-       ngược lại cho thiết bị.
+       Chỉ gửi ĐIỂM lên Firebase.
+
+       KHÔNG gửi:
+       activeSessionType
+       activeSessionStart
+       savedSessionSeconds
+       lastCreditedSessionHours
+
+       Vì timer chỉ chạy riêng trên từng thiết bị.
     */
 
     if (
@@ -913,12 +926,14 @@ function saveData() {
     ) {
 
         cloudDataRef
-            .set(data)
+            .set(
+                getCloudData()
+            )
             .catch(
                 function(error) {
 
                     console.error(
-                        "Firebase lưu dữ liệu lỗi:",
+                        "Firebase lưu điểm lỗi:",
                         error
                     );
 
@@ -1323,6 +1338,10 @@ function startSession(type) {
     data.activeSessionStart =
         Date.now();
 
+    /*
+       Không đồng bộ timer lên Firebase.
+    */
+
     saveData();
 
     updateSessionButtons();
@@ -1361,6 +1380,11 @@ function pauseSession() {
     }
 
     data.activeSessionStart = null;
+
+    /*
+       Chỉ điểm được gửi Firebase.
+       Timer vẫn là local.
+    */
 
     saveData();
 
@@ -1769,6 +1793,11 @@ function updateTimer() {
 
             }
 
+            /*
+               Đây là lúc điểm được gửi
+               lên Firebase.
+            */
+
             saveData();
 
             updateDisplay();
@@ -1914,7 +1943,7 @@ function getTodayRanking() {
 
 
 /* =====================================================
-   HIỂN THỊ BXH HÔM NAY
+   BXH HÔM NAY
 ===================================================== */
 
 function updateTodayRanking() {
@@ -2222,7 +2251,7 @@ function updateDisplay() {
 
 
 /* =====================================================
-   KHỞI TẠO FIREBASE ĐỒNG BỘ
+   FIREBASE ĐỒNG BỘ ĐIỂM
 ===================================================== */
 
 async function initFirebaseSync() {
@@ -2239,19 +2268,86 @@ async function initFirebaseSync() {
 
 
         /*
-           Nếu Firebase đã có dữ liệu:
-           lấy dữ liệu trên Firebase
-           làm dữ liệu chính.
+           Nếu Firebase đã có dữ liệu,
+           Firebase là nguồn điểm chính.
         */
 
         if (cloudData) {
 
             firebaseApplyingRemote = true;
 
-            data = {
-                ...data,
-                ...cloudData
-            };
+
+            data.date =
+                cloudData.date ||
+                data.date;
+
+            data.startDate =
+                cloudData.startDate ||
+                "";
+
+            data.score =
+                Number(
+                    cloudData.score
+                ) || 0;
+
+            data.studyPoints =
+                Number(
+                    cloudData.studyPoints
+                ) || 0;
+
+            data.exercisePoints =
+                Number(
+                    cloudData.exercisePoints
+                ) || 0;
+
+            data.accumulatedPoints =
+                Number(
+                    cloudData.accumulatedPoints
+                ) || 0;
+
+            data.accumulatedStudyPoints =
+                Number(
+                    cloudData.accumulatedStudyPoints
+                ) || 0;
+
+            data.accumulatedExercisePoints =
+                Number(
+                    cloudData.accumulatedExercisePoints
+                ) || 0;
+
+            data.accumulatedDays =
+                Number(
+                    cloudData.accumulatedDays
+                ) || 0;
+
+            data.totalHours =
+                Number(
+                    cloudData.totalHours
+                ) || 0;
+
+            data.teslaAccumulated =
+                Number(
+                    cloudData.teslaAccumulated
+                ) || 0;
+
+            data.elonAccumulated =
+                Number(
+                    cloudData.elonAccumulated
+                ) || 0;
+
+
+            /*
+               QUAN TRỌNG:
+
+               Không đụng vào:
+
+               activeSessionType
+               activeSessionStart
+               savedSessionSeconds
+               lastCreditedSessionHours
+
+               Vì timer là riêng từng thiết bị.
+            */
 
             localStorage.setItem(
                 STORAGE_KEY,
@@ -2262,14 +2358,16 @@ async function initFirebaseSync() {
 
         }
 
-        /*
-           Nếu Firebase chưa có dữ liệu:
-           đưa dữ liệu hiện tại lên Firebase.
-        */
-
         else {
 
-            await cloudDataRef.set(data);
+            /*
+               Firebase chưa có dữ liệu.
+               Đưa điểm hiện tại lên Firebase.
+            */
+
+            await cloudDataRef.set(
+                getCloudData()
+            );
 
         }
 
@@ -2278,7 +2376,8 @@ async function initFirebaseSync() {
 
 
         /*
-           Lắng nghe thay đổi từ thiết bị khác.
+           Lắng nghe thay đổi từ
+           điện thoại hoặc máy tính.
         */
 
         cloudDataRef.on(
@@ -2294,13 +2393,67 @@ async function initFirebaseSync() {
 
                 }
 
-
                 firebaseApplyingRemote = true;
 
-                data = {
-                    ...data,
-                    ...remoteData
-                };
+
+                data.date =
+                    remoteData.date ||
+                    data.date;
+
+                data.startDate =
+                    remoteData.startDate ||
+                    "";
+
+                data.score =
+                    Number(
+                        remoteData.score
+                    ) || 0;
+
+                data.studyPoints =
+                    Number(
+                        remoteData.studyPoints
+                    ) || 0;
+
+                data.exercisePoints =
+                    Number(
+                        remoteData.exercisePoints
+                    ) || 0;
+
+                data.accumulatedPoints =
+                    Number(
+                        remoteData.accumulatedPoints
+                    ) || 0;
+
+                data.accumulatedStudyPoints =
+                    Number(
+                        remoteData.accumulatedStudyPoints
+                    ) || 0;
+
+                data.accumulatedExercisePoints =
+                    Number(
+                        remoteData.accumulatedExercisePoints
+                    ) || 0;
+
+                data.accumulatedDays =
+                    Number(
+                        remoteData.accumulatedDays
+                    ) || 0;
+
+                data.totalHours =
+                    Number(
+                        remoteData.totalHours
+                    ) || 0;
+
+                data.teslaAccumulated =
+                    Number(
+                        remoteData.teslaAccumulated
+                    ) || 0;
+
+                data.elonAccumulated =
+                    Number(
+                        remoteData.elonAccumulated
+                    ) || 0;
+
 
                 localStorage.setItem(
                     STORAGE_KEY,
@@ -2311,42 +2464,25 @@ async function initFirebaseSync() {
 
 
                 /*
-                   Cập nhật giao diện ngay khi
-                   máy tính hoặc điện thoại thay đổi.
+                   Chỉ cập nhật điểm + BXH.
+                   Không cập nhật timer.
                 */
 
                 updateDisplay();
-
-                updateSessionButtons();
-
-                updateTimer();
-
-
-                /*
-                   Nếu thiết bị kia đang chạy timer,
-                   thiết bị này cũng tiếp tục hiển thị.
-                */
-
-                if (
-                    data.activeSessionType &&
-                    data.activeSessionStart
-                ) {
-
-                    startTimerLoop();
-
-                } else {
-
-                    stopTimerLoop();
-
-                }
 
             }
         );
 
 
         console.log(
-            "🔥 Firebase đồng bộ thành công."
+            "🔥 Firebase đồng bộ điểm thành công."
         );
+
+
+        document.getElementById(
+            "status"
+        ).textContent =
+            "☁️ Đã đồng bộ điểm.";
 
     }
 
@@ -2375,7 +2511,10 @@ async function initFirebaseSync() {
 
 checkNewDay();
 
-saveData();
+localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(data)
+);
 
 updateClock();
 
@@ -2405,7 +2544,7 @@ setInterval(
 
 
 /*
-   Khởi động đồng bộ Firebase
+   Firebase đồng bộ điểm
 */
 
 initFirebaseSync();
