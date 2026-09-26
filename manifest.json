@@ -1,10 +1,12 @@
 {
-  "name": "TEST FIREBASE SYNC",
-  "short_name": "Firebase Test",
+  "name": "BẢNG XẾP HẠNG CHIẾN BINH",
+  "short_name": "Chiến Binh",
+  "description": "Ứng dụng theo dõi điểm học tập và luyện tập hằng ngày.",
   "start_url": "./index.html",
-  "scope": "./",
   "display": "standalone",
   "background_color": "#0f1115",
   "theme_color": "#0f1115",
-  "orientation": "portrait"
+  "orientation": "portrait",
+  "lang": "vi",
+  "icons": []
 }

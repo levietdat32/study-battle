@@ -10,11 +10,13 @@
     content="width=device-width, initial-scale=1.0"
 >
 
-<title>TEST FIREBASE SYNC</title>
+<title>BẢNG XẾP HẠNG CHIẾN BINH</title>
 
-<link
-    rel="manifest"
-    href="manifest.json"
+<link rel="manifest" href="manifest.json">
+
+<meta
+    name="theme-color"
+    content="#0f1115"
 >
 
 <style>
@@ -25,91 +27,615 @@
 
 body {
     margin: 0;
+    font-family: Arial, sans-serif;
     background: #0f1115;
     color: white;
-    font-family: Arial, sans-serif;
 }
 
+body.light {
+    background: #f3f4f6;
+    color: #111827;
+}
+
+body.light .card,
+body.light .modal-box {
+    background: #ffffff;
+    color: #111827;
+}
+
+body.light .current-date-box,
+body.light .player-input-card,
+body.light .fixed-player {
+    background: #f3f4f6;
+    color: #111827;
+}
+
+body.light .small,
+body.light .subtitle,
+body.light .date,
+body.light .start-date-display,
+body.light .info,
+body.light .days {
+    color: #6b7280;
+}
+
+body.light .progress {
+    background: #d1d5db;
+}
+
+body.light .table th {
+    color: #6b7280;
+    border-bottom-color: #d1d5db;
+}
+
+body.light .table {
+    background: #ffffff;
+    color: #111827;
+}
+
+body.light .table th {
+    background: #ffffff;
+    color: #6b7280;
+}
+
+body.light .table td {
+    background: #ffffff;
+    color: #111827;
+    border-bottom-color: #e5e7eb;
+}
+
+body.light .table .player-name {
+    color: #111827;
+}
+
+body.light .table .small {
+    color: #6b7280;
+}
+
+body.light .you-row,
+body.light .you-row td {
+    background: #ecfdf5;
+    color: #111827;
+}
+
+body.light .modal-input {
+    background: #f3f4f6;
+}
+
+body.light .modal-input input,
+body.light .date-modal input {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+body.light .start-date-button {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+.theme-toggle {
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    margin: 0;
+    border-radius: 50%;
+    background: #30343d;
+    color: white;
+    font-size: 21px;
+    z-index: 100;
+}
+
+body.light .theme-toggle {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+
+/* =====================================================
+   NGÀY BẮT ĐẦU
+===================================================== */
+
+.start-date-card {
+    text-align: center;
+    padding: 18px 20px;
+}
+
+.start-date-picker-button {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    margin: 0 auto 12px;
+    border-radius: 12px;
+    font-size: 20px;
+    background: #30343d;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body.light .start-date-picker-button {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+.start-date-picker-button:hover {
+    transform: translateY(-1px);
+}
+
+.start-date-display {
+    text-align: center;
+    color: #aaa;
+    margin: 6px 0;
+    line-height: 1.4;
+}
+
+.start-date-display:first-of-type {
+    font-size: 16px;
+    font-weight: bold;
+    color: #e5e7eb;
+}
+
+body.light .start-date-display:first-of-type {
+    color: #111827;
+}
+
+.current-date-display,
+.accumulated-days-display {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+body.light .current-date-display,
+body.light .accumulated-days-display {
+    color: #6b7280;
+}
+
+
+/* =====================================================
+   BOTTOM TOOLS
+===================================================== */
+
+.bottom-tools {
+    margin-top: 18px;
+}
+
+.bottom-tools .card {
+    margin-top: 12px;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 600px) {
+
+    .theme-toggle {
+        top: 9px;
+        right: 9px;
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+
+    .start-date-card {
+        padding: 16px;
+    }
+
+    .start-date-display:first-of-type {
+        font-size: 15px;
+    }
+
+    .current-date-display,
+    .accumulated-days-display {
+        font-size: 13px;
+    }
+
+}
+
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
 .container {
-    max-width: 600px;
+    max-width: 800px;
     margin: auto;
     padding: 20px;
 }
 
 h1 {
     text-align: center;
+    margin-bottom: 5px;
 }
 
-.card {
-    background: #181c23;
-    padding: 20px;
-    border-radius: 15px;
-    margin-top: 20px;
+h2 {
+    margin-top: 0;
 }
 
-label {
-    display: block;
-    margin-bottom: 8px;
+.subtitle {
+    text-align: center;
+    color: #aaa;
+    margin-bottom: 25px;
+}
+
+.clock {
+    text-align: center;
+    font-size: 42px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.date {
+    text-align: center;
     color: #aaa;
 }
 
-input {
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #555;
-    background: #0f1115;
-    color: white;
-    font-size: 16px;
+.card {
+    background: #191c23;
+    border-radius: 18px;
+    padding: 20px;
+    margin-top: 18px;
+}
+
+.timer {
+    text-align: center;
+    font-size: 55px;
+    font-weight: bold;
+    margin: 20px 0;
 }
 
 button {
     width: 100%;
-    padding: 13px;
-    margin-top: 10px;
     border: none;
-    border-radius: 8px;
-    font-size: 16px;
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 10px;
+    font-size: 17px;
     font-weight: bold;
     cursor: pointer;
 }
 
+button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
 .start {
-    background: #20c997;
+    background: #22c55e;
+    color: white;
+}
+
+.exercise-btn {
+    background: #f59e0b;
     color: white;
 }
 
 .stop {
-    background: #dc3545;
+    background: #ef4444;
     color: white;
 }
 
-#timer {
-    text-align: center;
-    font-size: 50px;
-    font-weight: bold;
-    margin: 25px 0;
+.reset {
+    background: #374151;
+    color: white;
 }
 
-.info {
-    margin-top: 12px;
-    padding: 12px;
-    background: #101319;
-    border-radius: 8px;
+.delete-btn {
+    background: #7f1d1d;
+    color: white;
+}
+
+.save-score {
+    background: #2563eb;
+    color: white;
+}
+
+.score {
+    text-align: center;
+    font-size: 70px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.small {
+    text-align: center;
+    color: #aaa;
+}
+
+.progress {
+    height: 12px;
+    background: #30343d;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #22c55e;
+    transition: width 0.3s;
 }
 
 .status {
     text-align: center;
-    margin-top: 20px;
+    color: #22c55e;
+    margin-top: 12px;
+    min-height: 20px;
+}
+
+.info {
+    line-height: 1.6;
+    color: #bbb;
+    font-size: 14px;
+}
+
+.current-date-box {
+    text-align: center;
+    margin-top: 12px;
+    padding: 10px;
+    background: #111318;
+    border-radius: 10px;
     color: #aaa;
 }
 
-.ok {
-    color: #20c997;
+.start-date-button {
+    background: #30343d;
+    color: white;
+    margin-top: 5px;
 }
 
-.error {
-    color: #dc3545;
+.start-date-button:hover {
+    background: #3b4250;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.table th {
+    color: #aaa;
+    font-size: 12px;
+    padding: 10px 5px;
+    border-bottom: 1px solid #30343d;
+}
+
+.table td {
+    padding: 14px 5px;
+    text-align: center;
+    border-bottom: 1px solid #292d35;
+}
+
+.table td:first-child,
+.table th:first-child {
+    width: 45px;
+}
+
+.table td:nth-child(2),
+.table th:nth-child(2) {
+    text-align: left;
+}
+
+.player-name {
+    font-weight: bold;
+}
+
+.you-row {
+    background: #1d2a22;
+    border: 2px solid #22c55e;
+}
+
+.rank {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.total {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.study {
+    color: #60a5fa;
+}
+
+.exercise {
+    color: #f59e0b;
+}
+
+.accumulated {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.days {
+    color: #aaa;
+}
+
+.section-title {
+    margin-bottom: 5px;
+}
+
+.note {
+    color: #888;
+    font-size: 12px;
+    margin-top: 12px;
+    text-align: center;
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.78);
+    z-index: 9999;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.modal-overlay.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-box {
+    width: 100%;
+    max-width: 560px;
+    background: #191c23;
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow:
+        0 20px 60px
+        rgba(0, 0, 0, 0.55);
+}
+
+.modal-box h2 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.modal-box h3 {
+    margin-top: 22px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #ddd;
+}
+
+.date-modal {
+    max-width: 420px;
+}
+
+.date-modal input {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: #30343d;
+    color: white;
+    font-size: 17px;
+    margin-top: 15px;
+}
+
+.date-confirm {
+    background: #2563eb;
+    color: white;
+}
+
+.modal-cancel {
+    background: #374151;
+    color: white;
+}
+
+.player-input-card {
+    background: #111318;
+    border-radius: 14px;
+    padding: 15px;
+    margin-top: 12px;
+}
+
+.player-input-card h3 {
+    margin: 0 0 12px 0;
+    text-align: center;
+    font-size: 16px;
+}
+
+.input-grid {
+    display: grid;
+    grid-template-columns:
+        1fr 1fr;
+    gap: 10px;
+}
+
+.modal-input {
+    background: #191c23;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.modal-input label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 13px;
+    color: #aaa;
+}
+
+.modal-input input {
+    width: 100%;
+    padding: 11px;
+    border: none;
+    border-radius: 8px;
+    background: #30343d;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.modal-total {
+    text-align: center;
+    margin-top: 10px;
+    color: #22c55e;
+    font-weight: bold;
+}
+
+.fixed-player {
+    text-align: center;
+    background: #111318;
+    border-radius: 14px;
+    padding: 18px;
+    margin-top: 12px;
+    color: #ddd;
+    font-weight: bold;
+}
+
+.fixed-player .fixed-score {
+    font-size: 30px;
+    margin-top: 8px;
+}
+
+@media (max-width: 600px) {
+
+    .container {
+        padding: 12px;
+    }
+
+    h1 {
+        font-size: 25px;
+    }
+
+    .clock {
+        font-size: 35px;
+    }
+
+    .timer {
+        font-size: 45px;
+    }
+
+    .score {
+        font-size: 60px;
+    }
+
+    .table {
+        font-size: 13px;
+    }
+
+    .table th,
+    .table td {
+        padding: 10px 3px;
+    }
+
+    .modal-box {
+        padding: 18px;
+    }
+
 }
 
 </style>
@@ -119,324 +645,783 @@ button {
 
 <body>
 
+<button
+    class="theme-toggle"
+    id="themeToggle"
+    onclick="toggleTheme()"
+    aria-label="Bật/tắt giao diện sáng tối"
+>☀️</button>
+
 <div class="container">
 
-<h1>🔥 TEST FIREBASE</h1>
+<h1>
+⚔️ BẢNG XẾP HẠNG CHIẾN BINH
+</h1>
 
+<div class="subtitle">
+(1 giờ học / 1 giờ tập luyện = 1 điểm)
+</div>
 
-<div class="card">
-
-<h2>📅 Ngày bắt đầu</h2>
-
-<label>
-Chọn ngày:
-</label>
-
-<input
-    type="date"
-    id="startDate"
+<div
+    class="clock"
+    id="clock"
 >
+00:00:00
+</div>
+
+<div
+    class="date"
+    id="date"
+    style="display:none;"
+>
+</div>
+
+
+<!-- =====================================================
+     NGÀY BẮT ĐẦU
+===================================================== -->
+
+<div class="card start-date-card">
 
 <button
-    class="start"
-    onclick="saveStartDate()"
->
-    LƯU NGÀY LÊN FIREBASE
-</button>
+    class="start-date-picker-button"
+    onclick="openStartDateModal()"
+    aria-label="Chọn ngày bắt đầu"
+>📅</button>
 
 <div
-    class="info"
-    id="savedDate"
+    class="start-date-display"
+    id="startDateInfo"
 >
-    Chưa có ngày
+⚠️ Chưa chọn ngày bắt đầu
+</div>
+
+<div
+    class="start-date-display current-date-display"
+    id="currentDateInfo"
+>
+Ngày hiện tại: ...
+</div>
+
+<div
+    class="start-date-display accumulated-days-display"
+    id="accumulatedDaysInfo"
+>
+Số ngày đã tích lũy: 0
 </div>
 
 </div>
 
+
+<!-- =====================================================
+     ĐIỂM HÔM NAY
+===================================================== -->
 
 <div class="card">
 
-<h2>⏱️ Đồng hồ</h2>
+<div class="small">
+ĐIỂM CỦA BẠN HÔM NAY
+</div>
 
 <div
+    class="score"
+    id="myScore"
+>
+0
+</div>
+
+<div class="small">
+Tối đa: 24 điểm / ngày
+</div>
+
+<div class="progress">
+
+<div
+    class="progress-bar"
+    id="progressBar"
+>
+</div>
+
+</div>
+
+<div
+    class="small"
+    style="margin-top:15px;"
+>
+
+📚 Học:
+<b id="studyPoints">0</b>
+
+&nbsp;&nbsp;|&nbsp;&nbsp;
+
+🏋️ Tập:
+<b id="exercisePoints">0</b>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     TIMER
+===================================================== -->
+
+<div class="card">
+
+<div class="small">
+THỜI GIAN PHIÊN HIỆN TẠI
+</div>
+
+<div
+    class="timer"
     id="timer"
 >
-    00:00:00
+00:00:00
 </div>
-
 
 <button
     class="start"
-    onclick="startTimer()"
+    id="studyBtn"
+    onclick="toggleStudy()"
 >
-    ▶ BẮT ĐẦU
+▶ BẮT ĐẦU HỌC
 </button>
 
+<button
+    class="exercise-btn"
+    id="exerciseBtn"
+    onclick="toggleExercise()"
+>
+🏋️ BẮT ĐẦU TẬP LUYỆN
+</button>
 
 <button
     class="stop"
-    onclick="stopTimer()"
+    onclick="resetCurrentSession()"
 >
-    ⏸ DỪNG
+↻ RESET PHIÊN
 </button>
-
-<div
-    class="info"
-    id="timerStatus"
->
-    Chưa chạy
-</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>☁️ Đồng bộ</h2>
-
-<div
-    class="info"
->
-    Thiết bị:
-
-    <b id="device">
-        Đang xác định...
-    </b>
-</div>
-
-<div
-    class="info"
->
-    Firebase:
-
-    <b id="firebaseState">
-        Đang kết nối...
-    </b>
-</div>
-
-<div
-    class="info"
->
-    Dữ liệu cuối:
-
-    <div id="lastUpdate">
-        -
-    </div>
-</div>
-
-</div>
-
 
 <div
     class="status"
     id="status"
 >
-Đang khởi động...
 </div>
 
 </div>
 
 
-<!-- FIREBASE -->
+<!-- =====================================================
+     BXH HÔM NAY
+===================================================== -->
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<div class="card">
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<h2 class="section-title">
+🏆 BẢNG XẾP HẠNG HÔM NAY
+</h2>
+
+<div
+    class="current-date-box"
+    id="rankingDate"
+>
+</div>
+
+<table class="table">
+
+<thead>
+
+<tr>
+
+<th>#</th>
+
+<th>Người chơi</th>
+
+<th>Tổng</th>
+
+<th>📚 Học</th>
+
+<th>🏋️ Tập</th>
+
+</tr>
+
+</thead>
+
+<tbody id="todayRankingBody">
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- =====================================================
+     BXH TÍCH LŨY
+===================================================== -->
+
+<div class="card">
+
+<h2 class="section-title">
+📈 BẢNG XẾP HẠNG TÍCH LŨY
+</h2>
+
+<div
+    class="current-date-box"
+    id="accumulationInfo"
+>
+</div>
+
+<table class="table">
+
+<thead>
+
+<tr>
+
+<th>#</th>
+
+<th>Người chơi</th>
+
+<th>Ngày</th>
+
+<th>Tổng</th>
+
+<th>📚 Học</th>
+
+<th>🏋️ Tập</th>
+
+</tr>
+
+</thead>
+
+<tbody id="accumulatedRankingBody">
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- =====================================================
+     QUY LUẬT
+===================================================== -->
+
+<div class="card">
+
+<h2>
+📋 QUY LUẬT
+</h2>
+
+<div class="info">
+
+• 1 giờ học = 1 điểm<br>
+
+• 1 giờ tập luyện = 1 điểm<br>
+
+• Tối đa 24 điểm/ngày cho bạn
+
+</div>
+
+</div>
+
+
+<div class="bottom-tools">
+
+
+<!-- =====================================================
+     NHẬP ĐIỂM
+===================================================== -->
+
+<div class="card">
+
+<h2 class="section-title">
+✏️ NHẬP ĐIỂM
+</h2>
+
+<div class="small">
+Nhập số điểm muốn CỘNG THÊM hôm nay.
+Điểm cũ không bị thay thế.
+</div>
+
+<button
+    class="save-score"
+    onclick="openScoreModal()"
+>
+✏️ NHẬP ĐIỂM
+</button>
+
+</div>
+
+
+<!-- =====================================================
+     XÓA DỮ LIỆU
+===================================================== -->
+
+<div class="card">
+
+<h2>
+🗑️ QUẢN LÝ DỮ LIỆU
+</h2>
+
+<button
+    class="delete-btn"
+    onclick="deleteAllData()"
+>
+🗑️ XÓA TOÀN BỘ DỮ LIỆU
+</button>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     POPUP NGÀY
+===================================================== -->
+
+<div
+    id="startDateModal"
+    class="modal-overlay"
+>
+
+<div class="modal-box date-modal">
+
+<h2>
+📅 CHỌN NGÀY BẮT ĐẦU TÍCH LŨY
+</h2>
+
+<div class="small">
+Chọn ngày bạn muốn bắt đầu tính điểm tích lũy.
+</div>
+
+<input
+    type="date"
+    id="startDatePicker"
+>
+
+<button
+    class="date-confirm"
+    onclick="confirmStartDate()"
+>
+✅ ĐỒNG Ý
+</button>
+
+<button
+    class="modal-cancel"
+    onclick="closeStartDateModal()"
+>
+✖ HỦY
+</button>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     POPUP NHẬP ĐIỂM
+===================================================== -->
+
+<div
+    id="scoreModal"
+    class="modal-overlay"
+>
+
+<div class="modal-box">
+
+<h2>
+✏️ CỘNG THÊM ĐIỂM
+</h2>
+
+<div class="small">
+Nhập số điểm muốn CỘNG THÊM hôm nay.
+Điểm cũ không bị thay thế.
+Tổng điểm hôm nay tối đa 24.
+</div>
+
+
+<div class="player-input-card">
+
+<h3>
+👤 BẠN
+</h3>
+
+<div class="input-grid">
+
+<div class="modal-input">
+
+<label>
+📚 CỘNG THÊM - Giờ học
+</label>
+
+<input
+    type="number"
+    id="modalTodayMyStudy"
+    min="0"
+    max="24"
+    step="1"
+    value="0"
+    oninput="updateModalTotals()"
+>
+
+</div>
+
+<div class="modal-input">
+
+<label>
+🏋️ CỘNG THÊM - Giờ tập
+</label>
+
+<input
+    type="number"
+    id="modalTodayMyExercise"
+    min="0"
+    max="24"
+    step="1"
+    value="0"
+    oninput="updateModalTotals()"
+>
+
+</div>
+
+</div>
+
+<div
+    class="modal-total"
+    id="modalTodayMyTotal"
+>
+Cộng thêm: +0 điểm
+</div>
+
+</div>
+
+
+<!-- ELON -->
+
+<div class="fixed-player">
+
+🚀 ELON MUSK
+
+<div class="fixed-score">
+18 điểm / ngày
+</div>
+
+<div class="small">
+Điểm hôm nay cố định
+</div>
+
+</div>
+
+
+<!-- TESLA -->
+
+<div class="fixed-player">
+
+⚡ NIKOLA TESLA
+
+<div class="fixed-score">
+22 điểm / ngày
+</div>
+
+<div class="small">
+Điểm hôm nay cố định
+</div>
+
+</div>
+
+
+<!-- CHIẾN BINH 3 -->
+
+<div class="fixed-player">
+
+👤 CHIẾN BINH 3
+
+<div class="fixed-score">
+20 điểm / ngày
+</div>
+
+<div class="small">
+Điểm hôm nay cố định
+</div>
+
+</div>
+
+
+<!-- CHIẾN BINH 4 -->
+
+<div class="fixed-player">
+
+👤 CHIẾN BINH 4
+
+<div class="fixed-score">
+16 điểm / ngày
+</div>
+
+<div class="small">
+Điểm hôm nay cố định
+</div>
+
+</div>
+
+
+<button
+    class="save-score"
+    onclick="confirmScoreModal()"
+>
+✅ CỘNG ĐIỂM
+</button>
+
+<button
+    class="modal-cancel"
+    onclick="closeScoreModal()"
+>
+✖ HỦY
+</button>
+
+</div>
+
+</div>
 
 
 <script>
 
 /* =====================================================
-   FIREBASE CONFIG
-   =====================================================
-
-   THAY BẰNG CONFIG FIREBASE CỦA BẠN
+   CẤU HÌNH
 ===================================================== */
 
-const firebaseConfig = {
+const MAX_SCORE = 24;
 
-    apiKey: "YOUR_API_KEY",
+const ELON_DAILY_SCORE = 18;
 
-    authDomain:
-        "YOUR_PROJECT.firebaseapp.com",
+const TESLA_DAILY_SCORE = 22;
 
-    databaseURL:
-        "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
 
-    projectId:
-        "YOUR_PROJECT",
+/*
+   2 NGƯỜI CHƠI MỚI
+   Có thể đổi tên và điểm/ngày tại đây.
+*/
 
-    storageBucket:
-        "YOUR_PROJECT.appspot.com",
+const PLAYER3_NAME = "👤 KẺ THẤT BẠI";
+const PLAYER3_DAILY_SCORE = 5;
 
-    messagingSenderId:
-        "YOUR_SENDER_ID",
+const PLAYER4_NAME = "👤 NGƯỜI BÌNH THƯỜNG";
+const PLAYER4_DAILY_SCORE = 10;
 
-    appId:
-        "YOUR_APP_ID"
 
-};
+const STORAGE_KEY =
+    "studyBattleData";
 
 
 /* =====================================================
-   FIREBASE
+   DỮ LIỆU MẶC ĐỊNH
 ===================================================== */
 
-let db = null;
+function createDefaultData() {
 
-let cloudRef = null;
+    return {
 
-let firebaseReady = false;
+        date: getToday(),
 
+        startDate: "",
 
-try {
+        myTodayScore: 0,
 
-    firebase.initializeApp(
-        firebaseConfig
-    );
+        myStudyPoints: 0,
 
-    db =
-        firebase.database();
+        myExercisePoints: 0,
 
-    /*
-       CẢ ĐIỆN THOẠI VÀ MÁY TÍNH
-       ĐỀU ĐỌC CÙNG PATH NÀY.
-    */
+        elonTodayScore: ELON_DAILY_SCORE,
 
-    cloudRef =
-        db.ref(
-            "testSync"
-        );
+        elonTodayStudy: ELON_DAILY_SCORE,
 
-    firebaseReady = true;
+        elonTodayExercise: 0,
 
+        teslaTodayScore: TESLA_DAILY_SCORE,
 
-    document.getElementById(
-        "firebaseState"
-    ).textContent =
-        "ĐÃ KẾT NỐI";
+        teslaTodayStudy: TESLA_DAILY_SCORE,
 
+        teslaTodayExercise: 0,
 
-    document.getElementById(
-        "firebaseState"
-    ).className =
-        "ok";
+        player3TodayScore: PLAYER3_DAILY_SCORE,
 
+        player3TodayStudy: PLAYER3_DAILY_SCORE,
 
-    document.getElementById(
-        "status"
-    ).textContent =
-        "☁️ Firebase đã kết nối.";
+        player3TodayExercise: 0,
 
+        player4TodayScore: PLAYER4_DAILY_SCORE,
 
-}
-catch(error) {
+        player4TodayStudy: PLAYER4_DAILY_SCORE,
 
-    console.error(error);
+        player4TodayExercise: 0,
 
-    document.getElementById(
-        "firebaseState"
-    ).textContent =
-        "LỖI";
+        myAccumulated: 0,
 
+        myAccumulatedStudy: 0,
 
-    document.getElementById(
-        "firebaseState"
-    ).className =
-        "error";
+        myAccumulatedExercise: 0,
+
+        elonAccumulated: 0,
+
+        elonAccumulatedStudy: 0,
+
+        elonAccumulatedExercise: 0,
+
+        teslaAccumulated: 0,
+
+        teslaAccumulatedStudy: 0,
+
+        teslaAccumulatedExercise: 0,
+
+        player3Accumulated: 0,
+
+        player3AccumulatedStudy: 0,
+
+        player3AccumulatedExercise: 0,
+
+        player4Accumulated: 0,
+
+        player4AccumulatedStudy: 0,
+
+        player4AccumulatedExercise: 0,
+
+        activeSessionType: null,
+
+        activeSessionStart: null,
+
+        savedSessionSeconds: 0,
+
+        lastCreditedSessionHours: 0,
+
+        timerStudyPointsToday: 0,
+
+        timerExercisePointsToday: 0,
+
+        initializedFixedPlayers: false
+
+    };
 
 }
 
 
 /* =====================================================
-   DEVICE
+   NGÀY HÔM NAY
 ===================================================== */
 
-const deviceId =
-    localStorage.getItem(
-        "testDeviceId"
-    ) ||
-    (
-        "device-" +
-        Date.now() +
+function getToday() {
+
+    const now =
+        new Date();
+
+    return (
+        now.getFullYear() +
         "-" +
-        Math.random()
-            .toString(36)
-            .substring(2, 8)
+        String(
+            now.getMonth() + 1
+        ).padStart(2, "0") +
+        "-" +
+        String(
+            now.getDate()
+        ).padStart(2, "0")
     );
-
-
-localStorage.setItem(
-    "testDeviceId",
-    deviceId
-);
-
-
-document.getElementById(
-    "device"
-).textContent =
-    deviceId;
-
-
-/* =====================================================
-   LOCAL DATA
-===================================================== */
-
-let data = {
-
-    startDate: "",
-
-    timerRunning: false,
-
-    timerStartedAt: 0,
-
-    timerSeconds: 0,
-
-    lastUpdate: 0,
-
-    updatedBy: ""
-
-};
-
-
-/* =====================================================
-   LOAD LOCAL
-===================================================== */
-
-function loadLocal() {
-
-    const saved =
-        localStorage.getItem(
-            "firebaseTestData"
-        );
-
-    if (!saved) {
-        return;
-    }
-
-    try {
-
-        data =
-            JSON.parse(saved);
-
-    }
-    catch(error) {
-
-        console.error(error);
-
-    }
 
 }
 
 
 /* =====================================================
-   SAVE LOCAL
+   LOAD DATA
 ===================================================== */
 
-function saveLocal() {
+let data =
+    JSON.parse(
+        localStorage.getItem(
+            STORAGE_KEY
+        )
+    ) || createDefaultData();
+
+
+/* =====================================================
+   SỬA DATA CŨ
+===================================================== */
+
+function repairData() {
+
+    const defaults =
+        createDefaultData();
+
+    Object.keys(defaults).forEach(
+        function(key) {
+
+            if (
+                !(key in data)
+            ) {
+
+                data[key] =
+                    defaults[key];
+
+            }
+
+        }
+    );
+
+
+    data.elonTodayScore =
+        ELON_DAILY_SCORE;
+
+    data.elonTodayStudy =
+        ELON_DAILY_SCORE;
+
+    data.elonTodayExercise =
+        0;
+
+
+    data.teslaTodayScore =
+        TESLA_DAILY_SCORE;
+
+    data.teslaTodayStudy =
+        TESLA_DAILY_SCORE;
+
+    data.teslaTodayExercise =
+        0;
+
+
+    data.player3TodayScore =
+        PLAYER3_DAILY_SCORE;
+
+    data.player3TodayStudy =
+        PLAYER3_DAILY_SCORE;
+
+    data.player3TodayExercise =
+        0;
+
+
+    data.player4TodayScore =
+        PLAYER4_DAILY_SCORE;
+
+    data.player4TodayStudy =
+        PLAYER4_DAILY_SCORE;
+
+    data.player4TodayExercise =
+        0;
+
+
+    data.myTodayScore =
+        data.myStudyPoints +
+        data.myExercisePoints;
+
+    data.myAccumulated =
+        data.myAccumulatedStudy +
+        data.myAccumulatedExercise;
+
+}
+
+
+/* =====================================================
+   LƯU DATA
+===================================================== */
+
+function saveData() {
 
     localStorage.setItem(
-        "firebaseTestData",
+        STORAGE_KEY,
         JSON.stringify(data)
     );
 
@@ -444,108 +1429,42 @@ function saveLocal() {
 
 
 /* =====================================================
-   GHI FIREBASE
+   FORMAT NGÀY
 ===================================================== */
 
-function saveFirebase() {
+function formatDateVietnamese(
+    dateString
+) {
 
-    if (!firebaseReady) {
+    if (!dateString) {
+        return "";
+    }
 
-        return;
+    const parts =
+        dateString.split("-");
+
+    if (
+        parts.length !== 3
+    ) {
+
+        return dateString;
 
     }
 
+    const date =
+        new Date(
+            Number(parts[0]),
+            Number(parts[1]) - 1,
+            Number(parts[2])
+        );
 
-    data.lastUpdate =
-        Date.now();
-
-    data.updatedBy =
-        deviceId;
-
-
-    saveLocal();
-
-
-    cloudRef
-        .set(data)
-        .then(() => {
-
-            document.getElementById(
-                "status"
-            ).textContent =
-                "☁️ Đã gửi dữ liệu lên Firebase.";
-
-        })
-        .catch(error => {
-
-            console.error(error);
-
-            document.getElementById(
-                "status"
-            ).textContent =
-                "❌ Không gửi được Firebase.";
-
-        });
-
-}
-
-
-/* =====================================================
-   NHẬN DỮ LIỆU FIREBASE
-===================================================== */
-
-function listenFirebase() {
-
-    if (!firebaseReady) {
-        return;
-    }
-
-
-    cloudRef.on(
-        "value",
-        snapshot => {
-
-            const cloud =
-                snapshot.val();
-
-
-            if (!cloud) {
-
-                saveFirebase();
-
-                return;
-
-            }
-
-
-            /*
-               Nếu dữ liệu Firebase mới hơn
-               dữ liệu hiện tại thì nhận.
-            */
-
-            if (
-                cloud.lastUpdate >=
-                (data.lastUpdate || 0)
-            ) {
-
-                data = {
-                    ...data,
-                    ...cloud
-                };
-
-
-                saveLocal();
-
-                updateDisplay();
-
-
-                document.getElementById(
-                    "status"
-                ).textContent =
-                    "🔄 Đã nhận dữ liệu mới từ Firebase.";
-
-            }
-
+    return date.toLocaleDateString(
+        "vi-VN",
+        {
+            weekday: "long",
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric"
         }
     );
 
@@ -553,39 +1472,444 @@ function listenFirebase() {
 
 
 /* =====================================================
-   NGÀY
+   TÍNH NGÀY
 ===================================================== */
 
-function saveStartDate() {
+function calculateDaysFromStart(
+    startDate,
+    endDate
+) {
 
-    const input =
-        document.getElementById(
-            "startDate"
+    if (!startDate) {
+        return 0;
+    }
+
+    const start =
+        new Date(
+            startDate + "T00:00:00"
+        );
+
+    const end =
+        new Date(
+            endDate + "T00:00:00"
+        );
+
+    const diff =
+        end.getTime() -
+        start.getTime();
+
+    return Math.max(
+        1,
+        Math.floor(
+            diff / 86400000
+        ) + 1
+    );
+
+}
+
+
+/* =====================================================
+   CỘNG ĐIỂM CÁC NGƯỜI CHƠI CỐ ĐỊNH
+===================================================== */
+
+function updateFixedPlayersAccumulation() {
+
+    if (!data.startDate) {
+
+        return;
+
+    }
+
+    const days =
+        calculateDaysFromStart(
+            data.startDate,
+            data.date
         );
 
 
-    const value =
-        input.value;
+    data.elonAccumulated =
+        ELON_DAILY_SCORE *
+        days;
+
+    data.elonAccumulatedStudy =
+        data.elonAccumulated;
+
+    data.elonAccumulatedExercise =
+        0;
 
 
-    if (!value) {
+    data.teslaAccumulated =
+        TESLA_DAILY_SCORE *
+        days;
+
+    data.teslaAccumulatedStudy =
+        data.teslaAccumulated;
+
+    data.teslaAccumulatedExercise =
+        0;
+
+
+    data.player3Accumulated =
+        PLAYER3_DAILY_SCORE *
+        days;
+
+    data.player3AccumulatedStudy =
+        data.player3Accumulated;
+
+    data.player3AccumulatedExercise =
+        0;
+
+
+    data.player4Accumulated =
+        PLAYER4_DAILY_SCORE *
+        days;
+
+    data.player4AccumulatedStudy =
+        data.player4Accumulated;
+
+    data.player4AccumulatedExercise =
+        0;
+
+}
+
+
+/* =====================================================
+   KIỂM TRA NGÀY MỚI
+===================================================== */
+
+function checkNewDay() {
+
+    const today =
+        getToday();
+
+    if (
+        data.date === today
+    ) {
+
+        data.elonTodayScore =
+            ELON_DAILY_SCORE;
+
+        data.elonTodayStudy =
+            ELON_DAILY_SCORE;
+
+        data.elonTodayExercise =
+            0;
+
+
+        data.teslaTodayScore =
+            TESLA_DAILY_SCORE;
+
+        data.teslaTodayStudy =
+            TESLA_DAILY_SCORE;
+
+        data.teslaTodayExercise =
+            0;
+
+
+        data.player3TodayScore =
+            PLAYER3_DAILY_SCORE;
+
+        data.player3TodayStudy =
+            PLAYER3_DAILY_SCORE;
+
+        data.player3TodayExercise =
+            0;
+
+
+        data.player4TodayScore =
+            PLAYER4_DAILY_SCORE;
+
+        data.player4TodayStudy =
+            PLAYER4_DAILY_SCORE;
+
+        data.player4TodayExercise =
+            0;
+
+
+        updateFixedPlayersAccumulation();
+
+        return false;
+
+    }
+
+
+    data.date =
+        today;
+
+    data.myTodayScore =
+        0;
+
+    data.myStudyPoints =
+        0;
+
+    data.myExercisePoints =
+        0;
+
+
+    data.elonTodayScore =
+        ELON_DAILY_SCORE;
+
+    data.elonTodayStudy =
+        ELON_DAILY_SCORE;
+
+    data.elonTodayExercise =
+        0;
+
+
+    data.teslaTodayScore =
+        TESLA_DAILY_SCORE;
+
+    data.teslaTodayStudy =
+        TESLA_DAILY_SCORE;
+
+    data.teslaTodayExercise =
+        0;
+
+
+    data.player3TodayScore =
+        PLAYER3_DAILY_SCORE;
+
+    data.player3TodayStudy =
+        PLAYER3_DAILY_SCORE;
+
+    data.player3TodayExercise =
+        0;
+
+
+    data.player4TodayScore =
+        PLAYER4_DAILY_SCORE;
+
+    data.player4TodayStudy =
+        PLAYER4_DAILY_SCORE;
+
+    data.player4TodayExercise =
+        0;
+
+
+    data.activeSessionType =
+        null;
+
+    data.activeSessionStart =
+        null;
+
+    data.savedSessionSeconds =
+        0;
+
+    data.lastCreditedSessionHours =
+        0;
+
+    data.timerStudyPointsToday =
+        0;
+
+    data.timerExercisePointsToday =
+        0;
+
+
+    stopTimerLoop();
+
+    updateFixedPlayersAccumulation();
+
+    saveData();
+
+    return true;
+
+}
+
+
+/* =====================================================
+   POPUP NGÀY BẮT ĐẦU
+===================================================== */
+
+function openStartDateModal() {
+
+    document.getElementById(
+        "startDatePicker"
+    ).value =
+        data.startDate || getToday();
+
+    document.getElementById(
+        "startDateModal"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+
+function closeStartDateModal() {
+
+    document.getElementById(
+        "startDateModal"
+    ).classList.remove(
+        "show"
+    );
+
+}
+
+
+function confirmStartDate() {
+
+    const selectedDate =
+        document.getElementById(
+            "startDatePicker"
+        ).value;
+
+    if (!selectedDate) {
 
         alert(
-            "Hãy chọn ngày."
+            "Vui lòng chọn ngày bắt đầu."
         );
 
         return;
 
     }
 
+    const today =
+        getToday();
+
+    if (
+        selectedDate > today
+    ) {
+
+        alert(
+            "Ngày bắt đầu không thể ở tương lai."
+        );
+
+        return;
+
+    }
 
     data.startDate =
-        value;
+        selectedDate;
 
+    updateFixedPlayersAccumulation();
 
-    saveFirebase();
+    saveData();
 
     updateDisplay();
+
+    closeStartDateModal();
+
+    document.getElementById(
+        "status"
+    ).textContent =
+        "📅 Đã cập nhật ngày bắt đầu.";
+
+}
+
+
+/* =====================================================
+   HIỂN THỊ NGÀY BẮT ĐẦU
+===================================================== */
+
+function updateStartDateDisplay() {
+
+    const info =
+        document.getElementById(
+            "startDateInfo"
+        );
+
+    const currentDateInfo =
+        document.getElementById(
+            "currentDateInfo"
+        );
+
+    const accumulatedDaysInfo =
+        document.getElementById(
+            "accumulatedDaysInfo"
+        );
+
+
+    if (data.startDate) {
+
+        info.textContent =
+            "📅 Bắt đầu: " +
+            formatDateVietnamese(
+                data.startDate
+            );
+
+    }
+
+    else {
+
+        info.textContent =
+            "⚠️ Chưa chọn ngày bắt đầu";
+
+    }
+
+
+    currentDateInfo.textContent =
+        "Hôm nay: " +
+        formatDateVietnamese(
+            getToday()
+        );
+
+
+    const days =
+        calculateDaysFromStart(
+            data.startDate,
+            getToday()
+        );
+
+
+    accumulatedDaysInfo.textContent =
+        "Đã tích lũy: " +
+        days +
+        " ngày";
+
+}
+
+
+/* =====================================================
+   ĐỒNG HỒ
+===================================================== */
+
+function updateClock() {
+
+    const now =
+        new Date();
+
+    const h =
+        String(
+            now.getHours()
+        ).padStart(2, "0");
+
+    const m =
+        String(
+            now.getMinutes()
+        ).padStart(2, "0");
+
+    const s =
+        String(
+            now.getSeconds()
+        ).padStart(2, "0");
+
+
+    document.getElementById(
+        "clock"
+    ).textContent =
+        h + ":" + m + ":" + s;
+
+
+    document.getElementById(
+        "date"
+    ).textContent =
+        formatDateVietnamese(
+            getToday()
+        );
+
+
+    if (
+        checkNewDay()
+    ) {
+
+        updateDisplay();
+
+        updateSessionButtons();
+
+        updateTimer();
+
+    }
 
 }
 
@@ -597,143 +1921,51 @@ function saveStartDate() {
 let timerInterval = null;
 
 
-/* =====================================================
-   START
-===================================================== */
+function getSessionSeconds() {
 
-function startTimer() {
+    if (
+        !data.activeSessionType
+    ) {
 
-    if (data.timerRunning) {
-
-        return;
-
-    }
-
-
-    data.timerRunning =
-        true;
-
-    data.timerStartedAt =
-        Date.now();
-
-
-    saveFirebase();
-
-    updateDisplay();
-
-
-    if (timerInterval) {
-
-        clearInterval(
-            timerInterval
+        return (
+            data.savedSessionSeconds ||
+            0
         );
 
     }
 
+    if (
+        !data.activeSessionStart
+    ) {
 
-    timerInterval =
-        setInterval(
-            updateTimer,
-            1000
+        return (
+            data.savedSessionSeconds ||
+            0
         );
-
-}
-
-
-/* =====================================================
-   STOP
-===================================================== */
-
-function stopTimer() {
-
-    if (!data.timerRunning) {
-
-        return;
 
     }
 
-
-    const elapsed =
-        Math.floor(
-            (
-                Date.now() -
-                data.timerStartedAt
-            ) / 1000
-        );
-
-
-    data.timerSeconds +=
-        elapsed;
-
-
-    data.timerRunning =
-        false;
-
-
-    data.timerStartedAt =
-        0;
-
-
-    saveFirebase();
-
-    updateDisplay();
-
-
-    clearInterval(
-        timerInterval
+    return (
+        data.savedSessionSeconds +
+        Math.max(
+            0,
+            Math.floor(
+                (
+                    Date.now() -
+                    data.activeSessionStart
+                ) / 1000
+            )
+        )
     );
 
-
-    timerInterval =
-        null;
-
 }
 
 
 /* =====================================================
-   UPDATE TIMER
+   FORMAT TIMER
 ===================================================== */
 
-function updateTimer() {
-
-    if (!data.timerRunning) {
-
-        return;
-
-    }
-
-
-    const elapsed =
-        Math.floor(
-            (
-                Date.now() -
-                data.timerStartedAt
-            ) / 1000
-        );
-
-
-    const seconds =
-        data.timerSeconds +
-        elapsed;
-
-
-    document.getElementById(
-        "timer"
-    ).textContent =
-        formatTime(
-            seconds
-        );
-
-}
-
-
-/* =====================================================
-   FORMAT TIME
-===================================================== */
-
-function formatTime(
-    seconds
-) {
+function formatTime(seconds) {
 
     seconds =
         Math.max(
@@ -741,18 +1973,15 @@ function formatTime(
             Math.floor(seconds)
         );
 
-
     const h =
         Math.floor(
             seconds / 3600
         );
 
-
     const m =
         Math.floor(
             (seconds % 3600) / 60
         );
-
 
     const s =
         seconds % 60;
@@ -770,90 +1999,365 @@ function formatTime(
 
 
 /* =====================================================
-   HIỂN THỊ
+   START SESSION
 ===================================================== */
 
-function updateDisplay() {
+function startSession(type) {
 
-    document.getElementById(
-        "startDate"
-    ).value =
-        data.startDate || "";
+    checkNewDay();
 
 
-    document.getElementById(
-        "savedDate"
-    ).textContent =
-        data.startDate
-            ? "📅 " + data.startDate
-            : "Chưa có ngày";
+    if (!data.startDate) {
 
+        document.getElementById(
+            "status"
+        ).textContent =
+            "⚠️ Vui lòng chọn ngày bắt đầu trước.";
 
-    document.getElementById(
-        "timerStatus"
-    ).textContent =
-        data.timerRunning
-            ? "🟢 ĐANG CHẠY"
-            : "⏸ ĐANG DỪNG";
-
-
-    let seconds =
-        data.timerSeconds || 0;
-
-
-    if (data.timerRunning) {
-
-        seconds +=
-            Math.floor(
-                (
-                    Date.now() -
-                    data.timerStartedAt
-                ) / 1000
-            );
+        return;
 
     }
 
 
-    document.getElementById(
-        "timer"
-    ).textContent =
-        formatTime(
-            seconds
-        );
+    if (
+        data.activeSessionType &&
+        data.activeSessionType !== type &&
+        data.activeSessionStart
+    ) {
+
+        document.getElementById(
+            "status"
+        ).textContent =
+            "⚠️ Đang có một phiên khác đang chạy.";
+
+        return;
+
+    }
+
+
+    if (
+        data.myTodayScore >= MAX_SCORE
+    ) {
+
+        document.getElementById(
+            "status"
+        ).textContent =
+            "🔥 Đã đạt tối đa 24 điểm hôm nay.";
+
+        return;
+
+    }
+
+
+    if (
+        !data.activeSessionType
+    ) {
+
+        data.activeSessionType =
+            type;
+
+        data.savedSessionSeconds =
+            0;
+
+        data.lastCreditedSessionHours =
+            0;
+
+    }
+
+
+    data.activeSessionType =
+        type;
+
+    data.activeSessionStart =
+        Date.now();
+
+
+    saveData();
+
+    updateSessionButtons();
+
+    updateTimer();
+
+    startTimerLoop();
 
 
     document.getElementById(
-        "lastUpdate"
+        "status"
     ).textContent =
-        data.lastUpdate
-            ? new Date(
-                data.lastUpdate
-              ).toLocaleString(
-                  "vi-VN"
-              ) +
-              " — " +
-              data.updatedBy
-            : "-";
+        type === "study"
+            ? "📚 Đang tính thời gian học..."
+            : "🏋️ Đang tính thời gian tập luyện...";
 
 }
 
 
 /* =====================================================
-   KHỞI ĐỘNG
+   PAUSE
 ===================================================== */
 
-loadLocal();
+function pauseSession() {
 
-updateDisplay();
+    if (
+        !data.activeSessionType
+    ) {
 
-listenFirebase();
+        return;
+
+    }
+
+
+    if (
+        data.activeSessionStart
+    ) {
+
+        data.savedSessionSeconds =
+            getSessionSeconds();
+
+    }
+
+
+    data.activeSessionStart =
+        null;
+
+
+    saveData();
+
+    stopTimerLoop();
+
+    updateTimer();
+
+    updateSessionButtons();
+
+
+    document.getElementById(
+        "status"
+    ).textContent =
+        "⏸️ Đã dừng. Bấm lại để tiếp tục.";
+
+}
 
 
 /* =====================================================
-   KHÔI PHỤC TIMER SAU F5
+   TOGGLE STUDY
 ===================================================== */
 
-if (data.timerRunning) {
+function toggleStudy() {
+
+    checkNewDay();
+
+
+    if (
+        data.activeSessionType === "study" &&
+        data.activeSessionStart
+    ) {
+
+        pauseSession();
+
+        return;
+
+    }
+
+
+    startSession("study");
+
+}
+
+
+/* =====================================================
+   TOGGLE EXERCISE
+===================================================== */
+
+function toggleExercise() {
+
+    checkNewDay();
+
+
+    if (
+        data.activeSessionType === "exercise" &&
+        data.activeSessionStart
+    ) {
+
+        pauseSession();
+
+        return;
+
+    }
+
+
+    startSession("exercise");
+
+}
+
+
+/* =====================================================
+   RESET PHIÊN
+===================================================== */
+
+function resetCurrentSession() {
+
+    if (
+        !data.activeSessionType
+    ) {
+
+        document.getElementById(
+            "status"
+        ).textContent =
+            "ℹ️ Không có phiên timer nào.";
+
+        return;
+
+    }
+
+
+    if (
+        !confirm(
+            "Reset toàn bộ điểm do phiên timer hiện tại tạo ra?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        data.activeSessionType ===
+        "study"
+    ) {
+
+        const points =
+            Math.min(
+                data.timerStudyPointsToday,
+                data.myStudyPoints
+            );
+
+
+        data.myStudyPoints -=
+            points;
+
+        data.myTodayScore =
+            Math.max(
+                0,
+                data.myTodayScore -
+                points
+            );
+
+        data.myAccumulatedStudy =
+            Math.max(
+                0,
+                data.myAccumulatedStudy -
+                points
+            );
+
+        data.myAccumulated =
+            Math.max(
+                0,
+                data.myAccumulated -
+                points
+            );
+
+        data.timerStudyPointsToday =
+            Math.max(
+                0,
+                data.timerStudyPointsToday -
+                points
+            );
+
+    }
+
+
+    if (
+        data.activeSessionType ===
+        "exercise"
+    ) {
+
+        const points =
+            Math.min(
+                data.timerExercisePointsToday,
+                data.myExercisePoints
+            );
+
+
+        data.myExercisePoints -=
+            points;
+
+        data.myTodayScore =
+            Math.max(
+                0,
+                data.myTodayScore -
+                points
+            );
+
+        data.myAccumulatedExercise =
+            Math.max(
+                0,
+                data.myAccumulatedExercise -
+                points
+            );
+
+        data.myAccumulated =
+            Math.max(
+                0,
+                data.myAccumulated -
+                points
+            );
+
+        data.timerExercisePointsToday =
+            Math.max(
+                0,
+                data.timerExercisePointsToday -
+                points
+            );
+
+    }
+
+
+    data.activeSessionType =
+        null;
+
+    data.activeSessionStart =
+        null;
+
+    data.savedSessionSeconds =
+        0;
+
+    data.lastCreditedSessionHours =
+        0;
+
+
+    stopTimerLoop();
+
+    saveData();
+
+
+    document.getElementById(
+        "timer"
+    ).textContent =
+        "00:00:00";
+
+
+    updateDisplay();
+
+    updateSessionButtons();
+
+
+    document.getElementById(
+        "status"
+    ).textContent =
+        "↻ Đã RESET điểm do timer tạo.";
+
+}
+
+
+/* =====================================================
+   TIMER LOOP
+===================================================== */
+
+function startTimerLoop() {
+
+    if (timerInterval) {
+        return;
+    }
 
     timerInterval =
         setInterval(
@@ -864,18 +2368,1346 @@ if (data.timerRunning) {
 }
 
 
+function stopTimerLoop() {
+
+    if (timerInterval) {
+
+        clearInterval(
+            timerInterval
+        );
+
+        timerInterval = null;
+
+    }
+
+}
+
+
 /* =====================================================
-   UPDATE GIAO DIỆN
+   CẬP NHẬT TIMER
 ===================================================== */
 
+function updateTimer() {
+
+    checkNewDay();
+
+
+    const seconds =
+        getSessionSeconds();
+
+
+    document.getElementById(
+        "timer"
+    ).textContent =
+        formatTime(seconds);
+
+
+    if (
+        !data.activeSessionType ||
+        !data.activeSessionStart
+    ) {
+
+        return;
+
+    }
+
+
+    const earnedHours =
+        Math.floor(
+            seconds / 3600
+        );
+
+
+    if (
+        earnedHours >
+        data.lastCreditedSessionHours
+    ) {
+
+        const newHours =
+            earnedHours -
+            data.lastCreditedSessionHours;
+
+
+        const available =
+            MAX_SCORE -
+            data.myTodayScore;
+
+
+        const pointsToAdd =
+            Math.min(
+                newHours,
+                available
+            );
+
+
+        if (
+            pointsToAdd > 0
+        ) {
+
+            data.myTodayScore +=
+                pointsToAdd;
+
+
+            if (
+                data.activeSessionType ===
+                "study"
+            ) {
+
+                data.myStudyPoints +=
+                    pointsToAdd;
+
+                data.myAccumulatedStudy +=
+                    pointsToAdd;
+
+                data.timerStudyPointsToday +=
+                    pointsToAdd;
+
+            }
+
+            else {
+
+                data.myExercisePoints +=
+                    pointsToAdd;
+
+                data.myAccumulatedExercise +=
+                    pointsToAdd;
+
+                data.timerExercisePointsToday +=
+                    pointsToAdd;
+
+            }
+
+
+            data.myAccumulated +=
+                pointsToAdd;
+
+
+            data.lastCreditedSessionHours +=
+                pointsToAdd;
+
+
+            saveData();
+
+            updateDisplay();
+
+
+            document.getElementById(
+                "status"
+            ).textContent =
+                "⭐ +" +
+                pointsToAdd +
+                (
+                    data.activeSessionType ===
+                    "study"
+                        ? " điểm học!"
+                        : " điểm tập luyện!"
+                );
+
+        }
+
+
+        if (
+            data.myTodayScore >=
+            MAX_SCORE
+        ) {
+
+            pauseSession();
+
+
+            document.getElementById(
+                "status"
+            ).textContent =
+                "🔥 Đã đạt tối đa 24 điểm hôm nay.";
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   NÚT TIMER
+===================================================== */
+
+function updateSessionButtons() {
+
+    const studyBtn =
+        document.getElementById(
+            "studyBtn"
+        );
+
+    const exerciseBtn =
+        document.getElementById(
+            "exerciseBtn"
+        );
+
+
+    if (
+        !data.activeSessionType
+    ) {
+
+        studyBtn.textContent =
+            "▶ BẮT ĐẦU HỌC";
+
+        exerciseBtn.textContent =
+            "🏋️ BẮT ĐẦU TẬP LUYỆN";
+
+        return;
+
+    }
+
+
+    const paused =
+        !data.activeSessionStart;
+
+
+    if (
+        data.activeSessionType ===
+        "study"
+    ) {
+
+        studyBtn.textContent =
+            paused
+                ? "▶ TIẾP TỤC HỌC"
+                : "⏸ DỪNG HỌC";
+
+        exerciseBtn.textContent =
+            "🏋️ BẮT ĐẦU TẬP LUYỆN";
+
+    }
+
+    else {
+
+        studyBtn.textContent =
+            "▶ BẮT ĐẦU HỌC";
+
+        exerciseBtn.textContent =
+            paused
+                ? "▶ TIẾP TỤC TẬP LUYỆN"
+                : "⏸ DỪNG TẬP LUYỆN";
+
+    }
+
+}
+
+
+/* =====================================================
+   HỖ TRỢ INPUT
+===================================================== */
+
+function getInputNumber(id) {
+
+    const element =
+        document.getElementById(id);
+
+
+    if (!element) {
+        return 0;
+    }
+
+
+    const value =
+        Number(
+            element.value
+        );
+
+
+    if (
+        !Number.isFinite(value) ||
+        value < 0
+    ) {
+
+        return 0;
+
+    }
+
+
+    return Math.floor(value);
+
+}
+
+
+function setInputValue(id, value) {
+
+    document.getElementById(id).value =
+        Math.max(
+            0,
+            Math.floor(value || 0)
+        );
+
+}
+
+
+/* =====================================================
+   TỔNG POPUP
+===================================================== */
+
+function updateModalTotals() {
+
+    const studyAdd =
+        getInputNumber(
+            "modalTodayMyStudy"
+        );
+
+
+    const exerciseAdd =
+        getInputNumber(
+            "modalTodayMyExercise"
+        );
+
+
+    const addTotal =
+        studyAdd +
+        exerciseAdd;
+
+
+    const currentScore =
+        data.myTodayScore;
+
+
+    const remaining =
+        Math.max(
+            0,
+            MAX_SCORE - currentScore
+        );
+
+
+    const modalTotal =
+        document.getElementById(
+            "modalTodayMyTotal"
+        );
+
+
+    if (
+        addTotal > remaining
+    ) {
+
+        modalTotal.textContent =
+            "⚠️ Chỉ có thể cộng thêm " +
+            remaining +
+            " điểm.";
+
+        modalTotal.style.color =
+            "#ef4444";
+
+        return;
+
+    }
+
+
+    modalTotal.style.color =
+        "#22c55e";
+
+
+    modalTotal.textContent =
+        "Cộng thêm: +" +
+        addTotal +
+        " điểm • Còn lại: " +
+        (
+            remaining -
+            addTotal
+        ) +
+        " điểm";
+
+}
+
+
+/* =====================================================
+   MỞ POPUP NHẬP ĐIỂM
+===================================================== */
+
+function openScoreModal() {
+
+    checkNewDay();
+
+
+    setInputValue(
+        "modalTodayMyStudy",
+        0
+    );
+
+
+    setInputValue(
+        "modalTodayMyExercise",
+        0
+    );
+
+
+    updateModalTotals();
+
+
+    document.getElementById(
+        "scoreModal"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+
+/* =====================================================
+   ĐÓNG POPUP
+===================================================== */
+
+function closeScoreModal() {
+
+    document.getElementById(
+        "scoreModal"
+    ).classList.remove(
+        "show"
+    );
+
+}
+
+
+/* =====================================================
+   LƯU ĐIỂM CỦA BẠN
+===================================================== */
+
+function confirmScoreModal() {
+
+    const studyAdd =
+        getInputNumber(
+            "modalTodayMyStudy"
+        );
+
+
+    const exerciseAdd =
+        getInputNumber(
+            "modalTodayMyExercise"
+        );
+
+
+    const addTotal =
+        studyAdd +
+        exerciseAdd;
+
+
+    const currentScore =
+        data.myTodayScore;
+
+
+    const remaining =
+        MAX_SCORE -
+        currentScore;
+
+
+    if (
+        addTotal > remaining
+    ) {
+
+        alert(
+            "⚠️ Hôm nay bạn đang có " +
+            currentScore +
+            " điểm.\n\n" +
+            "Bạn chỉ có thể cộng thêm tối đa " +
+            remaining +
+            " điểm."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        addTotal <= 0
+    ) {
+
+        alert(
+            "⚠️ Vui lòng nhập số điểm muốn cộng thêm."
+        );
+
+        return;
+
+    }
+
+
+    data.myStudyPoints +=
+        studyAdd;
+
+    data.myExercisePoints +=
+        exerciseAdd;
+
+    data.myTodayScore +=
+        addTotal;
+
+
+    data.myAccumulatedStudy +=
+        studyAdd;
+
+    data.myAccumulatedExercise +=
+        exerciseAdd;
+
+    data.myAccumulated +=
+        addTotal;
+
+
+    saveData();
+
+    updateDisplay();
+
+    closeScoreModal();
+
+
+    const remainingAfter =
+        MAX_SCORE -
+        data.myTodayScore;
+
+
+    document.getElementById(
+        "status"
+    ).textContent =
+        "✅ Đã cộng +" +
+        addTotal +
+        " điểm. Hôm nay: " +
+        data.myTodayScore +
+        "/24 điểm. Còn " +
+        remainingAfter +
+        " điểm.";
+
+}
+
+
+/* =====================================================
+   CLICK RA NGOÀI POPUP
+===================================================== */
+
+document.getElementById(
+    "scoreModal"
+).addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target === this
+        ) {
+
+            closeScoreModal();
+
+        }
+
+    }
+);
+
+
+document.getElementById(
+    "startDateModal"
+).addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target === this
+        ) {
+
+            closeStartDateModal();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   BXH HÔM NAY
+===================================================== */
+
+function getTodayRanking() {
+
+    const players = [
+
+        {
+            name:
+                "⚡ NIKOLA TESLA",
+
+            score:
+                TESLA_DAILY_SCORE,
+
+            study:
+                TESLA_DAILY_SCORE,
+
+            exercise:
+                0,
+
+            isYou:
+                false
+
+        },
+
+
+        {
+            name:
+                "🚀 ELON MUSK",
+
+            score:
+                ELON_DAILY_SCORE,
+
+            study:
+                ELON_DAILY_SCORE,
+
+            exercise:
+                0,
+
+            isYou:
+                false
+
+        },
+
+
+        {
+            name:
+                PLAYER3_NAME,
+
+            score:
+                PLAYER3_DAILY_SCORE,
+
+            study:
+                PLAYER3_DAILY_SCORE,
+
+            exercise:
+                0,
+
+            isYou:
+                false
+
+        },
+
+
+        {
+            name:
+                PLAYER4_NAME,
+
+            score:
+                PLAYER4_DAILY_SCORE,
+
+            study:
+                PLAYER4_DAILY_SCORE,
+
+            exercise:
+                0,
+
+            isYou:
+                false
+
+        },
+
+
+        {
+            name:
+                "👤 BẠN",
+
+            score:
+                data.myTodayScore,
+
+            study:
+                data.myStudyPoints,
+
+            exercise:
+                data.myExercisePoints,
+
+            isYou:
+                true
+
+        }
+
+    ];
+
+
+    players.sort(
+        function(a, b) {
+
+            return b.score -
+                   a.score;
+
+        }
+    );
+
+
+    return players;
+
+}
+
+
+/* =====================================================
+   HIỂN THỊ BXH HÔM NAY
+===================================================== */
+
+function updateTodayRanking() {
+
+    const body =
+        document.getElementById(
+            "todayRankingBody"
+        );
+
+
+    body.innerHTML = "";
+
+
+    const players =
+        getTodayRanking();
+
+
+    players.forEach(
+        function(
+            player,
+            index
+        ) {
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            if (
+                player.isYou
+            ) {
+
+                row.className =
+                    "you-row";
+
+            }
+
+
+            let rank;
+
+
+            if (
+                index === 0
+            ) {
+
+                rank = "🥇";
+
+            }
+
+            else if (
+                index === 1
+            ) {
+
+                rank = "🥈";
+
+            }
+
+            else if (
+                index === 2
+            ) {
+
+                rank = "🥉";
+
+            }
+
+            else {
+
+                rank =
+                    index + 1;
+
+            }
+
+
+            row.innerHTML = `
+
+                <td class="rank">
+                    ${rank}
+                </td>
+
+                <td>
+
+                    <div class="player-name">
+                        ${player.name}
+                    </div>
+
+                    <div class="small">
+
+                        ${
+                            player.isYou
+                                ? "Đang chiến đấu"
+                                : ""
+                        }
+
+                    </div>
+
+                </td>
+
+                <td class="total">
+                    ${player.score}
+                </td>
+
+                <td class="study">
+                    ${player.study}
+                </td>
+
+                <td class="exercise">
+                    ${player.exercise}
+                </td>
+
+            `;
+
+
+            body.appendChild(
+                row
+            );
+
+        }
+    );
+
+
+    document.getElementById(
+        "rankingDate"
+    ).textContent =
+        "📅 " +
+        formatDateVietnamese(
+            getToday()
+        );
+
+}
+
+
+/* =====================================================
+   BXH TÍCH LŨY
+===================================================== */
+
+function updateAccumulatedRanking() {
+
+    updateFixedPlayersAccumulation();
+
+
+    const days =
+        calculateDaysFromStart(
+            data.startDate,
+            getToday()
+        );
+
+
+    const players = [
+
+        {
+
+            name:
+                "⚡ NIKOLA TESLA",
+
+            days:
+                days,
+
+            score:
+                data.teslaAccumulated,
+
+            study:
+                data.teslaAccumulatedStudy,
+
+            exercise:
+                data.teslaAccumulatedExercise,
+
+            isYou:
+                false
+
+        },
+
+
+        {
+
+            name:
+                "🚀 ELON MUSK",
+
+            days:
+                days,
+
+            score:
+                data.elonAccumulated,
+
+            study:
+                data.elonAccumulatedStudy,
+
+            exercise:
+                data.elonAccumulatedExercise,
+
+            isYou:
+                false
+
+        },
+
+
+        {
+
+            name:
+                PLAYER3_NAME,
+
+            days:
+                days,
+
+            score:
+                data.player3Accumulated,
+
+            study:
+                data.player3AccumulatedStudy,
+
+            exercise:
+                data.player3AccumulatedExercise,
+
+            isYou:
+                false
+
+        },
+
+
+        {
+
+            name:
+                PLAYER4_NAME,
+
+            days:
+                days,
+
+            score:
+                data.player4Accumulated,
+
+            study:
+                data.player4AccumulatedStudy,
+
+            exercise:
+                data.player4AccumulatedExercise,
+
+            isYou:
+                false
+
+        },
+
+
+        {
+
+            name:
+                "👤 BẠN",
+
+            days:
+                days,
+
+            score:
+                data.myAccumulated,
+
+            study:
+                data.myAccumulatedStudy,
+
+            exercise:
+                data.myAccumulatedExercise,
+
+            isYou:
+                true
+
+        }
+
+    ];
+
+
+    players.sort(
+        function(a, b) {
+
+            return b.score -
+                   a.score;
+
+        }
+    );
+
+
+    const body =
+        document.getElementById(
+            "accumulatedRankingBody"
+        );
+
+
+    body.innerHTML = "";
+
+
+    players.forEach(
+        function(
+            player,
+            index
+        ) {
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            if (
+                player.isYou
+            ) {
+
+                row.className =
+                    "you-row";
+
+            }
+
+
+            let rank;
+
+
+            if (
+                index === 0
+            ) {
+
+                rank = "🥇";
+
+            }
+
+            else if (
+                index === 1
+            ) {
+
+                rank = "🥈";
+
+            }
+
+            else if (
+                index === 2
+            ) {
+
+                rank = "🥉";
+
+            }
+
+            else {
+
+                rank =
+                    index + 1;
+
+            }
+
+
+            row.innerHTML = `
+
+                <td class="rank">
+                    ${rank}
+                </td>
+
+                <td>
+
+                    <div class="player-name">
+                        ${player.name}
+                    </div>
+
+                </td>
+
+                <td class="days">
+                    ${player.days}
+                </td>
+
+                <td class="accumulated">
+                    ${player.score}
+                </td>
+
+                <td class="study">
+                    ${player.study}
+                </td>
+
+                <td class="exercise">
+                    ${player.exercise}
+                </td>
+
+            `;
+
+
+            body.appendChild(
+                row
+            );
+
+        }
+    );
+
+
+    const info =
+        document.getElementById(
+            "accumulationInfo"
+        );
+
+
+    if (
+        data.startDate
+    ) {
+
+        info.textContent =
+            "Số ngày đã tích lũy: " +
+            days;
+
+    }
+
+    else {
+
+        info.textContent =
+            "⚠️ Chưa chọn ngày bắt đầu";
+
+    }
+
+}
+
+
+/* =====================================================
+   HIỂN THỊ TOÀN BỘ
+===================================================== */
+
+function updateDisplay() {
+
+    data.myTodayScore =
+        data.myStudyPoints +
+        data.myExercisePoints;
+
+
+    data.myAccumulated =
+        data.myAccumulatedStudy +
+        data.myAccumulatedExercise;
+
+
+    data.elonTodayScore =
+        ELON_DAILY_SCORE;
+
+    data.elonTodayStudy =
+        ELON_DAILY_SCORE;
+
+    data.elonTodayExercise =
+        0;
+
+
+    data.teslaTodayScore =
+        TESLA_DAILY_SCORE;
+
+    data.teslaTodayStudy =
+        TESLA_DAILY_SCORE;
+
+    data.teslaTodayExercise =
+        0;
+
+
+    data.player3TodayScore =
+        PLAYER3_DAILY_SCORE;
+
+    data.player3TodayStudy =
+        PLAYER3_DAILY_SCORE;
+
+    data.player3TodayExercise =
+        0;
+
+
+    data.player4TodayScore =
+        PLAYER4_DAILY_SCORE;
+
+    data.player4TodayStudy =
+        PLAYER4_DAILY_SCORE;
+
+    data.player4TodayExercise =
+        0;
+
+
+    document.getElementById(
+        "myScore"
+    ).textContent =
+        data.myTodayScore;
+
+
+    document.getElementById(
+        "studyPoints"
+    ).textContent =
+        data.myStudyPoints;
+
+
+    document.getElementById(
+        "exercisePoints"
+    ).textContent =
+        data.myExercisePoints;
+
+
+    const percentage =
+        (
+            data.myTodayScore /
+            MAX_SCORE
+        ) * 100;
+
+
+    document.getElementById(
+        "progressBar"
+    ).style.width =
+        Math.min(
+            100,
+            percentage
+        ) + "%";
+
+
+    updateStartDateDisplay();
+
+    updateTodayRanking();
+
+    updateAccumulatedRanking();
+
+    saveData();
+
+}
+
+
+/* =====================================================
+   XÓA TOÀN BỘ
+===================================================== */
+
+function deleteAllData() {
+
+    const confirmed =
+        confirm(
+            "⚠️ XÓA TOÀN BỘ DỮ LIỆU?\n\n" +
+            "Điểm hôm nay\n" +
+            "Điểm tích lũy\n" +
+            "Điểm Elon\n" +
+            "Điểm Tesla\n" +
+            "Điểm 2 người chơi mới\n" +
+            "Thời gian timer\n" +
+            "Ngày bắt đầu\n\n" +
+            "Tất cả sẽ trở về 0.\n\n" +
+            "KHÔNG THỂ HOÀN TÁC!"
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    stopTimerLoop();
+
+
+    localStorage.removeItem(
+        STORAGE_KEY
+    );
+
+
+    data =
+        createDefaultData();
+
+
+    saveData();
+
+
+    document.getElementById(
+        "timer"
+    ).textContent =
+        "00:00:00";
+
+
+    updateDisplay();
+
+    updateSessionButtons();
+
+    updateTimer();
+
+
+    document.getElementById(
+        "status"
+    ).textContent =
+        "🗑️ Đã xóa toàn bộ dữ liệu.";
+
+}
+
+
+/* =====================================================
+   KHỞI ĐỘNG
+===================================================== */
+
+repairData();
+
+checkNewDay();
+
+saveData();
+
+updateClock();
+
+updateDisplay();
+
+updateSessionButtons();
+
+updateTimer();
+
+
+if (
+    data.activeSessionType &&
+    data.activeSessionStart
+) {
+
+    startTimerLoop();
+
+    updateTimer();
+
+}
+
+
 setInterval(
-    updateDisplay,
+    updateClock,
     1000
 );
 
 
 /* =====================================================
-   SERVICE WORKER
+   GIAO DIỆN SÁNG / TỐI
+===================================================== */
+
+const THEME_KEY =
+    "studyBattleTheme";
+
+
+function applyTheme() {
+
+    const theme =
+        localStorage.getItem(
+            THEME_KEY
+        ) || "dark";
+
+
+    document.body.classList.toggle(
+        "light",
+        theme === "light"
+    );
+
+
+    const button =
+        document.getElementById(
+            "themeToggle"
+        );
+
+
+    if (button) {
+
+        button.textContent =
+            theme === "light"
+                ? "🌙"
+                : "☀️";
+
+    }
+
+}
+
+
+function toggleTheme() {
+
+    const isLight =
+        document.body.classList.contains(
+            "light"
+        );
+
+
+    localStorage.setItem(
+        THEME_KEY,
+        isLight
+            ? "dark"
+            : "light"
+    );
+
+
+    applyTheme();
+
+}
+
+
+applyTheme();
+
+
+/* =====================================================
+   PWA
 ===================================================== */
 
 if (
@@ -884,17 +3716,28 @@ if (
 
     window.addEventListener(
         "load",
-        () => {
+        function() {
 
             navigator.serviceWorker
-                .register(
-                    "./sw.js"
+                .register("./sw.js")
+                .then(
+                    function() {
+
+                        console.log(
+                            "PWA đã kết nối thành công."
+                        );
+
+                    }
                 )
                 .catch(
-                    error =>
+                    function(error) {
+
                         console.error(
+                            "PWA Service Worker lỗi:",
                             error
-                        )
+                        );
+
+                    }
                 );
 
         }
@@ -905,4 +3748,5 @@ if (
 </script>
 
 </body>
+
 </html>

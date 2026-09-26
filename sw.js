@@ -1,161 +1,69 @@
-const CACHE_NAME =
-    "firebase-sync-test-v1";
+const CACHE_NAME = "chien-binh-v1";
 
-
-const FILES = [
+const FILES_TO_CACHE = [
     "./",
     "./index.html",
     "./manifest.json"
 ];
 
+self.addEventListener("install", function(event) {
 
-self.addEventListener(
-    "install",
-    event => {
+    event.waitUntil(
+        caches.open(CACHE_NAME)
+            .then(function(cache) {
+                return cache.addAll(FILES_TO_CACHE);
+            })
+    );
 
-        event.waitUntil(
-
-            caches
-                .open(
-                    CACHE_NAME
-                )
-                .then(
-                    cache =>
-                        cache.addAll(
-                            FILES
-                        )
-                )
-
-        );
-
-        self.skipWaiting();
-
-    }
-);
+    self.skipWaiting();
+});
 
 
-self.addEventListener(
-    "activate",
-    event => {
+self.addEventListener("activate", function(event) {
 
-        event.waitUntil(
+    event.waitUntil(
+        caches.keys().then(function(cacheNames) {
 
-            caches
-                .keys()
-                .then(
-                    keys =>
-                        Promise.all(
+            return Promise.all(
 
-                            keys
-                                .filter(
-                                    key =>
-                                        key !==
-                                        CACHE_NAME
-                                )
-                                .map(
-                                    key =>
-                                        caches.delete(
-                                            key
-                                        )
-                                )
+                cacheNames
+                    .filter(function(cacheName) {
 
-                        )
-                )
+                        return cacheName !== CACHE_NAME;
 
-        );
+                    })
+                    .map(function(cacheName) {
 
-        self.clients.claim();
+                        return caches.delete(cacheName);
 
-    }
-);
+                    })
 
-
-self.addEventListener(
-    "fetch",
-    event => {
-
-        const url =
-            new URL(
-                event.request.url
             );
 
+        })
+    );
 
-        /*
-           KHÔNG CACHE FIREBASE.
-
-           Firebase phải luôn lấy dữ liệu
-           trực tiếp từ server.
-        */
-
-        if (
-            url.hostname.includes(
-                "firebaseio.com"
-            ) ||
-            url.hostname.includes(
-                "googleapis.com"
-            )
-        ) {
-
-            event.respondWith(
-                fetch(
-                    event.request
-                )
-            );
-
-            return;
-
-        }
+    self.clients.claim();
+});
 
 
-        /*
-           File app:
-           ưu tiên mạng.
+self.addEventListener("fetch", function(event) {
 
-           Mất mạng thì lấy cache.
-        */
+    event.respondWith(
 
-        event.respondWith(
+        caches.match(event.request)
+            .then(function(cachedResponse) {
 
-            fetch(
-                event.request
-            )
-            .then(
-                response => {
+                if (cachedResponse) {
 
-                    if (
-                        response &&
-                        response.status === 200
-                    ) {
-
-                        const copy =
-                            response.clone();
-
-                        caches
-                            .open(
-                                CACHE_NAME
-                            )
-                            .then(
-                                cache =>
-                                    cache.put(
-                                        event.request,
-                                        copy
-                                    )
-                            );
-
-                    }
-
-                    return response;
+                    return cachedResponse;
 
                 }
-            )
-            .catch(
-                () =>
-                    caches.match(
-                        event.request
-                    )
-            )
 
-        );
+                return fetch(event.request);
 
-    }
-);
+            })
+
+    );
+
+});
