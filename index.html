@@ -38,7 +38,8 @@ body.light {
 }
 
 body.light .card,
-body.light .modal-box {
+body.light .modal-box,
+body.light .auth-box {
     background: #ffffff;
     color: #111827;
 }
@@ -103,7 +104,8 @@ body.light .modal-input {
 }
 
 body.light .modal-input input,
-body.light .date-modal input {
+body.light .date-modal input,
+body.light .auth-input {
     background: #e5e7eb;
     color: #111827;
 }
@@ -113,24 +115,204 @@ body.light .start-date-button {
     color: #111827;
 }
 
-.theme-toggle {
+
+/* =====================================================
+   ĐĂNG NHẬP FIREBASE
+===================================================== */
+
+.auth-screen {
+
     position: fixed;
-    top: 14px;
-    right: 14px;
-    width: 46px;
-    height: 46px;
-    padding: 0;
-    margin: 0;
-    border-radius: 50%;
+
+    inset: 0;
+
+    background:
+        rgba(15, 17, 21, 0.98);
+
+    z-index: 20000;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+}
+
+.auth-screen.hidden {
+    display: none;
+}
+
+.auth-box {
+
+    width: 100%;
+
+    max-width: 420px;
+
+    background: #191c23;
+
+    border-radius: 20px;
+
+    padding: 28px;
+
+    box-shadow:
+        0 20px 60px
+        rgba(0, 0, 0, 0.6);
+
+}
+
+.auth-box h2 {
+
+    text-align: center;
+
+    margin-top: 0;
+
+    margin-bottom: 8px;
+
+}
+
+.auth-subtitle {
+
+    text-align: center;
+
+    color: #aaa;
+
+    font-size: 14px;
+
+    margin-bottom: 22px;
+
+}
+
+.auth-input {
+
+    width: 100%;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 10px;
+
     background: #30343d;
+
     color: white;
+
+    font-size: 16px;
+
+    margin-top: 10px;
+
+    outline: none;
+
+}
+
+.auth-input:focus {
+
+    box-shadow:
+        0 0 0 2px #2563eb;
+
+}
+
+.auth-status {
+
+    min-height: 24px;
+
+    margin-top: 15px;
+
+    text-align: center;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+}
+
+.auth-user {
+
+    margin-top: 10px;
+
+    padding: 12px;
+
+    border-radius: 12px;
+
+    background: #111318;
+
+    text-align: center;
+
+}
+
+.auth-user-email {
+
+    font-weight: bold;
+
+    word-break: break-all;
+
+}
+
+.sync-status {
+
+    margin-top: 5px;
+
+    font-size: 12px;
+
+    color: #22c55e;
+
+}
+
+.logout-btn {
+
+    background: #374151;
+
+    color: white;
+
+    margin-top: 8px;
+
+    padding: 10px;
+
+    font-size: 14px;
+
+}
+
+
+/* =====================================================
+   THEME
+===================================================== */
+
+.theme-toggle {
+
+    position: fixed;
+
+    top: 14px;
+
+    right: 14px;
+
+    width: 46px;
+
+    height: 46px;
+
+    padding: 0;
+
+    margin: 0;
+
+    border-radius: 50%;
+
+    background: #30343d;
+
+    color: white;
+
     font-size: 21px;
+
     z-index: 100;
+
 }
 
 body.light .theme-toggle {
+
     background: #e5e7eb;
+
     color: #111827;
+
 }
 
 
@@ -139,59 +321,95 @@ body.light .theme-toggle {
 ===================================================== */
 
 .start-date-card {
+
     text-align: center;
+
     padding: 18px 20px;
+
 }
 
 .start-date-picker-button {
+
     width: 44px;
+
     height: 44px;
+
     padding: 0;
+
     margin: 0 auto 12px;
+
     border-radius: 12px;
+
     font-size: 20px;
+
     background: #30343d;
+
     color: white;
+
     display: flex;
+
     align-items: center;
+
     justify-content: center;
+
 }
 
 body.light .start-date-picker-button {
+
     background: #e5e7eb;
+
     color: #111827;
+
 }
 
 .start-date-picker-button:hover {
+
     transform: translateY(-1px);
+
 }
 
 .start-date-display {
+
     text-align: center;
+
     color: #aaa;
+
     margin: 6px 0;
+
     line-height: 1.4;
+
 }
 
 .start-date-display:first-of-type {
+
     font-size: 16px;
+
     font-weight: bold;
+
     color: #e5e7eb;
+
 }
 
 body.light .start-date-display:first-of-type {
+
     color: #111827;
+
 }
 
 .current-date-display,
 .accumulated-days-display {
+
     font-size: 14px;
+
     font-weight: normal;
+
 }
 
 body.light .current-date-display,
 body.light .accumulated-days-display {
+
     color: #6b7280;
+
 }
 
 
@@ -200,11 +418,627 @@ body.light .accumulated-days-display {
 ===================================================== */
 
 .bottom-tools {
+
     margin-top: 18px;
+
 }
 
 .bottom-tools .card {
+
     margin-top: 12px;
+
+}
+
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+.container {
+
+    max-width: 800px;
+
+    margin: auto;
+
+    padding: 20px;
+
+}
+
+h1 {
+
+    text-align: center;
+
+    margin-bottom: 5px;
+
+}
+
+h2 {
+
+    margin-top: 0;
+
+}
+
+.subtitle {
+
+    text-align: center;
+
+    color: #aaa;
+
+    margin-bottom: 25px;
+
+}
+
+.clock {
+
+    text-align: center;
+
+    font-size: 42px;
+
+    font-weight: bold;
+
+    margin: 20px 0;
+
+}
+
+.date {
+
+    text-align: center;
+
+    color: #aaa;
+
+}
+
+.card {
+
+    background: #191c23;
+
+    border-radius: 18px;
+
+    padding: 20px;
+
+    margin-top: 18px;
+
+}
+
+.timer {
+
+    text-align: center;
+
+    font-size: 55px;
+
+    font-weight: bold;
+
+    margin: 20px 0;
+
+}
+
+button {
+
+    width: 100%;
+
+    border: none;
+
+    border-radius: 12px;
+
+    padding: 15px;
+
+    margin-top: 10px;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+button:disabled {
+
+    opacity: 0.45;
+
+    cursor: not-allowed;
+
+}
+
+.start {
+
+    background: #22c55e;
+
+    color: white;
+
+}
+
+.exercise-btn {
+
+    background: #f59e0b;
+
+    color: white;
+
+}
+
+.stop {
+
+    background: #ef4444;
+
+    color: white;
+
+}
+
+.reset {
+
+    background: #374151;
+
+    color: white;
+
+}
+
+.delete-btn {
+
+    background: #7f1d1d;
+
+    color: white;
+
+}
+
+.save-score {
+
+    background: #2563eb;
+
+    color: white;
+
+}
+
+.score {
+
+    text-align: center;
+
+    font-size: 70px;
+
+    font-weight: bold;
+
+    margin: 10px 0;
+
+}
+
+.small {
+
+    text-align: center;
+
+    color: #aaa;
+
+}
+
+.progress {
+
+    height: 12px;
+
+    background: #30343d;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    margin-top: 15px;
+
+}
+
+.progress-bar {
+
+    height: 100%;
+
+    width: 0%;
+
+    background: #22c55e;
+
+    transition: width 0.3s;
+
+}
+
+.status {
+
+    text-align: center;
+
+    color: #22c55e;
+
+    margin-top: 12px;
+
+    min-height: 20px;
+
+}
+
+.info {
+
+    line-height: 1.6;
+
+    color: #bbb;
+
+    font-size: 14px;
+
+}
+
+.current-date-box {
+
+    text-align: center;
+
+    margin-top: 12px;
+
+    padding: 10px;
+
+    background: #111318;
+
+    border-radius: 10px;
+
+    color: #aaa;
+
+}
+
+.start-date-button {
+
+    background: #30343d;
+
+    color: white;
+
+    margin-top: 5px;
+
+}
+
+.start-date-button:hover {
+
+    background: #3b4250;
+
+}
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    margin-top: 15px;
+
+}
+
+.table th {
+
+    color: #aaa;
+
+    font-size: 12px;
+
+    padding: 10px 5px;
+
+    border-bottom: 1px solid #30343d;
+
+}
+
+.table td {
+
+    padding: 14px 5px;
+
+    text-align: center;
+
+    border-bottom: 1px solid #292d35;
+
+}
+
+.table td:first-child,
+.table th:first-child {
+
+    width: 45px;
+
+}
+
+.table td:nth-child(2),
+.table th:nth-child(2) {
+
+    text-align: left;
+
+}
+
+.player-name {
+
+    font-weight: bold;
+
+}
+
+.you-row {
+
+    background: #1d2a22;
+
+    border: 2px solid #22c55e;
+
+}
+
+.rank {
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+}
+
+.total {
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+}
+
+.study {
+
+    color: #60a5fa;
+
+}
+
+.exercise {
+
+    color: #f59e0b;
+
+}
+
+.accumulated {
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+}
+
+.days {
+
+    color: #aaa;
+
+}
+
+.section-title {
+
+    margin-bottom: 5px;
+
+}
+
+.note {
+
+    color: #888;
+
+    font-size: 12px;
+
+    margin-top: 12px;
+
+    text-align: center;
+
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal-overlay {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.78);
+
+    z-index: 9999;
+
+    padding: 20px;
+
+    overflow-y: auto;
+
+}
+
+.modal-overlay.show {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+.modal-box {
+
+    width: 100%;
+
+    max-width: 560px;
+
+    background: #191c23;
+
+    border-radius: 18px;
+
+    padding: 22px;
+
+    box-shadow:
+        0 20px 60px
+        rgba(0, 0, 0, 0.55);
+
+}
+
+.modal-box h2 {
+
+    text-align: center;
+
+    margin-top: 0;
+
+    margin-bottom: 8px;
+
+}
+
+.modal-box h3 {
+
+    margin-top: 22px;
+
+    margin-bottom: 10px;
+
+    font-size: 16px;
+
+    color: #ddd;
+
+}
+
+.date-modal {
+
+    max-width: 420px;
+
+}
+
+.date-modal input {
+
+    width: 100%;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #30343d;
+
+    color: white;
+
+    font-size: 17px;
+
+    margin-top: 15px;
+
+}
+
+.date-confirm {
+
+    background: #2563eb;
+
+    color: white;
+
+}
+
+.modal-cancel {
+
+    background: #374151;
+
+    color: white;
+
+}
+
+.player-input-card {
+
+    background: #111318;
+
+    border-radius: 14px;
+
+    padding: 15px;
+
+    margin-top: 12px;
+
+}
+
+.player-input-card h3 {
+
+    margin: 0 0 12px 0;
+
+    text-align: center;
+
+    font-size: 16px;
+
+}
+
+.input-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 10px;
+
+}
+
+.modal-input {
+
+    background: #191c23;
+
+    border-radius: 10px;
+
+    padding: 10px;
+
+}
+
+.modal-input label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 13px;
+
+    color: #aaa;
+
+}
+
+.modal-input input {
+
+    width: 100%;
+
+    padding: 11px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #30343d;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+}
+
+.modal-total {
+
+    text-align: center;
+
+    margin-top: 10px;
+
+    color: #22c55e;
+
+    font-weight: bold;
+
+}
+
+.fixed-player {
+
+    text-align: center;
+
+    background: #111318;
+
+    border-radius: 14px;
+
+    padding: 18px;
+
+    margin-top: 12px;
+
+    color: #ddd;
+
+    font-weight: bold;
+
+}
+
+.fixed-player .fixed-score {
+
+    font-size: 30px;
+
+    margin-top: 8px;
+
 }
 
 
@@ -215,425 +1049,85 @@ body.light .accumulated-days-display {
 @media (max-width: 600px) {
 
     .theme-toggle {
+
         top: 9px;
+
         right: 9px;
+
         width: 40px;
+
         height: 40px;
+
         font-size: 18px;
+
     }
-
-    .start-date-card {
-        padding: 16px;
-    }
-
-    .start-date-display:first-of-type {
-        font-size: 15px;
-    }
-
-    .current-date-display,
-    .accumulated-days-display {
-        font-size: 13px;
-    }
-
-}
-
-
-/* =====================================================
-   CONTAINER
-===================================================== */
-
-.container {
-    max-width: 800px;
-    margin: auto;
-    padding: 20px;
-}
-
-h1 {
-    text-align: center;
-    margin-bottom: 5px;
-}
-
-h2 {
-    margin-top: 0;
-}
-
-.subtitle {
-    text-align: center;
-    color: #aaa;
-    margin-bottom: 25px;
-}
-
-.clock {
-    text-align: center;
-    font-size: 42px;
-    font-weight: bold;
-    margin: 20px 0;
-}
-
-.date {
-    text-align: center;
-    color: #aaa;
-}
-
-.card {
-    background: #191c23;
-    border-radius: 18px;
-    padding: 20px;
-    margin-top: 18px;
-}
-
-.timer {
-    text-align: center;
-    font-size: 55px;
-    font-weight: bold;
-    margin: 20px 0;
-}
-
-button {
-    width: 100%;
-    border: none;
-    border-radius: 12px;
-    padding: 15px;
-    margin-top: 10px;
-    font-size: 17px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-button:disabled {
-    opacity: 0.45;
-    cursor: not-allowed;
-}
-
-.start {
-    background: #22c55e;
-    color: white;
-}
-
-.exercise-btn {
-    background: #f59e0b;
-    color: white;
-}
-
-.stop {
-    background: #ef4444;
-    color: white;
-}
-
-.reset {
-    background: #374151;
-    color: white;
-}
-
-.delete-btn {
-    background: #7f1d1d;
-    color: white;
-}
-
-.save-score {
-    background: #2563eb;
-    color: white;
-}
-
-.score {
-    text-align: center;
-    font-size: 70px;
-    font-weight: bold;
-    margin: 10px 0;
-}
-
-.small {
-    text-align: center;
-    color: #aaa;
-}
-
-.progress {
-    height: 12px;
-    background: #30343d;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 15px;
-}
-
-.progress-bar {
-    height: 100%;
-    width: 0%;
-    background: #22c55e;
-    transition: width 0.3s;
-}
-
-.status {
-    text-align: center;
-    color: #22c55e;
-    margin-top: 12px;
-    min-height: 20px;
-}
-
-.info {
-    line-height: 1.6;
-    color: #bbb;
-    font-size: 14px;
-}
-
-.current-date-box {
-    text-align: center;
-    margin-top: 12px;
-    padding: 10px;
-    background: #111318;
-    border-radius: 10px;
-    color: #aaa;
-}
-
-.start-date-button {
-    background: #30343d;
-    color: white;
-    margin-top: 5px;
-}
-
-.start-date-button:hover {
-    background: #3b4250;
-}
-
-.table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-}
-
-.table th {
-    color: #aaa;
-    font-size: 12px;
-    padding: 10px 5px;
-    border-bottom: 1px solid #30343d;
-}
-
-.table td {
-    padding: 14px 5px;
-    text-align: center;
-    border-bottom: 1px solid #292d35;
-}
-
-.table td:first-child,
-.table th:first-child {
-    width: 45px;
-}
-
-.table td:nth-child(2),
-.table th:nth-child(2) {
-    text-align: left;
-}
-
-.player-name {
-    font-weight: bold;
-}
-
-.you-row {
-    background: #1d2a22;
-    border: 2px solid #22c55e;
-}
-
-.rank {
-    font-size: 22px;
-    font-weight: bold;
-}
-
-.total {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.study {
-    color: #60a5fa;
-}
-
-.exercise {
-    color: #f59e0b;
-}
-
-.accumulated {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.days {
-    color: #aaa;
-}
-
-.section-title {
-    margin-bottom: 5px;
-}
-
-.note {
-    color: #888;
-    font-size: 12px;
-    margin-top: 12px;
-    text-align: center;
-}
-
-.modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.78);
-    z-index: 9999;
-    padding: 20px;
-    overflow-y: auto;
-}
-
-.modal-overlay.show {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-box {
-    width: 100%;
-    max-width: 560px;
-    background: #191c23;
-    border-radius: 18px;
-    padding: 22px;
-    box-shadow:
-        0 20px 60px
-        rgba(0, 0, 0, 0.55);
-}
-
-.modal-box h2 {
-    text-align: center;
-    margin-top: 0;
-    margin-bottom: 8px;
-}
-
-.modal-box h3 {
-    margin-top: 22px;
-    margin-bottom: 10px;
-    font-size: 16px;
-    color: #ddd;
-}
-
-.date-modal {
-    max-width: 420px;
-}
-
-.date-modal input {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 10px;
-    background: #30343d;
-    color: white;
-    font-size: 17px;
-    margin-top: 15px;
-}
-
-.date-confirm {
-    background: #2563eb;
-    color: white;
-}
-
-.modal-cancel {
-    background: #374151;
-    color: white;
-}
-
-.player-input-card {
-    background: #111318;
-    border-radius: 14px;
-    padding: 15px;
-    margin-top: 12px;
-}
-
-.player-input-card h3 {
-    margin: 0 0 12px 0;
-    text-align: center;
-    font-size: 16px;
-}
-
-.input-grid {
-    display: grid;
-    grid-template-columns:
-        1fr 1fr;
-    gap: 10px;
-}
-
-.modal-input {
-    background: #191c23;
-    border-radius: 10px;
-    padding: 10px;
-}
-
-.modal-input label {
-    display: block;
-    margin-bottom: 7px;
-    font-size: 13px;
-    color: #aaa;
-}
-
-.modal-input input {
-    width: 100%;
-    padding: 11px;
-    border: none;
-    border-radius: 8px;
-    background: #30343d;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.modal-total {
-    text-align: center;
-    margin-top: 10px;
-    color: #22c55e;
-    font-weight: bold;
-}
-
-.fixed-player {
-    text-align: center;
-    background: #111318;
-    border-radius: 14px;
-    padding: 18px;
-    margin-top: 12px;
-    color: #ddd;
-    font-weight: bold;
-}
-
-.fixed-player .fixed-score {
-    font-size: 30px;
-    margin-top: 8px;
-}
-
-@media (max-width: 600px) {
 
     .container {
+
         padding: 12px;
+
     }
 
     h1 {
+
         font-size: 25px;
+
     }
 
     .clock {
+
         font-size: 35px;
+
     }
 
     .timer {
+
         font-size: 45px;
+
     }
 
     .score {
+
         font-size: 60px;
+
     }
 
     .table {
+
         font-size: 13px;
+
     }
 
     .table th,
     .table td {
+
         padding: 10px 3px;
+
     }
 
     .modal-box {
+
         padding: 18px;
+
+    }
+
+    .start-date-card {
+
+        padding: 16px;
+
+    }
+
+    .start-date-display:first-of-type {
+
+        font-size: 15px;
+
+    }
+
+    .current-date-display,
+    .accumulated-days-display {
+
+        font-size: 13px;
+
     }
 
 }
@@ -645,6 +1139,68 @@ button:disabled {
 
 <body>
 
+
+<!-- =====================================================
+     FIREBASE LOGIN
+===================================================== -->
+
+<div
+    id="authScreen"
+    class="auth-screen"
+>
+
+<div class="auth-box">
+
+<h2>
+⚔️ CHIẾN BINH
+</h2>
+
+<div class="auth-subtitle">
+Đăng nhập để đồng bộ dữ liệu giữa điện thoại và máy tính
+</div>
+
+<input
+    type="email"
+    id="authEmail"
+    class="auth-input"
+    placeholder="Email"
+    autocomplete="email"
+>
+
+<input
+    type="password"
+    id="authPassword"
+    class="auth-input"
+    placeholder="Mật khẩu"
+    autocomplete="current-password"
+>
+
+<button
+    class="save-score"
+    onclick="loginAccount()"
+>
+🔑 ĐĂNG NHẬP
+</button>
+
+<button
+    class="start"
+    onclick="registerAccount()"
+>
+📝 ĐĂNG KÝ TÀI KHOẢN
+</button>
+
+<div
+    id="authStatus"
+    class="auth-status"
+>
+Đang kiểm tra tài khoản...
+</div>
+
+</div>
+
+</div>
+
+
 <button
     class="theme-toggle"
     id="themeToggle"
@@ -652,15 +1208,53 @@ button:disabled {
     aria-label="Bật/tắt giao diện sáng tối"
 >☀️</button>
 
+
 <div class="container">
+
 
 <h1>
 ⚔️ BẢNG XẾP HẠNG CHIẾN BINH ⚔️
 </h1>
 
+
 <div class="subtitle">
 (1 giờ học / 1 giờ tập luyện = 1 điểm)
 </div>
+
+
+<!-- =====================================================
+     TÀI KHOẢN
+===================================================== -->
+
+<div class="auth-user card">
+
+<div class="small">
+🔐 TÀI KHOẢN
+</div>
+
+<div
+    class="auth-user-email"
+    id="currentUserEmail"
+>
+Chưa đăng nhập
+</div>
+
+<div
+    class="sync-status"
+    id="syncStatus"
+>
+☁️ Chưa kết nối Firebase
+</div>
+
+<button
+    class="logout-btn"
+    onclick="logoutAccount()"
+>
+🚪 ĐĂNG XUẤT
+</button>
+
+</div>
+
 
 <div
     class="clock"
@@ -668,6 +1262,7 @@ button:disabled {
 >
 00:00:00
 </div>
+
 
 <div
     class="date"
@@ -1095,8 +1690,6 @@ Cộng thêm: +0 điểm
 </div>
 
 
-<!-- ELON -->
-
 <div class="fixed-player">
 
 🚀 ELON MUSK
@@ -1111,8 +1704,6 @@ Cộng thêm: +0 điểm
 
 </div>
 
-
-<!-- TESLA -->
 
 <div class="fixed-player">
 
@@ -1129,8 +1720,6 @@ Cộng thêm: +0 điểm
 </div>
 
 
-<!-- CHIẾN BINH 3 -->
-
 <div class="fixed-player">
 
 👤 CHIẾN BINH 3
@@ -1145,8 +1734,6 @@ Cộng thêm: +0 điểm
 
 </div>
 
-
-<!-- CHIẾN BINH 4 -->
 
 <div class="fixed-player">
 
@@ -1182,7 +1769,84 @@ Cộng thêm: +0 điểm
 </div>
 
 
+<!-- =====================================================
+     FIREBASE
+===================================================== -->
+
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+
+
 <script>
+
+
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyClJmH_HXWSIsvVmNw25Zv5UBi2zXFiU9M",
+
+    authDomain:
+        "chien-binh.firebaseapp.com",
+
+    databaseURL:
+        "https://chien-binh-default-rtdb.firebaseio.com",
+
+    projectId:
+        "chien-binh",
+
+    storageBucket:
+        "chien-binh.firebasestorage.app",
+
+    messagingSenderId:
+        "38150363155",
+
+    appId:
+        "1:38150363155:web:2465897a2a84ad02c507e6",
+
+    measurementId:
+        "G-EN1JVCQ3BH"
+
+};
+
+
+/* =====================================================
+   KHỞI TẠO FIREBASE
+===================================================== */
+
+firebase.initializeApp(
+    firebaseConfig
+);
+
+const firebaseAuth =
+    firebase.auth();
+
+const firebaseDatabase =
+    firebase.database();
+
+
+/* =====================================================
+   BIẾN ĐỒNG BỘ
+===================================================== */
+
+let currentFirebaseUser = null;
+
+let firebaseDataRef = null;
+
+let unsubscribeFirebaseData = null;
+
+let firebaseSyncReady = false;
+
+let applyingCloudData = false;
+
+let firebaseSaveTimeout = null;
+
 
 /* =====================================================
    CẤU HÌNH
@@ -1194,18 +1858,15 @@ const ELON_DAILY_SCORE = 18;
 
 const TESLA_DAILY_SCORE = 22;
 
+const PLAYER3_NAME =
+    "👤 KẺ THẤT BẠI";
 
-/*
-   2 NGƯỜI CHƠI MỚI
-   Có thể đổi tên và điểm/ngày tại đây.
-*/
-
-const PLAYER3_NAME = "👤 KẺ THẤT BẠI";
 const PLAYER3_DAILY_SCORE = 5;
 
-const PLAYER4_NAME = "👤 NGƯỜI BÌNH THƯỜNG";
-const PLAYER4_DAILY_SCORE = 10;
+const PLAYER4_NAME =
+    "👤 NGƯỜI BÌNH THƯỜNG";
 
+const PLAYER4_DAILY_SCORE = 10;
 
 const STORAGE_KEY =
     "studyBattleData";
@@ -1229,27 +1890,35 @@ function createDefaultData() {
 
         myExercisePoints: 0,
 
-        elonTodayScore: ELON_DAILY_SCORE,
+        elonTodayScore:
+            ELON_DAILY_SCORE,
 
-        elonTodayStudy: ELON_DAILY_SCORE,
+        elonTodayStudy:
+            ELON_DAILY_SCORE,
 
         elonTodayExercise: 0,
 
-        teslaTodayScore: TESLA_DAILY_SCORE,
+        teslaTodayScore:
+            TESLA_DAILY_SCORE,
 
-        teslaTodayStudy: TESLA_DAILY_SCORE,
+        teslaTodayStudy:
+            TESLA_DAILY_SCORE,
 
         teslaTodayExercise: 0,
 
-        player3TodayScore: PLAYER3_DAILY_SCORE,
+        player3TodayScore:
+            PLAYER3_DAILY_SCORE,
 
-        player3TodayStudy: PLAYER3_DAILY_SCORE,
+        player3TodayStudy:
+            PLAYER3_DAILY_SCORE,
 
         player3TodayExercise: 0,
 
-        player4TodayScore: PLAYER4_DAILY_SCORE,
+        player4TodayScore:
+            PLAYER4_DAILY_SCORE,
 
-        player4TodayStudy: PLAYER4_DAILY_SCORE,
+        player4TodayStudy:
+            PLAYER4_DAILY_SCORE,
 
         player4TodayExercise: 0,
 
@@ -1308,34 +1977,55 @@ function createDefaultData() {
 
 function getToday() {
 
-    const now =
-        new Date();
+    const now = new Date();
 
     return (
+
         now.getFullYear() +
+
         "-" +
+
         String(
             now.getMonth() + 1
         ).padStart(2, "0") +
+
         "-" +
+
         String(
             now.getDate()
         ).padStart(2, "0")
+
     );
 
 }
 
 
 /* =====================================================
-   LOAD DATA
+   LOAD DATA LOCAL
 ===================================================== */
 
+let localSavedData = null;
+
+try {
+
+    localSavedData =
+        JSON.parse(
+            localStorage.getItem(
+                STORAGE_KEY
+            )
+        );
+
+}
+catch (error) {
+
+    localSavedData = null;
+
+}
+
+
 let data =
-    JSON.parse(
-        localStorage.getItem(
-            STORAGE_KEY
-        )
-    ) || createDefaultData();
+    localSavedData ||
+    createDefaultData();
 
 
 /* =====================================================
@@ -1347,12 +2037,11 @@ function repairData() {
     const defaults =
         createDefaultData();
 
+
     Object.keys(defaults).forEach(
         function(key) {
 
-            if (
-                !(key in data)
-            ) {
+            if (!(key in data)) {
 
                 data[key] =
                     defaults[key];
@@ -1407,9 +2096,31 @@ function repairData() {
         data.myStudyPoints +
         data.myExercisePoints;
 
+
     data.myAccumulated =
         data.myAccumulatedStudy +
         data.myAccumulatedExercise;
+
+}
+
+
+/* =====================================================
+   FIREBASE STATUS
+===================================================== */
+
+function setSyncStatus(message) {
+
+    const element =
+        document.getElementById(
+            "syncStatus"
+        );
+
+    if (element) {
+
+        element.textContent =
+            message;
+
+    }
 
 }
 
@@ -1425,6 +2136,115 @@ function saveData() {
         JSON.stringify(data)
     );
 
+
+    /*
+       Không ghi Firebase khi:
+
+       1. Chưa đăng nhập
+       2. Chưa nhận snapshot đầu tiên
+       3. Đang lấy dữ liệu từ Firebase
+    */
+
+    if (
+        !currentFirebaseUser ||
+        !firebaseSyncReady ||
+        applyingCloudData
+    ) {
+
+        return;
+
+    }
+
+
+    scheduleFirebaseSave();
+
+}
+
+
+/* =====================================================
+   GHI FIREBASE CÓ DEBOUNCE
+===================================================== */
+
+function scheduleFirebaseSave() {
+
+    if (!currentFirebaseUser) {
+        return;
+    }
+
+    if (!firebaseSyncReady) {
+        return;
+    }
+
+    if (!firebaseDataRef) {
+        return;
+    }
+
+
+    if (firebaseSaveTimeout) {
+
+        clearTimeout(
+            firebaseSaveTimeout
+        );
+
+    }
+
+
+    firebaseSaveTimeout =
+        setTimeout(
+            function() {
+
+                writeDataToFirebase();
+
+            },
+            800
+        );
+
+}
+
+
+/* =====================================================
+   GHI DATA LÊN FIREBASE
+===================================================== */
+
+function writeDataToFirebase() {
+
+    if (
+        !currentFirebaseUser ||
+        !firebaseSyncReady ||
+        !firebaseDataRef
+    ) {
+
+        return;
+
+    }
+
+
+    firebaseDataRef
+        .set(data)
+        .then(
+            function() {
+
+                setSyncStatus(
+                    "☁️ Đã đồng bộ Firebase"
+                );
+
+            }
+        )
+        .catch(
+            function(error) {
+
+                console.error(
+                    "Firebase write error:",
+                    error
+                );
+
+                setSyncStatus(
+                    "⚠️ Lỗi lưu Firebase"
+                );
+
+            }
+        );
+
 }
 
 
@@ -1437,11 +2257,15 @@ function formatDateVietnamese(
 ) {
 
     if (!dateString) {
+
         return "";
+
     }
+
 
     const parts =
         dateString.split("-");
+
 
     if (
         parts.length !== 3
@@ -1451,12 +2275,14 @@ function formatDateVietnamese(
 
     }
 
+
     const date =
         new Date(
             Number(parts[0]),
             Number(parts[1]) - 1,
             Number(parts[2])
         );
+
 
     return date.toLocaleDateString(
         "vi-VN",
@@ -1481,22 +2307,30 @@ function calculateDaysFromStart(
 ) {
 
     if (!startDate) {
+
         return 0;
+
     }
+
 
     const start =
         new Date(
-            startDate + "T00:00:00"
+            startDate +
+            "T00:00:00"
         );
+
 
     const end =
         new Date(
-            endDate + "T00:00:00"
+            endDate +
+            "T00:00:00"
         );
+
 
     const diff =
         end.getTime() -
         start.getTime();
+
 
     return Math.max(
         1,
@@ -1519,6 +2353,7 @@ function updateFixedPlayersAccumulation() {
         return;
 
     }
+
 
     const days =
         calculateDaysFromStart(
@@ -1582,6 +2417,7 @@ function checkNewDay() {
     const today =
         getToday();
 
+
     if (
         data.date === today
     ) {
@@ -1635,6 +2471,7 @@ function checkNewDay() {
 
     data.date =
         today;
+
 
     data.myTodayScore =
         0;
@@ -1725,7 +2562,9 @@ function openStartDateModal() {
     document.getElementById(
         "startDatePicker"
     ).value =
-        data.startDate || getToday();
+        data.startDate ||
+        getToday();
+
 
     document.getElementById(
         "startDateModal"
@@ -1754,6 +2593,7 @@ function confirmStartDate() {
             "startDatePicker"
         ).value;
 
+
     if (!selectedDate) {
 
         alert(
@@ -1764,8 +2604,10 @@ function confirmStartDate() {
 
     }
 
+
     const today =
         getToday();
+
 
     if (
         selectedDate > today
@@ -1779,8 +2621,10 @@ function confirmStartDate() {
 
     }
 
+
     data.startDate =
         selectedDate;
+
 
     updateFixedPlayersAccumulation();
 
@@ -1789,6 +2633,7 @@ function confirmStartDate() {
     updateDisplay();
 
     closeStartDateModal();
+
 
     document.getElementById(
         "status"
@@ -1809,10 +2654,12 @@ function updateStartDateDisplay() {
             "startDateInfo"
         );
 
+
     const currentDateInfo =
         document.getElementById(
             "currentDateInfo"
         );
+
 
     const accumulatedDaysInfo =
         document.getElementById(
@@ -1869,15 +2716,18 @@ function updateClock() {
     const now =
         new Date();
 
+
     const h =
         String(
             now.getHours()
         ).padStart(2, "0");
 
+
     const m =
         String(
             now.getMinutes()
         ).padStart(2, "0");
+
 
     const s =
         String(
@@ -1899,9 +2749,7 @@ function updateClock() {
         );
 
 
-    if (
-        checkNewDay()
-    ) {
+    if (checkNewDay()) {
 
         updateDisplay();
 
@@ -1923,9 +2771,7 @@ let timerInterval = null;
 
 function getSessionSeconds() {
 
-    if (
-        !data.activeSessionType
-    ) {
+    if (!data.activeSessionType) {
 
         return (
             data.savedSessionSeconds ||
@@ -1934,9 +2780,8 @@ function getSessionSeconds() {
 
     }
 
-    if (
-        !data.activeSessionStart
-    ) {
+
+    if (!data.activeSessionStart) {
 
         return (
             data.savedSessionSeconds ||
@@ -1944,9 +2789,11 @@ function getSessionSeconds() {
         );
 
     }
+
 
     return (
         data.savedSessionSeconds +
+
         Math.max(
             0,
             Math.floor(
@@ -1973,26 +2820,35 @@ function formatTime(seconds) {
             Math.floor(seconds)
         );
 
+
     const h =
         Math.floor(
             seconds / 3600
         );
+
 
     const m =
         Math.floor(
             (seconds % 3600) / 60
         );
 
+
     const s =
         seconds % 60;
 
 
     return (
+
         String(h).padStart(2, "0") +
+
         ":" +
+
         String(m).padStart(2, "0") +
+
         ":" +
+
         String(s).padStart(2, "0")
+
     );
 
 }
@@ -2036,7 +2892,8 @@ function startSession(type) {
 
 
     if (
-        data.myTodayScore >= MAX_SCORE
+        data.myTodayScore >=
+        MAX_SCORE
     ) {
 
         document.getElementById(
@@ -2049,9 +2906,7 @@ function startSession(type) {
     }
 
 
-    if (
-        !data.activeSessionType
-    ) {
+    if (!data.activeSessionType) {
 
         data.activeSessionType =
             type;
@@ -2097,18 +2952,14 @@ function startSession(type) {
 
 function pauseSession() {
 
-    if (
-        !data.activeSessionType
-    ) {
+    if (!data.activeSessionType) {
 
         return;
 
     }
 
 
-    if (
-        data.activeSessionStart
-    ) {
+    if (data.activeSessionStart) {
 
         data.savedSessionSeconds =
             getSessionSeconds();
@@ -2147,7 +2998,8 @@ function toggleStudy() {
 
 
     if (
-        data.activeSessionType === "study" &&
+        data.activeSessionType ===
+        "study" &&
         data.activeSessionStart
     ) {
 
@@ -2173,7 +3025,8 @@ function toggleExercise() {
 
 
     if (
-        data.activeSessionType === "exercise" &&
+        data.activeSessionType ===
+        "exercise" &&
         data.activeSessionStart
     ) {
 
@@ -2190,14 +3043,12 @@ function toggleExercise() {
 
 
 /* =====================================================
-   RESET THANG TÍNH ĐIỂM
+   RESET TIMER
 ===================================================== */
 
 function resetCurrentSession() {
 
-    if (
-        !data.activeSessionType
-    ) {
+    if (!data.activeSessionType) {
 
         document.getElementById(
             "status"
@@ -2235,12 +3086,14 @@ function resetCurrentSession() {
         data.myStudyPoints -=
             points;
 
+
         data.myTodayScore =
             Math.max(
                 0,
                 data.myTodayScore -
                 points
             );
+
 
         data.myAccumulatedStudy =
             Math.max(
@@ -2249,12 +3102,14 @@ function resetCurrentSession() {
                 points
             );
 
+
         data.myAccumulated =
             Math.max(
                 0,
                 data.myAccumulated -
                 points
             );
+
 
         data.timerStudyPointsToday =
             Math.max(
@@ -2281,12 +3136,14 @@ function resetCurrentSession() {
         data.myExercisePoints -=
             points;
 
+
         data.myTodayScore =
             Math.max(
                 0,
                 data.myTodayScore -
                 points
             );
+
 
         data.myAccumulatedExercise =
             Math.max(
@@ -2295,12 +3152,14 @@ function resetCurrentSession() {
                 points
             );
 
+
         data.myAccumulated =
             Math.max(
                 0,
                 data.myAccumulated -
                 points
             );
+
 
         data.timerExercisePointsToday =
             Math.max(
@@ -2356,8 +3215,11 @@ function resetCurrentSession() {
 function startTimerLoop() {
 
     if (timerInterval) {
+
         return;
+
     }
+
 
     timerInterval =
         setInterval(
@@ -2440,9 +3302,7 @@ function updateTimer() {
             );
 
 
-        if (
-            pointsToAdd > 0
-        ) {
+        if (pointsToAdd > 0) {
 
             data.myTodayScore +=
                 pointsToAdd;
@@ -2537,18 +3397,18 @@ function updateSessionButtons() {
             "studyBtn"
         );
 
+
     const exerciseBtn =
         document.getElementById(
             "exerciseBtn"
         );
 
 
-    if (
-        !data.activeSessionType
-    ) {
+    if (!data.activeSessionType) {
 
         studyBtn.textContent =
             "▶ BẮT ĐẦU HỌC";
+
 
         exerciseBtn.textContent =
             "🏋️ BẮT ĐẦU TẬP LUYỆN";
@@ -2572,6 +3432,7 @@ function updateSessionButtons() {
                 ? "▶ TIẾP TỤC HỌC"
                 : "⏸ DỪNG HỌC";
 
+
         exerciseBtn.textContent =
             "🏋️ BẮT ĐẦU TẬP LUYỆN";
 
@@ -2581,6 +3442,7 @@ function updateSessionButtons() {
 
         studyBtn.textContent =
             "▶ BẮT ĐẦU HỌC";
+
 
         exerciseBtn.textContent =
             paused
@@ -2603,7 +3465,9 @@ function getInputNumber(id) {
 
 
     if (!element) {
+
         return 0;
+
     }
 
 
@@ -2628,12 +3492,19 @@ function getInputNumber(id) {
 }
 
 
-function setInputValue(id, value) {
+function setInputValue(
+    id,
+    value
+) {
 
-    document.getElementById(id).value =
+    document.getElementById(
+        id
+    ).value =
         Math.max(
             0,
-            Math.floor(value || 0)
+            Math.floor(
+                value || 0
+            )
         );
 
 }
@@ -2669,7 +3540,8 @@ function updateModalTotals() {
     const remaining =
         Math.max(
             0,
-            MAX_SCORE - currentScore
+            MAX_SCORE -
+            currentScore
         );
 
 
@@ -2680,13 +3552,15 @@ function updateModalTotals() {
 
 
     if (
-        addTotal > remaining
+        addTotal >
+        remaining
     ) {
 
         modalTotal.textContent =
             "⚠️ Chỉ có thể cộng thêm " +
             remaining +
             " điểm.";
+
 
         modalTotal.style.color =
             "#ef4444";
@@ -2762,7 +3636,7 @@ function closeScoreModal() {
 
 
 /* =====================================================
-   LƯU ĐIỂM CỦA BẠN
+   LƯU ĐIỂM
 ===================================================== */
 
 function confirmScoreModal() {
@@ -2794,7 +3668,8 @@ function confirmScoreModal() {
 
 
     if (
-        addTotal > remaining
+        addTotal >
+        remaining
     ) {
 
         alert(
@@ -2827,8 +3702,10 @@ function confirmScoreModal() {
     data.myStudyPoints +=
         studyAdd;
 
+
     data.myExercisePoints +=
         exerciseAdd;
+
 
     data.myTodayScore +=
         addTotal;
@@ -2837,8 +3714,10 @@ function confirmScoreModal() {
     data.myAccumulatedStudy +=
         studyAdd;
 
+
     data.myAccumulatedExercise +=
         exerciseAdd;
+
 
     data.myAccumulated +=
         addTotal;
@@ -2871,7 +3750,7 @@ function confirmScoreModal() {
 
 
 /* =====================================================
-   CLICK RA NGOÀI POPUP
+   CLICK NGOÀI POPUP
 ===================================================== */
 
 document.getElementById(
@@ -2919,6 +3798,7 @@ function getTodayRanking() {
     const players = [
 
         {
+
             name:
                 "⚡ NIKOLA TESLA",
 
@@ -2938,6 +3818,7 @@ function getTodayRanking() {
 
 
         {
+
             name:
                 "🚀 ELON MUSK",
 
@@ -2957,6 +3838,7 @@ function getTodayRanking() {
 
 
         {
+
             name:
                 PLAYER3_NAME,
 
@@ -2976,6 +3858,7 @@ function getTodayRanking() {
 
 
         {
+
             name:
                 PLAYER4_NAME,
 
@@ -2995,6 +3878,7 @@ function getTodayRanking() {
 
 
         {
+
             name:
                 "👤 BẠN",
 
@@ -3031,7 +3915,7 @@ function getTodayRanking() {
 
 
 /* =====================================================
-   HIỂN THỊ BXH HÔM NAY
+   BXH HÔM NAY HIỂN THỊ
 ===================================================== */
 
 function updateTodayRanking() {
@@ -3422,9 +4306,7 @@ function updateAccumulatedRanking() {
         );
 
 
-    if (
-        data.startDate
-    ) {
+    if (data.startDate) {
 
         info.textContent =
             "Số ngày đã tích lũy: " +
@@ -3538,6 +4420,7 @@ function updateDisplay() {
 
     updateAccumulatedRanking();
 
+
     saveData();
 
 }
@@ -3551,30 +4434,52 @@ function deleteAllData() {
 
     const confirmed =
         confirm(
+
             "⚠️ XÓA TOÀN BỘ DỮ LIỆU?\n\n" +
+
             "Điểm hôm nay\n" +
+
             "Điểm tích lũy\n" +
+
             "Điểm Elon\n" +
+
             "Điểm Tesla\n" +
+
             "Điểm 2 người chơi mới\n" +
+
             "Thời gian timer\n" +
+
             "Ngày bắt đầu\n\n" +
+
             "Tất cả sẽ trở về 0.\n\n" +
+
+            "Dữ liệu Firebase cũng sẽ bị xóa.\n\n" +
+
             "KHÔNG THỂ HOÀN TÁC!"
+
         );
 
 
     if (!confirmed) {
+
         return;
+
     }
 
 
     stopTimerLoop();
 
 
-    localStorage.removeItem(
-        STORAGE_KEY
-    );
+    if (firebaseSaveTimeout) {
+
+        clearTimeout(
+            firebaseSaveTimeout
+        );
+
+        firebaseSaveTimeout =
+            null;
+
+    }
 
 
     data =
@@ -3606,7 +4511,654 @@ function deleteAllData() {
 
 
 /* =====================================================
-   KHỞI ĐỘNG
+   FIREBASE - ĐĂNG KÝ
+===================================================== */
+
+function registerAccount() {
+
+    const email =
+        document.getElementById(
+            "authEmail"
+        ).value.trim();
+
+
+    const password =
+        document.getElementById(
+            "authPassword"
+        ).value;
+
+
+    if (!email) {
+
+        showAuthStatus(
+            "⚠️ Vui lòng nhập email.",
+            true
+        );
+
+        return;
+
+    }
+
+
+    if (!password) {
+
+        showAuthStatus(
+            "⚠️ Vui lòng nhập mật khẩu.",
+            true
+        );
+
+        return;
+
+    }
+
+
+    if (password.length < 6) {
+
+        showAuthStatus(
+            "⚠️ Mật khẩu phải có ít nhất 6 ký tự.",
+            true
+        );
+
+        return;
+
+    }
+
+
+    showAuthStatus(
+        "⏳ Đang tạo tài khoản..."
+    );
+
+
+    firebaseAuth
+        .createUserWithEmailAndPassword(
+            email,
+            password
+        )
+        .then(
+            function() {
+
+                showAuthStatus(
+                    "✅ Đăng ký thành công."
+                );
+
+            }
+        )
+        .catch(
+            function(error) {
+
+                showAuthStatus(
+                    getFirebaseErrorMessage(
+                        error
+                    ),
+                    true
+                );
+
+            }
+        );
+
+}
+
+
+/* =====================================================
+   FIREBASE - ĐĂNG NHẬP
+===================================================== */
+
+function loginAccount() {
+
+    const email =
+        document.getElementById(
+            "authEmail"
+        ).value.trim();
+
+
+    const password =
+        document.getElementById(
+            "authPassword"
+        ).value;
+
+
+    if (!email) {
+
+        showAuthStatus(
+            "⚠️ Vui lòng nhập email.",
+            true
+        );
+
+        return;
+
+    }
+
+
+    if (!password) {
+
+        showAuthStatus(
+            "⚠️ Vui lòng nhập mật khẩu.",
+            true
+        );
+
+        return;
+
+    }
+
+
+    showAuthStatus(
+        "⏳ Đang đăng nhập..."
+    );
+
+
+    firebaseAuth
+        .signInWithEmailAndPassword(
+            email,
+            password
+        )
+        .then(
+            function() {
+
+                showAuthStatus(
+                    "✅ Đăng nhập thành công."
+                );
+
+            }
+        )
+        .catch(
+            function(error) {
+
+                showAuthStatus(
+                    getFirebaseErrorMessage(
+                        error
+                    ),
+                    true
+                );
+
+            }
+        );
+
+}
+
+
+/* =====================================================
+   FIREBASE - ĐĂNG XUẤT
+===================================================== */
+
+function logoutAccount() {
+
+    const confirmed =
+        confirm(
+            "Bạn có chắc muốn đăng xuất?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    if (firebaseSaveTimeout) {
+
+        clearTimeout(
+            firebaseSaveTimeout
+        );
+
+        firebaseSaveTimeout =
+            null;
+
+    }
+
+
+    if (unsubscribeFirebaseData) {
+
+        unsubscribeFirebaseData();
+
+        unsubscribeFirebaseData =
+            null;
+
+    }
+
+
+    firebaseDataRef = null;
+
+    firebaseSyncReady = false;
+
+    currentFirebaseUser = null;
+
+
+    firebaseAuth
+        .signOut()
+        .catch(
+            function(error) {
+
+                console.error(
+                    "Logout error:",
+                    error
+                );
+
+            }
+        );
+
+}
+
+
+/* =====================================================
+   FIREBASE LỖI
+===================================================== */
+
+function getFirebaseErrorMessage(
+    error
+) {
+
+    const code =
+        error &&
+        error.code
+            ? error.code
+            : "";
+
+
+    if (
+        code ===
+        "auth/email-already-in-use"
+    ) {
+
+        return "⚠️ Email này đã được đăng ký.";
+
+    }
+
+
+    if (
+        code ===
+        "auth/invalid-email"
+    ) {
+
+        return "⚠️ Email không hợp lệ.";
+
+    }
+
+
+    if (
+        code ===
+        "auth/weak-password"
+    ) {
+
+        return "⚠️ Mật khẩu quá yếu.";
+
+    }
+
+
+    if (
+        code ===
+        "auth/user-not-found"
+    ) {
+
+        return "⚠️ Không tìm thấy tài khoản.";
+
+    }
+
+
+    if (
+        code ===
+        "auth/wrong-password"
+    ) {
+
+        return "⚠️ Sai mật khẩu.";
+
+    }
+
+
+    if (
+        code ===
+        "auth/invalid-credential"
+    ) {
+
+        return "⚠️ Email hoặc mật khẩu không đúng.";
+
+    }
+
+
+    if (
+        code ===
+        "auth/too-many-requests"
+    ) {
+
+        return "⚠️ Có quá nhiều lần thử. Hãy thử lại sau.";
+
+    }
+
+
+    if (
+        code ===
+        "auth/network-request-failed"
+    ) {
+
+        return "⚠️ Lỗi mạng. Hãy kiểm tra Internet.";
+
+    }
+
+
+    return (
+        "⚠️ " +
+        (
+            error.message ||
+            "Có lỗi xảy ra."
+        )
+    );
+
+}
+
+
+/* =====================================================
+   HIỂN THỊ TRẠNG THÁI LOGIN
+===================================================== */
+
+function showAuthStatus(
+    message,
+    isError
+) {
+
+    const element =
+        document.getElementById(
+            "authStatus"
+        );
+
+
+    if (!element) {
+
+        return;
+
+    }
+
+
+    element.textContent =
+        message;
+
+
+    element.style.color =
+        isError
+            ? "#ef4444"
+            : "#22c55e";
+
+}
+
+
+/* =====================================================
+   FIREBASE REALTIME SYNC
+===================================================== */
+
+function setupFirebaseSync(
+    user
+) {
+
+    if (!user) {
+
+        return;
+
+    }
+
+
+    if (unsubscribeFirebaseData) {
+
+        unsubscribeFirebaseData();
+
+        unsubscribeFirebaseData =
+            null;
+
+    }
+
+
+    currentFirebaseUser =
+        user;
+
+
+    firebaseSyncReady =
+        false;
+
+
+    firebaseDataRef =
+        firebaseDatabase.ref(
+            "users/" +
+            user.uid +
+            "/data"
+        );
+
+
+    setSyncStatus(
+        "☁️ Đang tải dữ liệu Firebase..."
+    );
+
+
+    unsubscribeFirebaseData =
+        firebaseDataRef.on(
+            "value",
+
+            function(snapshot) {
+
+                const cloudData =
+                    snapshot.val();
+
+
+                /*
+                   Firebase chưa có dữ liệu
+                */
+
+                if (!cloudData) {
+
+                    applyingCloudData =
+                        true;
+
+
+                    repairData();
+
+                    checkNewDay();
+
+
+                    applyingCloudData =
+                        false;
+
+
+                    firebaseSyncReady =
+                        true;
+
+
+                    setSyncStatus(
+                        "☁️ Đang lưu dữ liệu mới lên Firebase..."
+                    );
+
+
+                    writeDataToFirebase();
+
+                    updateDisplay();
+
+                    return;
+
+                }
+
+
+                /*
+                   Firebase đã có dữ liệu
+                   → Firebase là nguồn dữ liệu chính
+                */
+
+                applyingCloudData =
+                    true;
+
+
+                data = {
+
+                    ...createDefaultData(),
+
+                    ...cloudData
+
+                };
+
+
+                repairData();
+
+                checkNewDay();
+
+
+                localStorage.setItem(
+                    STORAGE_KEY,
+                    JSON.stringify(data)
+                );
+
+
+                applyingCloudData =
+                    false;
+
+
+                firebaseSyncReady =
+                    true;
+
+
+                updateDisplay();
+
+                updateSessionButtons();
+
+                updateTimer();
+
+
+                if (
+                    data.activeSessionType &&
+                    data.activeSessionStart
+                ) {
+
+                    startTimerLoop();
+
+                }
+
+
+                setSyncStatus(
+                    "☁️ Đã đồng bộ Firebase"
+                );
+
+            },
+
+            function(error) {
+
+                console.error(
+                    "Firebase realtime error:",
+                    error
+                );
+
+
+                firebaseSyncReady =
+                    false;
+
+
+                setSyncStatus(
+                    "⚠️ Không thể đọc Firebase"
+                );
+
+            }
+
+        );
+
+}
+
+
+/* =====================================================
+   FIREBASE AUTH STATE
+===================================================== */
+
+firebaseAuth.onAuthStateChanged(
+    function(user) {
+
+        if (user) {
+
+            currentFirebaseUser =
+                user;
+
+
+            document.getElementById(
+                "currentUserEmail"
+            ).textContent =
+                user.email ||
+                "Tài khoản Firebase";
+
+
+            document.getElementById(
+                "authScreen"
+            ).classList.add(
+                "hidden"
+            );
+
+
+            document.getElementById(
+                "authEmail"
+            ).value =
+                "";
+
+
+            document.getElementById(
+                "authPassword"
+            ).value =
+                "";
+
+
+            setupFirebaseSync(
+                user
+            );
+
+
+            return;
+
+        }
+
+
+        /*
+           Không đăng nhập
+        */
+
+        currentFirebaseUser =
+            null;
+
+
+        firebaseSyncReady =
+            false;
+
+
+        firebaseDataRef =
+            null;
+
+
+        if (unsubscribeFirebaseData) {
+
+            unsubscribeFirebaseData();
+
+            unsubscribeFirebaseData =
+                null;
+
+        }
+
+
+        document.getElementById(
+            "currentUserEmail"
+        ).textContent =
+            "Chưa đăng nhập";
+
+
+        setSyncStatus(
+            "☁️ Chưa đăng nhập Firebase"
+        );
+
+
+        document.getElementById(
+            "authScreen"
+        ).classList.remove(
+            "hidden"
+        );
+
+
+        showAuthStatus(
+            "🔐 Hãy đăng nhập hoặc đăng ký tài khoản."
+        );
+
+    }
+);
+
+
+/* =====================================================
+   KHỞI ĐỘNG APP
 ===================================================== */
 
 repairData();
