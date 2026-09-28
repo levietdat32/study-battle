@@ -46,7 +46,8 @@ body.light .auth-box {
 
 body.light .current-date-box,
 body.light .player-input-card,
-body.light .fixed-player {
+body.light .fixed-player,
+body.light .timer-box {
     background: #f3f4f6;
     color: #111827;
 }
@@ -500,15 +501,104 @@ h2 {
 
 }
 
-.timer {
+
+/* =====================================================
+   TIMER MỚI - 2 ĐỒNG HỒ
+===================================================== */
+
+.timer-container {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 14px;
+
+    margin-top: 18px;
+
+}
+
+.timer-box {
+
+    background: #111318;
+
+    border-radius: 16px;
+
+    padding: 16px;
 
     text-align: center;
 
-    font-size: 55px;
+    min-width: 0;
+
+}
+
+.timer-title {
+
+    font-size: 17px;
 
     font-weight: bold;
 
-    margin: 20px 0;
+    margin-bottom: 10px;
+
+}
+
+.timer-study-title {
+
+    color: #60a5fa;
+
+}
+
+.timer-exercise-title {
+
+    color: #f59e0b;
+
+}
+
+.timer-display {
+
+    font-size: 39px;
+
+    font-weight: bold;
+
+    margin: 16px 0;
+
+    white-space: nowrap;
+
+}
+
+.timer-box button {
+
+    font-size: 14px;
+
+    padding: 13px 8px;
+
+}
+
+.timer-reset-study {
+
+    background: #374151;
+
+    color: white;
+
+}
+
+.timer-reset-exercise {
+
+    background: #374151;
+
+    color: white;
+
+}
+
+.timer-status {
+
+    text-align: center;
+
+    color: #22c55e;
+
+    margin-top: 14px;
+
+    min-height: 20px;
 
 }
 
@@ -1080,9 +1170,15 @@ button:disabled {
 
     }
 
-    .timer {
+    .timer-container {
 
-        font-size: 45px;
+        grid-template-columns: 1fr;
+
+    }
+
+    .timer-display {
+
+        font-size: 43px;
 
     }
 
@@ -1368,9 +1464,23 @@ Tối đa: 24 điểm / ngày
 THANG THỜI GIAN TÍNH ĐIỂM
 </div>
 
+
+<div class="timer-container">
+
+
+<!-- =================================================
+     TIMER HỌC
+================================================= -->
+
+<div class="timer-box">
+
+<div class="timer-title timer-study-title">
+📚 THỜI GIAN HỌC
+</div>
+
 <div
-    class="timer"
-    id="timer"
+    class="timer-display"
+    id="studyTimer"
 >
 00:00:00
 </div>
@@ -1384,22 +1494,55 @@ THANG THỜI GIAN TÍNH ĐIỂM
 </button>
 
 <button
+    class="timer-reset-study"
+    onclick="resetStudyTimer()"
+>
+↻ RESET HỌC
+</button>
+
+</div>
+
+
+<!-- =================================================
+     TIMER TẬP
+================================================= -->
+
+<div class="timer-box">
+
+<div class="timer-title timer-exercise-title">
+🏋️ THỜI GIAN TẬP LUYỆN
+</div>
+
+<div
+    class="timer-display"
+    id="exerciseTimer"
+>
+00:00:00
+</div>
+
+<button
     class="exercise-btn"
     id="exerciseBtn"
     onclick="toggleExercise()"
 >
-🏋️ BẮT ĐẦU TẬP LUYỆN
+▶ BẮT ĐẦU TẬP LUYỆN
 </button>
 
 <button
-    class="stop"
-    onclick="resetCurrentSession()"
+    class="timer-reset-exercise"
+    onclick="resetExerciseTimer()"
 >
-↻ RESET THANG TÍNH ĐIỂM
+↻ RESET TẬP LUYỆN
 </button>
 
+</div>
+
+
+</div>
+
+
 <div
-    class="status"
+    class="timer-status"
     id="status"
 >
 </div>
@@ -1953,6 +2096,37 @@ function createDefaultData() {
 
         player4AccumulatedExercise: 0,
 
+
+        /* =============================================
+           TIMER HỌC MỚI
+        ============================================= */
+
+        studyTimerActive: false,
+
+        studyTimerStart: null,
+
+        studyTimerSavedSeconds: 0,
+
+        studyTimerCreditedHours: 0,
+
+
+        /* =============================================
+           TIMER TẬP MỚI
+        ============================================= */
+
+        exerciseTimerActive: false,
+
+        exerciseTimerStart: null,
+
+        exerciseTimerSavedSeconds: 0,
+
+        exerciseTimerCreditedHours: 0,
+
+
+        /* =============================================
+           BIẾN TIMER CŨ - GIỮ LẠI ĐỂ TƯƠNG THÍCH
+        ============================================= */
+
         activeSessionType: null,
 
         activeSessionStart: null,
@@ -2093,6 +2267,58 @@ function repairData() {
         0;
 
 
+    /*
+       Nếu dữ liệu cũ đang có timer học chạy
+       thì chuyển sang timer học mới.
+    */
+
+    if (
+        !data.studyTimerActive &&
+        data.activeSessionType === "study" &&
+        data.activeSessionStart
+    ) {
+
+        data.studyTimerActive =
+            true;
+
+        data.studyTimerStart =
+            data.activeSessionStart;
+
+        data.studyTimerSavedSeconds =
+            data.savedSessionSeconds || 0;
+
+        data.studyTimerCreditedHours =
+            data.lastCreditedSessionHours || 0;
+
+    }
+
+
+    /*
+       Nếu dữ liệu cũ đang có timer tập chạy
+       thì chuyển sang timer tập mới.
+    */
+
+    if (
+        !data.exerciseTimerActive &&
+        data.activeSessionType === "exercise" &&
+        data.activeSessionStart
+    ) {
+
+        data.exerciseTimerActive =
+            true;
+
+        data.exerciseTimerStart =
+            data.activeSessionStart;
+
+        data.exerciseTimerSavedSeconds =
+            data.savedSessionSeconds || 0;
+
+        data.exerciseTimerCreditedHours =
+            data.lastCreditedSessionHours || 0;
+
+    }
+
+
     data.myTodayScore =
         data.myStudyPoints +
         data.myExercisePoints;
@@ -2137,14 +2363,6 @@ function saveData() {
         JSON.stringify(data)
     );
 
-
-    /*
-       Không ghi Firebase khi:
-
-       1. Chưa đăng nhập
-       2. Chưa nhận snapshot đầu tiên
-       3. Đang lấy dữ liệu từ Firebase
-    */
 
     if (
         !currentFirebaseUser ||
@@ -2524,6 +2742,40 @@ function checkNewDay() {
         0;
 
 
+    /*
+       RESET 2 TIMER KHI SANG NGÀY MỚI.
+    */
+
+    data.studyTimerActive =
+        false;
+
+    data.studyTimerStart =
+        null;
+
+    data.studyTimerSavedSeconds =
+        0;
+
+    data.studyTimerCreditedHours =
+        0;
+
+
+    data.exerciseTimerActive =
+        false;
+
+    data.exerciseTimerStart =
+        null;
+
+    data.exerciseTimerSavedSeconds =
+        0;
+
+    data.exerciseTimerCreditedHours =
+        0;
+
+
+    /*
+       Giữ các biến timer cũ về trạng thái rỗng.
+    */
+
     data.activeSessionType =
         null;
 
@@ -2709,7 +2961,7 @@ function updateStartDateDisplay() {
 
 
 /* =====================================================
-   ĐỒNG HỒ
+   ĐỒNG HỒ THỰC
 ===================================================== */
 
 function updateClock() {
@@ -2770,22 +3022,26 @@ function updateClock() {
 let timerInterval = null;
 
 
-function getSessionSeconds() {
+/* =====================================================
+   LẤY GIÂY TIMER HỌC
+===================================================== */
 
-    if (!data.activeSessionType) {
+function getStudyTimerSeconds() {
+
+    if (!data.studyTimerActive) {
 
         return (
-            data.savedSessionSeconds ||
+            data.studyTimerSavedSeconds ||
             0
         );
 
     }
 
 
-    if (!data.activeSessionStart) {
+    if (!data.studyTimerStart) {
 
         return (
-            data.savedSessionSeconds ||
+            data.studyTimerSavedSeconds ||
             0
         );
 
@@ -2793,17 +3049,70 @@ function getSessionSeconds() {
 
 
     return (
-        data.savedSessionSeconds +
+
+        (
+            data.studyTimerSavedSeconds ||
+            0
+        ) +
 
         Math.max(
             0,
             Math.floor(
                 (
                     Date.now() -
-                    data.activeSessionStart
+                    data.studyTimerStart
                 ) / 1000
             )
         )
+
+    );
+
+}
+
+
+/* =====================================================
+   LẤY GIÂY TIMER TẬP
+===================================================== */
+
+function getExerciseTimerSeconds() {
+
+    if (!data.exerciseTimerActive) {
+
+        return (
+            data.exerciseTimerSavedSeconds ||
+            0
+        );
+
+    }
+
+
+    if (!data.exerciseTimerStart) {
+
+        return (
+            data.exerciseTimerSavedSeconds ||
+            0
+        );
+
+    }
+
+
+    return (
+
+        (
+            data.exerciseTimerSavedSeconds ||
+            0
+        ) +
+
+        Math.max(
+            0,
+            Math.floor(
+                (
+                    Date.now() -
+                    data.exerciseTimerStart
+                ) / 1000
+            )
+        )
+
     );
 
 }
@@ -2856,10 +3165,10 @@ function formatTime(seconds) {
 
 
 /* =====================================================
-   START SESSION
+   START TIMER HỌC
 ===================================================== */
 
-function startSession(type) {
+function startStudyTimer() {
 
     checkNewDay();
 
@@ -2870,22 +3179,6 @@ function startSession(type) {
             "status"
         ).textContent =
             "⚠️ Vui lòng chọn ngày bắt đầu trước.";
-
-        return;
-
-    }
-
-
-    if (
-        data.activeSessionType &&
-        data.activeSessionType !== type &&
-        data.activeSessionStart
-    ) {
-
-        document.getElementById(
-            "status"
-        ).textContent =
-            "⚠️ Đang có một phiên khác đang chạy.";
 
         return;
 
@@ -2907,25 +3200,15 @@ function startSession(type) {
     }
 
 
-    if (!data.activeSessionType) {
+    if (!data.studyTimerActive) {
 
-        data.activeSessionType =
-            type;
+        data.studyTimerActive =
+            true;
 
-        data.savedSessionSeconds =
-            0;
-
-        data.lastCreditedSessionHours =
-            0;
+        data.studyTimerStart =
+            Date.now();
 
     }
-
-
-    data.activeSessionType =
-        type;
-
-    data.activeSessionStart =
-        Date.now();
 
 
     saveData();
@@ -2940,41 +3223,37 @@ function startSession(type) {
     document.getElementById(
         "status"
     ).textContent =
-        type === "study"
-            ? "📚 Đang tính thời gian học..."
-            : "🏋️ Đang tính thời gian tập luyện...";
+        "📚 Đang tính thời gian học...";
 
 }
 
 
 /* =====================================================
-   PAUSE
+   PAUSE TIMER HỌC
 ===================================================== */
 
-function pauseSession() {
+function pauseStudyTimer() {
 
-    if (!data.activeSessionType) {
+    if (!data.studyTimerActive) {
 
         return;
 
     }
 
 
-    if (data.activeSessionStart) {
-
-        data.savedSessionSeconds =
-            getSessionSeconds();
-
-    }
+    data.studyTimerSavedSeconds =
+        getStudyTimerSeconds();
 
 
-    data.activeSessionStart =
+    data.studyTimerStart =
         null;
 
 
-    saveData();
+    data.studyTimerActive =
+        false;
 
-    stopTimerLoop();
+
+    saveData();
 
     updateTimer();
 
@@ -2984,13 +3263,15 @@ function pauseSession() {
     document.getElementById(
         "status"
     ).textContent =
-        "⏸️ Đã dừng. Bấm lại để tiếp tục.";
+        "⏸️ Đã dừng thời gian học. Bấm lại để tiếp tục.";
+
+    updateTimerLoopState();
 
 }
 
 
 /* =====================================================
-   TOGGLE STUDY
+   TOGGLE HỌC
 ===================================================== */
 
 function toggleStudy() {
@@ -2999,25 +3280,129 @@ function toggleStudy() {
 
 
     if (
-        data.activeSessionType ===
-        "study" &&
-        data.activeSessionStart
+        data.studyTimerActive
     ) {
 
-        pauseSession();
+        pauseStudyTimer();
 
         return;
 
     }
 
 
-    startSession("study");
+    startStudyTimer();
 
 }
 
 
 /* =====================================================
-   TOGGLE EXERCISE
+   START TIMER TẬP
+===================================================== */
+
+function startExerciseTimer() {
+
+    checkNewDay();
+
+
+    if (!data.startDate) {
+
+        document.getElementById(
+            "status"
+        ).textContent =
+            "⚠️ Vui lòng chọn ngày bắt đầu trước.";
+
+        return;
+
+    }
+
+
+    if (
+        data.myTodayScore >=
+        MAX_SCORE
+    ) {
+
+        document.getElementById(
+            "status"
+        ).textContent =
+            "🔥 Đã đạt tối đa 24 điểm hôm nay.";
+
+        return;
+
+    }
+
+
+    if (!data.exerciseTimerActive) {
+
+        data.exerciseTimerActive =
+            true;
+
+        data.exerciseTimerStart =
+            Date.now();
+
+    }
+
+
+    saveData();
+
+    updateSessionButtons();
+
+    updateTimer();
+
+    startTimerLoop();
+
+
+    document.getElementById(
+        "status"
+    ).textContent =
+        "🏋️ Đang tính thời gian tập luyện...";
+
+}
+
+
+/* =====================================================
+   PAUSE TIMER TẬP
+===================================================== */
+
+function pauseExerciseTimer() {
+
+    if (!data.exerciseTimerActive) {
+
+        return;
+
+    }
+
+
+    data.exerciseTimerSavedSeconds =
+        getExerciseTimerSeconds();
+
+
+    data.exerciseTimerStart =
+        null;
+
+
+    data.exerciseTimerActive =
+        false;
+
+
+    saveData();
+
+    updateTimer();
+
+    updateSessionButtons();
+
+
+    document.getElementById(
+        "status"
+    ).textContent =
+        "⏸️ Đã dừng thời gian tập luyện. Bấm lại để tiếp tục.";
+
+    updateTimerLoopState();
+
+}
+
+
+/* =====================================================
+   TOGGLE TẬP
 ===================================================== */
 
 function toggleExercise() {
@@ -3026,35 +3411,36 @@ function toggleExercise() {
 
 
     if (
-        data.activeSessionType ===
-        "exercise" &&
-        data.activeSessionStart
+        data.exerciseTimerActive
     ) {
 
-        pauseSession();
+        pauseExerciseTimer();
 
         return;
 
     }
 
 
-    startSession("exercise");
+    startExerciseTimer();
 
 }
 
 
 /* =====================================================
-   RESET TIMER
+   RESET TIMER HỌC
 ===================================================== */
 
-function resetCurrentSession() {
+function resetStudyTimer() {
 
-    if (!data.activeSessionType) {
+    if (
+        !data.studyTimerActive &&
+        !data.studyTimerSavedSeconds
+    ) {
 
         document.getElementById(
             "status"
         ).textContent =
-            "ℹ️ Không có phiên timer nào.";
+            "ℹ️ Đồng hồ học đã ở 00:00:00.";
 
         return;
 
@@ -3063,7 +3449,7 @@ function resetCurrentSession() {
 
     if (
         !confirm(
-            "Reset toàn bộ điểm do phiên timer hiện tại tạo ra?"
+            "Reset thời gian học về 00:00:00?\n\nĐiểm đã kiếm được sẽ KHÔNG bị mất."
         )
     ) {
 
@@ -3072,139 +3458,94 @@ function resetCurrentSession() {
     }
 
 
-    if (
-        data.activeSessionType ===
-        "study"
-    ) {
+    data.studyTimerActive =
+        false;
 
-        const points =
-            Math.min(
-                data.timerStudyPointsToday,
-                data.myStudyPoints
-            );
-
-
-        data.myStudyPoints -=
-            points;
-
-
-        data.myTodayScore =
-            Math.max(
-                0,
-                data.myTodayScore -
-                points
-            );
-
-
-        data.myAccumulatedStudy =
-            Math.max(
-                0,
-                data.myAccumulatedStudy -
-                points
-            );
-
-
-        data.myAccumulated =
-            Math.max(
-                0,
-                data.myAccumulated -
-                points
-            );
-
-
-        data.timerStudyPointsToday =
-            Math.max(
-                0,
-                data.timerStudyPointsToday -
-                points
-            );
-
-    }
-
-
-    if (
-        data.activeSessionType ===
-        "exercise"
-    ) {
-
-        const points =
-            Math.min(
-                data.timerExercisePointsToday,
-                data.myExercisePoints
-            );
-
-
-        data.myExercisePoints -=
-            points;
-
-
-        data.myTodayScore =
-            Math.max(
-                0,
-                data.myTodayScore -
-                points
-            );
-
-
-        data.myAccumulatedExercise =
-            Math.max(
-                0,
-                data.myAccumulatedExercise -
-                points
-            );
-
-
-        data.myAccumulated =
-            Math.max(
-                0,
-                data.myAccumulated -
-                points
-            );
-
-
-        data.timerExercisePointsToday =
-            Math.max(
-                0,
-                data.timerExercisePointsToday -
-                points
-            );
-
-    }
-
-
-    data.activeSessionType =
+    data.studyTimerStart =
         null;
 
-    data.activeSessionStart =
-        null;
-
-    data.savedSessionSeconds =
+    data.studyTimerSavedSeconds =
         0;
 
-    data.lastCreditedSessionHours =
+    data.studyTimerCreditedHours =
         0;
 
-
-    stopTimerLoop();
 
     saveData();
 
-
-    document.getElementById(
-        "timer"
-    ).textContent =
-        "00:00:00";
-
-
-    updateDisplay();
+    updateTimer();
 
     updateSessionButtons();
+
+    updateTimerLoopState();
 
 
     document.getElementById(
         "status"
     ).textContent =
-        "↻ Đã RESET điểm do timer tạo.";
+        "↻ Đã RESET đồng hồ học. Điểm đã kiếm được vẫn được giữ nguyên.";
+
+}
+
+
+/* =====================================================
+   RESET TIMER TẬP
+===================================================== */
+
+function resetExerciseTimer() {
+
+    if (
+        !data.exerciseTimerActive &&
+        !data.exerciseTimerSavedSeconds
+    ) {
+
+        document.getElementById(
+            "status"
+        ).textContent =
+            "ℹ️ Đồng hồ tập luyện đã ở 00:00:00.";
+
+        return;
+
+    }
+
+
+    if (
+        !confirm(
+            "Reset thời gian tập luyện về 00:00:00?\n\nĐiểm đã kiếm được sẽ KHÔNG bị mất."
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    data.exerciseTimerActive =
+        false;
+
+    data.exerciseTimerStart =
+        null;
+
+    data.exerciseTimerSavedSeconds =
+        0;
+
+    data.exerciseTimerCreditedHours =
+        0;
+
+
+    saveData();
+
+    updateTimer();
+
+    updateSessionButtons();
+
+    updateTimerLoopState();
+
+
+    document.getElementById(
+        "status"
+    ).textContent =
+        "↻ Đã RESET đồng hồ tập luyện. Điểm đã kiếm được vẫn được giữ nguyên.";
 
 }
 
@@ -3231,6 +3572,10 @@ function startTimerLoop() {
 }
 
 
+/* =====================================================
+   DỪNG TIMER LOOP KHI KHÔNG CÒN TIMER CHẠY
+===================================================== */
+
 function stopTimerLoop() {
 
     if (timerInterval) {
@@ -3247,6 +3592,30 @@ function stopTimerLoop() {
 
 
 /* =====================================================
+   KIỂM TRA TRẠNG THÁI TIMER LOOP
+===================================================== */
+
+function updateTimerLoopState() {
+
+    if (
+        data.studyTimerActive ||
+        data.exerciseTimerActive
+    ) {
+
+        startTimerLoop();
+
+    }
+
+    else {
+
+        stopTimerLoop();
+
+    }
+
+}
+
+
+/* =====================================================
    CẬP NHẬT TIMER
 ===================================================== */
 
@@ -3255,134 +3624,298 @@ function updateTimer() {
     checkNewDay();
 
 
-    const seconds =
-        getSessionSeconds();
+    const studySeconds =
+        getStudyTimerSeconds();
+
+
+    const exerciseSeconds =
+        getExerciseTimerSeconds();
 
 
     document.getElementById(
-        "timer"
+        "studyTimer"
     ).textContent =
-        formatTime(seconds);
-
-
-    if (
-        !data.activeSessionType ||
-        !data.activeSessionStart
-    ) {
-
-        return;
-
-    }
-
-
-    const earnedHours =
-        Math.floor(
-            seconds / 3600
+        formatTime(
+            studySeconds
         );
 
 
+    document.getElementById(
+        "exerciseTimer"
+    ).textContent =
+        formatTime(
+            exerciseSeconds
+        );
+
+
+    /*
+       ==================================================
+       TÍNH ĐIỂM TIMER HỌC
+       ==================================================
+    */
+
     if (
-        earnedHours >
-        data.lastCreditedSessionHours
+        data.studyTimerActive &&
+        data.studyTimerStart
     ) {
 
-        const newHours =
-            earnedHours -
-            data.lastCreditedSessionHours;
-
-
-        const available =
-            MAX_SCORE -
-            data.myTodayScore;
-
-
-        const pointsToAdd =
-            Math.min(
-                newHours,
-                available
+        const earnedHours =
+            Math.floor(
+                studySeconds / 3600
             );
 
 
-        if (pointsToAdd > 0) {
+        if (
+            earnedHours >
+            data.studyTimerCreditedHours
+        ) {
 
-            data.myTodayScore +=
-                pointsToAdd;
+            const newHours =
+                earnedHours -
+                data.studyTimerCreditedHours;
+
+
+            const available =
+                MAX_SCORE -
+                data.myTodayScore;
+
+
+            const pointsToAdd =
+                Math.min(
+                    newHours,
+                    available
+                );
 
 
             if (
-                data.activeSessionType ===
-                "study"
+                pointsToAdd > 0
             ) {
+
+                data.myTodayScore +=
+                    pointsToAdd;
+
 
                 data.myStudyPoints +=
                     pointsToAdd;
 
+
                 data.myAccumulatedStudy +=
                     pointsToAdd;
+
+
+                data.myAccumulated +=
+                    pointsToAdd;
+
 
                 data.timerStudyPointsToday +=
                     pointsToAdd;
 
+
+                data.studyTimerCreditedHours +=
+                    pointsToAdd;
+
+
+                saveData();
+
+                updateDisplay();
+
+
+                document.getElementById(
+                    "status"
+                ).textContent =
+                    "⭐ +" +
+                    pointsToAdd +
+                    " điểm học!";
+
+
             }
 
-            else {
 
-                data.myExercisePoints +=
-                    pointsToAdd;
+            /*
+               Nếu chưa đủ điểm vì tổng đã đạt 24,
+               vẫn đánh dấu số giờ đã xử lý để
+               không cộng lại liên tục.
+            */
 
-                data.myAccumulatedExercise +=
-                    pointsToAdd;
+            if (
+                pointsToAdd <
+                newHours
+            ) {
 
-                data.timerExercisePointsToday +=
-                    pointsToAdd;
+                data.studyTimerCreditedHours +=
+                    (
+                        newHours -
+                        pointsToAdd
+                    );
 
             }
 
 
-            data.myAccumulated +=
-                pointsToAdd;
+            if (
+                data.myTodayScore >=
+                MAX_SCORE
+            ) {
+
+                data.studyTimerSavedSeconds =
+                    getStudyTimerSeconds();
+
+                data.studyTimerStart =
+                    null;
+
+                data.studyTimerActive =
+                    false;
 
 
-            data.lastCreditedSessionHours +=
-                pointsToAdd;
+                saveData();
+
+                updateSessionButtons();
+
+                updateTimerLoopState();
 
 
-            saveData();
+                document.getElementById(
+                    "status"
+                ).textContent =
+                    "🔥 Đã đạt tối đa 24 điểm hôm nay.";
 
-            updateDisplay();
-
-
-            document.getElementById(
-                "status"
-            ).textContent =
-                "⭐ +" +
-                pointsToAdd +
-                (
-                    data.activeSessionType ===
-                    "study"
-                        ? " điểm học!"
-                        : " điểm tập luyện!"
-                );
-
-        }
-
-
-        if (
-            data.myTodayScore >=
-            MAX_SCORE
-        ) {
-
-            pauseSession();
-
-
-            document.getElementById(
-                "status"
-            ).textContent =
-                "🔥 Đã đạt tối đa 24 điểm hôm nay.";
+            }
 
         }
 
     }
+
+
+    /*
+       ==================================================
+       TÍNH ĐIỂM TIMER TẬP
+       ==================================================
+    */
+
+    if (
+        data.exerciseTimerActive &&
+        data.exerciseTimerStart
+    ) {
+
+        const earnedHours =
+            Math.floor(
+                exerciseSeconds / 3600
+            );
+
+
+        if (
+            earnedHours >
+            data.exerciseTimerCreditedHours
+        ) {
+
+            const newHours =
+                earnedHours -
+                data.exerciseTimerCreditedHours;
+
+
+            const available =
+                MAX_SCORE -
+                data.myTodayScore;
+
+
+            const pointsToAdd =
+                Math.min(
+                    newHours,
+                    available
+                );
+
+
+            if (
+                pointsToAdd > 0
+            ) {
+
+                data.myTodayScore +=
+                    pointsToAdd;
+
+
+                data.myExercisePoints +=
+                    pointsToAdd;
+
+
+                data.myAccumulatedExercise +=
+                    pointsToAdd;
+
+
+                data.myAccumulated +=
+                    pointsToAdd;
+
+
+                data.timerExercisePointsToday +=
+                    pointsToAdd;
+
+
+                data.exerciseTimerCreditedHours +=
+                    pointsToAdd;
+
+
+                saveData();
+
+                updateDisplay();
+
+
+                document.getElementById(
+                    "status"
+                ).textContent =
+                    "⭐ +" +
+                    pointsToAdd +
+                    " điểm tập luyện!";
+
+            }
+
+
+            if (
+                pointsToAdd <
+                newHours
+            ) {
+
+                data.exerciseTimerCreditedHours +=
+                    (
+                        newHours -
+                        pointsToAdd
+                    );
+
+            }
+
+
+            if (
+                data.myTodayScore >=
+                MAX_SCORE
+            ) {
+
+                data.exerciseTimerSavedSeconds =
+                    getExerciseTimerSeconds();
+
+                data.exerciseTimerStart =
+                    null;
+
+                data.exerciseTimerActive =
+                    false;
+
+
+                saveData();
+
+                updateSessionButtons();
+
+                updateTimerLoopState();
+
+
+                document.getElementById(
+                    "status"
+                ).textContent =
+                    "🔥 Đã đạt tối đa 24 điểm hôm nay.";
+
+            }
+
+        }
+
+    }
+
+
+    updateSessionButtons();
 
 }
 
@@ -3405,37 +3938,25 @@ function updateSessionButtons() {
         );
 
 
-    if (!data.activeSessionType) {
-
-        studyBtn.textContent =
-            "▶ BẮT ĐẦU HỌC";
-
-
-        exerciseBtn.textContent =
-            "🏋️ BẮT ĐẦU TẬP LUYỆN";
-
-        return;
-
-    }
-
-
-    const paused =
-        !data.activeSessionStart;
-
+    /*
+       TIMER HỌC
+    */
 
     if (
-        data.activeSessionType ===
-        "study"
+        data.studyTimerActive
     ) {
 
         studyBtn.textContent =
-            paused
-                ? "▶ TIẾP TỤC HỌC"
-                : "⏸ DỪNG HỌC";
+            "⏸ DỪNG HỌC";
 
+    }
 
-        exerciseBtn.textContent =
-            "🏋️ BẮT ĐẦU TẬP LUYỆN";
+    else if (
+        data.studyTimerSavedSeconds > 0
+    ) {
+
+        studyBtn.textContent =
+            "▶ TIẾP TỤC HỌC";
 
     }
 
@@ -3444,11 +3965,35 @@ function updateSessionButtons() {
         studyBtn.textContent =
             "▶ BẮT ĐẦU HỌC";
 
+    }
+
+
+    /*
+       TIMER TẬP
+    */
+
+    if (
+        data.exerciseTimerActive
+    ) {
 
         exerciseBtn.textContent =
-            paused
-                ? "▶ TIẾP TỤC TẬP LUYỆN"
-                : "⏸ DỪNG TẬP LUYỆN";
+            "⏸ DỪNG TẬP LUYỆN";
+
+    }
+
+    else if (
+        data.exerciseTimerSavedSeconds > 0
+    ) {
+
+        exerciseBtn.textContent =
+            "▶ TIẾP TỤC TẬP LUYỆN";
+
+    }
+
+    else {
+
+        exerciseBtn.textContent =
+            "🏋️ BẮT ĐẦU TẬP LUYỆN";
 
     }
 
@@ -4448,7 +4993,9 @@ function deleteAllData() {
 
             "Điểm 2 người chơi mới\n" +
 
-            "Thời gian timer\n" +
+            "Thời gian timer học\n" +
+
+            "Thời gian timer tập\n" +
 
             "Ngày bắt đầu\n\n" +
 
@@ -4491,7 +5038,13 @@ function deleteAllData() {
 
 
     document.getElementById(
-        "timer"
+        "studyTimer"
+    ).textContent =
+        "00:00:00";
+
+
+    document.getElementById(
+        "exerciseTimer"
     ).textContent =
         "00:00:00";
 
@@ -5019,11 +5572,17 @@ function setupFirebaseSync(
 
 
                 if (
-                    data.activeSessionType &&
-                    data.activeSessionStart
+                    data.studyTimerActive ||
+                    data.exerciseTimerActive
                 ) {
 
                     startTimerLoop();
+
+                }
+
+                else {
+
+                    stopTimerLoop();
 
                 }
 
@@ -5178,8 +5737,8 @@ updateTimer();
 
 
 if (
-    data.activeSessionType &&
-    data.activeSessionStart
+    data.studyTimerActive ||
+    data.exerciseTimerActive
 ) {
 
     startTimerLoop();
