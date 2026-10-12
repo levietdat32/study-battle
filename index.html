@@ -1132,6 +1132,106 @@ button:disabled {
 }
 
 
+
+/* =====================================================
+   NHIỆM VỤ HẰNG NGÀY
+===================================================== */
+
+.daily-task-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.daily-task-box {
+    background: #111318;
+    border-radius: 16px;
+    padding: 15px;
+    text-align: center;
+}
+
+/* NHIỆM VỤ HẰNG NGÀY - GIAO DIỆN SÁNG */
+body.light .daily-task-box {
+    background: #ffffff;
+    color: #111827;
+    border: 1px solid #e5e7eb;
+}
+
+body.light .daily-task-time {
+    color: #6b7280;
+}
+
+body.light .daily-task-progress {
+    background: #d1d5db;
+}
+
+body.light .daily-task-status {
+    color: #6b7280;
+}
+
+.daily-task-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.daily-task-time {
+    color: #aaa;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.daily-task-display {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.daily-task-progress {
+    height: 10px;
+    background: #30343d;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.daily-task-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #22c55e;
+    transition: width 0.3s;
+}
+
+.daily-task-status {
+    min-height: 20px;
+    color: #aaa;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.daily-task-completed {
+    color: #22c55e;
+    font-weight: bold;
+}
+
+.daily-task-locked {
+    color: #ef4444;
+}
+
+.daily-task-btn {
+    font-size: 14px;
+    padding: 12px 8px;
+}
+
+@media (max-width: 600px) {
+
+    .daily-task-container {
+        grid-template-columns: 1fr;
+    }
+
+}
+
 /* =====================================================
    RESPONSIVE
 ===================================================== */
@@ -1448,6 +1548,81 @@ Tối đa: 24 điểm / ngày
 
 🏋️ Tập luyện:
 <b id="exercisePoints">0</b>
+
+</div>
+
+
+</div>
+
+
+<!-- =====================================================
+     NHIỆM VỤ HẰNG NGÀY
+===================================================== -->
+
+<div class="card">
+
+<div class="small">
+NHIỆM VỤ HẰNG NGÀY
+</div>
+
+<div class="small" style="margin-top:8px;">
+Bấm kích hoạt trong 10 phút đầu của mỗi khung giờ.
+Mỗi 1 giờ hoàn thành = 1 điểm.
+</div>
+
+<div class="daily-task-container">
+
+<div class="daily-task-box">
+<div class="daily-task-title">📚 Học bài</div>
+<div class="daily-task-time">03:00 - 06:00</div>
+<div class="daily-task-display" id="dailyTaskTimer0">03:00:00</div>
+<div class="daily-task-progress">
+<div class="daily-task-progress-bar" id="dailyTaskProgress0"></div>
+</div>
+<button class="start daily-task-btn" id="dailyTaskBtn0" onclick="activateDailyTask(0)">
+▶ KÍCH HOẠT
+</button>
+<div class="daily-task-status" id="dailyTaskStatus0"></div>
+</div>
+
+<div class="daily-task-box">
+<div class="daily-task-title">📚 Học bài</div>
+<div class="daily-task-time">07:00 - 11:00</div>
+<div class="daily-task-display" id="dailyTaskTimer1">04:00:00</div>
+<div class="daily-task-progress">
+<div class="daily-task-progress-bar" id="dailyTaskProgress1"></div>
+</div>
+<button class="start daily-task-btn" id="dailyTaskBtn1" onclick="activateDailyTask(1)">
+▶ KÍCH HOẠT
+</button>
+<div class="daily-task-status" id="dailyTaskStatus1"></div>
+</div>
+
+<div class="daily-task-box">
+<div class="daily-task-title">📚 Học bài</div>
+<div class="daily-task-time">13:00 - 17:00</div>
+<div class="daily-task-display" id="dailyTaskTimer2">04:00:00</div>
+<div class="daily-task-progress">
+<div class="daily-task-progress-bar" id="dailyTaskProgress2"></div>
+</div>
+<button class="start daily-task-btn" id="dailyTaskBtn2" onclick="activateDailyTask(2)">
+▶ KÍCH HOẠT
+</button>
+<div class="daily-task-status" id="dailyTaskStatus2"></div>
+</div>
+
+<div class="daily-task-box">
+<div class="daily-task-title">📚 Học bài</div>
+<div class="daily-task-time">19:00 - 24:00</div>
+<div class="daily-task-display" id="dailyTaskTimer3">05:00:00</div>
+<div class="daily-task-progress">
+<div class="daily-task-progress-bar" id="dailyTaskProgress3"></div>
+</div>
+<button class="start daily-task-btn" id="dailyTaskBtn3" onclick="activateDailyTask(3)">
+▶ KÍCH HOẠT
+</button>
+<div class="daily-task-status" id="dailyTaskStatus3"></div>
+</div>
 
 </div>
 
@@ -2020,6 +2195,58 @@ const STORAGE_KEY =
    DỮ LIỆU MẶC ĐỊNH
 ===================================================== */
 
+
+const DAILY_TASK_CONFIG = [
+    {
+        title: "📚 Học bài",
+        startHour: 3,
+        startMinute: 0,
+        durationHours: 3,
+        label: "03:00 - 06:00"
+    },
+    {
+        title: "📚 Học bài",
+        startHour: 7,
+        startMinute: 0,
+        durationHours: 4,
+        label: "07:00 - 11:00"
+    },
+    {
+        title: "📚 Học bài",
+        startHour: 13,
+        startMinute: 0,
+        durationHours: 4,
+        label: "13:00 - 17:00"
+    },
+    {
+        title: "📚 Học bài",
+        startHour: 19,
+        startMinute: 0,
+        durationHours: 5,
+        label: "19:00 - 24:00"
+    }
+];
+
+
+function createDefaultDailyTasks() {
+
+    return DAILY_TASK_CONFIG.map(
+        function(task) {
+
+            return {
+                active: false,
+                start: null,
+                savedSeconds: 0,
+                creditedHours: 0,
+                completed: false
+            };
+
+        }
+    );
+
+}
+
+
 function createDefaultData() {
 
     return {
@@ -2124,6 +2351,13 @@ function createDefaultData() {
 
 
         /* =============================================
+           NHIỆM VỤ HẰNG NGÀY
+        ============================================= */
+
+        dailyTasks: createDefaultDailyTasks(),
+
+
+        /* =============================================
            BIẾN TIMER CŨ - GIỮ LẠI ĐỂ TƯƠNG THÍCH
         ============================================= */
 
@@ -2225,6 +2459,41 @@ function repairData() {
 
         }
     );
+
+
+    if (
+        !Array.isArray(data.dailyTasks) ||
+        data.dailyTasks.length !== DAILY_TASK_CONFIG.length
+    ) {
+
+        data.dailyTasks =
+            createDefaultDailyTasks();
+
+    }
+
+
+    data.dailyTasks =
+        DAILY_TASK_CONFIG.map(
+            function(task, index) {
+
+                const old =
+                    data.dailyTasks[index] || {};
+
+                return {
+                    active:
+                        old.active === true,
+                    start:
+                        old.start || null,
+                    savedSeconds:
+                        Number(old.savedSeconds) || 0,
+                    creditedHours:
+                        Number(old.creditedHours) || 0,
+                    completed:
+                        old.completed === true
+                };
+
+            }
+        );
 
 
     data.elonTodayScore =
@@ -2795,6 +3064,10 @@ function checkNewDay() {
         0;
 
 
+    data.dailyTasks =
+        createDefaultDailyTasks();
+
+
     stopTimerLoop();
 
     updateFixedPlayersAccumulation();
@@ -3009,6 +3282,12 @@ function updateClock() {
         updateSessionButtons();
 
         updateTimer();
+
+    }
+
+    else {
+
+        updateDailyTasksUI();
 
     }
 
@@ -3597,9 +3876,19 @@ function stopTimerLoop() {
 
 function updateTimerLoopState() {
 
+    const dailyTaskActive =
+        Array.isArray(data.dailyTasks) &&
+        data.dailyTasks.some(
+            function(task) {
+                return task.active;
+            }
+        );
+
+
     if (
         data.studyTimerActive ||
-        data.exerciseTimerActive
+        data.exerciseTimerActive ||
+        dailyTaskActive
     ) {
 
         startTimerLoop();
@@ -3915,14 +4204,498 @@ function updateTimer() {
     }
 
 
+
+    /*
+       ==================================================
+       XỬ LÝ NHIỆM VỤ HẰNG NGÀY
+       ==================================================
+    */
+
+    let dailyTaskChanged =
+        false;
+
+    if (Array.isArray(data.dailyTasks)) {
+
+        data.dailyTasks.forEach(
+            function(task, index) {
+
+                if (!task.active || !task.start) {
+                    return;
+                }
+
+                const config =
+                    DAILY_TASK_CONFIG[index];
+
+                const maxSeconds =
+                    config.durationHours * 3600;
+
+                const elapsed =
+                    Math.min(
+                        maxSeconds,
+                        Math.max(
+                            0,
+                            Math.floor(
+                                (
+                                    Date.now() -
+                                    task.start
+                                ) / 1000
+                            ) +
+                            (task.savedSeconds || 0)
+                        )
+                    );
+
+                const earnedHours =
+                    Math.floor(
+                        elapsed / 3600
+                    );
+
+                if (
+                    earnedHours >
+                    task.creditedHours
+                ) {
+
+                    const newHours =
+                        earnedHours -
+                        task.creditedHours;
+
+                    const available =
+                        Math.max(
+                            0,
+                            MAX_SCORE -
+                            data.myTodayScore
+                        );
+
+                    const pointsToAdd =
+                        Math.min(
+                            newHours,
+                            available
+                        );
+
+                    if (pointsToAdd > 0) {
+
+                        data.myTodayScore +=
+                            pointsToAdd;
+
+                        data.myStudyPoints +=
+                            pointsToAdd;
+
+                        data.myAccumulatedStudy +=
+                            pointsToAdd;
+
+                        data.myAccumulated +=
+                            pointsToAdd;
+
+                    }
+
+                    task.creditedHours =
+                        earnedHours;
+
+                    dailyTaskChanged =
+                        true;
+
+                }
+
+                if (elapsed >= maxSeconds) {
+
+                    task.savedSeconds =
+                        maxSeconds;
+
+                    task.start =
+                        null;
+
+                    task.active =
+                        false;
+
+                    task.completed =
+                        true;
+
+                    dailyTaskChanged =
+                        true;
+
+                }
+
+            }
+        );
+
+    }
+
+
+    if (dailyTaskChanged) {
+
+        saveData();
+
+        updateDisplay();
+
+    }
+
+
+    updateDailyTasksUI();
+
+
     updateSessionButtons();
 
-}
 
+}
 
 /* =====================================================
    NÚT TIMER
 ===================================================== */
+
+
+function getDailyTaskElapsedSeconds(index) {
+
+    if (!data.dailyTasks || !data.dailyTasks[index]) {
+        return 0;
+    }
+
+    const task =
+        data.dailyTasks[index];
+
+    const config =
+        DAILY_TASK_CONFIG[index];
+
+    const maxSeconds =
+        config.durationHours * 3600;
+
+    if (!task.active || !task.start) {
+
+        return Math.min(
+            maxSeconds,
+            Number(task.savedSeconds) || 0
+        );
+
+    }
+
+    return Math.min(
+        maxSeconds,
+        Math.max(
+            0,
+            Math.floor(
+                (
+                    Date.now() -
+                    task.start
+                ) / 1000
+            ) +
+            (task.savedSeconds || 0)
+        )
+    );
+
+}
+
+
+function getDailyTaskWindow(index) {
+
+    const config =
+        DAILY_TASK_CONFIG[index];
+
+    const now =
+        new Date();
+
+    const start =
+        new Date();
+
+    start.setHours(
+        config.startHour,
+        config.startMinute,
+        0,
+        0
+    );
+
+    const end =
+        new Date(start.getTime() + 10 * 60 * 1000);
+
+    return {
+        now: now,
+        start: start,
+        end: end
+    };
+
+}
+
+
+function activateDailyTask(index) {
+
+    checkNewDay();
+
+    const task =
+        data.dailyTasks[index];
+
+    const config =
+        DAILY_TASK_CONFIG[index];
+
+    if (!task || !config) {
+        return;
+    }
+
+    if (task.completed) {
+
+        document.getElementById(
+            "dailyTaskStatus" + index
+        ).textContent =
+            "✅ Nhiệm vụ hôm nay đã hoàn thành.";
+
+        return;
+
+    }
+
+    if (task.active) {
+        return;
+    }
+
+    if (
+        data.myTodayScore >=
+        MAX_SCORE
+    ) {
+
+        document.getElementById(
+            "dailyTaskStatus" + index
+        ).textContent =
+            "🔥 Đã đạt tối đa 24 điểm hôm nay.";
+
+        return;
+
+    }
+
+
+    if (data.studyTimerActive) {
+
+        document.getElementById(
+            "dailyTaskStatus" + index
+        ).textContent =
+            "⚠️ Hãy dừng bộ đếm HỌC trước khi kích hoạt nhiệm vụ.";
+
+        return;
+
+    }
+
+
+    const window =
+        getDailyTaskWindow(index);
+
+    if (
+        window.now < window.start ||
+        window.now > window.end
+    ) {
+
+        document.getElementById(
+            "dailyTaskStatus" + index
+        ).textContent =
+            "🔒 Chỉ được kích hoạt trong 10 phút đầu.";
+
+        return;
+
+    }
+
+    task.active =
+        true;
+
+    task.start =
+        Date.now();
+
+    task.savedSeconds =
+        0;
+
+    task.creditedHours =
+        0;
+
+    saveData();
+
+    updateDailyTasksUI();
+
+    startTimerLoop();
+
+    document.getElementById(
+        "status"
+    ).textContent =
+        "📚 Đã kích hoạt nhiệm vụ " +
+        config.label +
+        ".";
+
+}
+
+
+function updateDailyTasksUI() {
+
+    if (!Array.isArray(data.dailyTasks)) {
+        return;
+    }
+
+    data.dailyTasks.forEach(
+        function(task, index) {
+
+            const config =
+                DAILY_TASK_CONFIG[index];
+
+            const timer =
+                document.getElementById(
+                    "dailyTaskTimer" + index
+                );
+
+            const progress =
+                document.getElementById(
+                    "dailyTaskProgress" + index
+                );
+
+            const button =
+                document.getElementById(
+                    "dailyTaskBtn" + index
+                );
+
+            const status =
+                document.getElementById(
+                    "dailyTaskStatus" + index
+                );
+
+            if (
+                !timer ||
+                !progress ||
+                !button ||
+                !status
+            ) {
+                return;
+            }
+
+            const maxSeconds =
+                config.durationHours * 3600;
+
+            const elapsed =
+                getDailyTaskElapsedSeconds(index);
+
+            const remaining =
+                Math.max(
+                    0,
+                    maxSeconds - elapsed
+                );
+
+            timer.textContent =
+                formatTime(
+                    remaining
+                );
+
+            progress.style.width =
+                Math.min(
+                    100,
+                    (
+                        elapsed /
+                        maxSeconds
+                    ) * 100
+                ) + "%";
+
+            button.disabled =
+                false;
+
+            button.classList.remove(
+                "reset"
+            );
+
+            if (task.active) {
+
+                button.textContent =
+                    "⏳ ĐANG CHẠY";
+
+                button.disabled =
+                    true;
+
+                status.className =
+                    "daily-task-status";
+
+                status.textContent =
+                    "Đang thực hiện • " +
+                    task.creditedHours +
+                    "/" +
+                    config.durationHours +
+                    " điểm";
+
+                return;
+
+            }
+
+            if (task.completed) {
+
+                timer.textContent =
+                    "00:00:00";
+
+                progress.style.width =
+                    "100%";
+
+                button.textContent =
+                    "✅ ĐÃ HOÀN THÀNH";
+
+                button.disabled =
+                    true;
+
+                status.className =
+                    "daily-task-status daily-task-completed";
+
+                status.textContent =
+                    "Hoàn thành • +" +
+                    task.creditedHours +
+                    " điểm";
+
+                return;
+
+            }
+
+            const window =
+                getDailyTaskWindow(index);
+
+            if (window.now < window.start) {
+
+                button.textContent =
+                    "🔒 CHƯA ĐẾN GIỜ";
+
+                button.disabled =
+                    true;
+
+                status.className =
+                    "daily-task-status";
+
+                status.textContent =
+                    "Mở lúc " +
+                    String(config.startHour).padStart(2, "0") +
+                    ":00 • Kích hoạt trong 10 phút";
+
+                return;
+
+            }
+
+            if (window.now <= window.end) {
+
+                button.textContent =
+                    "▶ KÍCH HOẠT";
+
+                button.disabled =
+                    false;
+
+                status.className =
+                    "daily-task-status";
+
+                status.textContent =
+                    "🟢 Có thể kích hoạt đến " +
+                    String(config.startHour).padStart(2, "0") +
+                    ":10";
+
+                return;
+
+            }
+
+            button.textContent =
+                "🔒 ĐÃ KHÓA";
+
+            button.disabled =
+                true;
+
+            status.className =
+                "daily-task-status daily-task-locked";
+
+            status.textContent =
+                "Đã quá 10 phút kích hoạt.";
+
+        }
+    );
+
+}
+
 
 function updateSessionButtons() {
 
@@ -5573,7 +6346,15 @@ function setupFirebaseSync(
 
                 if (
                     data.studyTimerActive ||
-                    data.exerciseTimerActive
+                    data.exerciseTimerActive ||
+                    (
+                        Array.isArray(data.dailyTasks) &&
+                        data.dailyTasks.some(
+                            function(task) {
+                                return task.active;
+                            }
+                        )
+                    )
                 ) {
 
                     startTimerLoop();
@@ -5735,10 +6516,20 @@ updateSessionButtons();
 
 updateTimer();
 
+updateDailyTasksUI();
+
 
 if (
     data.studyTimerActive ||
-    data.exerciseTimerActive
+    data.exerciseTimerActive ||
+    (
+        Array.isArray(data.dailyTasks) &&
+        data.dailyTasks.some(
+            function(task) {
+                return task.active;
+            }
+        )
+    )
 ) {
 
     startTimerLoop();
@@ -5786,8 +6577,8 @@ function applyTheme() {
 
         button.textContent =
             theme === "light"
-                ? "🌙"
-                : "☀️";
+                ? "GIAO DIỆN🌙"
+                : "GIAO DIỆN☀️";
 
     }
 
