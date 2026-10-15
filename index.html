@@ -1328,8 +1328,53 @@ body.light .daily-task-status {
 
 }
 
+
+/* =====================================================
+   BIỂU ĐỒ VÀ LỊCH SỬ ĐIỂM - PHẦN BỔ SUNG ĐỘC LẬP
+===================================================== */
+#studyHistoryCard { color: inherit; }
+#studyHistoryCard .sh-panel { background:#111318; border:1px solid #303846; border-radius:14px; padding:16px; margin-top:14px; }
+body.light #studyHistoryCard .sh-panel { background:#f9fafb; border-color:#d1d5db; }
+#studyHistoryCard .sh-head { display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; }
+#studyHistoryCard .sh-muted { color:#9aa4b2; font-size:13px; }
+body.light #studyHistoryCard .sh-muted { color:#6b7280; }
+#studyHistoryCard .sh-summary { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin-top:14px; }
+#studyHistoryCard .sh-metric { background:rgba(127,127,127,.10); border:1px solid #303846; border-radius:10px; padding:12px; }
+body.light #studyHistoryCard .sh-metric { border-color:#d1d5db; }
+#studyHistoryCard .sh-metric b { display:block; font-size:21px; margin-top:7px; color:#22c55e; }
+#studyHistoryCard .sh-chart-wrap { height:300px; position:relative; margin-top:16px; touch-action:pan-y; }
+#studyHistoryCard .sh-controls { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+#studyHistoryCard select, #studyHistoryCard button { background:#303846; color:#fff; border:1px solid #475569; border-radius:9px; padding:9px 10px; font-size:13px; }
+body.light #studyHistoryCard select, body.light #studyHistoryCard button { background:#e5e7eb; color:#111827; border-color:#d1d5db; }
+#studyHistoryCard .sh-tooltip { min-height:18px; margin-top:12px; }
+#studyHistoryCard .sh-entry { border:1px solid #303846; border-radius:11px; margin-top:10px; overflow:hidden; }
+body.light #studyHistoryCard .sh-entry { border-color:#d1d5db; }
+#studyHistoryCard .sh-entry-head { display:grid; grid-template-columns:1.1fr 1fr 1fr auto; gap:10px; align-items:center; padding:12px; cursor:pointer; }
+#studyHistoryCard .sh-entry-head:hover { background:rgba(127,127,127,.12); }
+#studyHistoryCard .sh-points { font-size:19px; font-weight:bold; }
+#studyHistoryCard .sh-pill { display:inline-block; border-radius:20px; padding:5px 8px; font-size:10px; font-weight:bold; margin-top:5px; }
+#studyHistoryCard .sh-ok { background:#064e3b; color:#6ee7b7; }
+#studyHistoryCard .sh-bad { background:#4c1d2b; color:#fda4af; }
+#studyHistoryCard .sh-detail { display:none; padding:12px; border-top:1px solid #303846; }
+#studyHistoryCard .sh-entry.open .sh-detail { display:block; }
+#studyHistoryCard .sh-task-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+#studyHistoryCard .sh-task { padding:11px; border:1px solid #303846; border-radius:9px; }
+#studyHistoryCard .sh-green { color:#22c55e; }
+#studyHistoryCard .sh-red { color:#ef4444; }
+#studyHistoryCard .sh-empty { text-align:center; padding:22px; color:#9aa4b2; }
+#studyHistoryCard .sh-list { max-height:600px; overflow-y:auto; }
+#studyHistoryCard .sh-foot { color:#9aa4b2; font-size:12px; line-height:1.6; margin-top:12px; }
+@media(max-width:600px) {
+ #studyHistoryCard .sh-summary { grid-template-columns:1fr 1fr; }
+ #studyHistoryCard .sh-chart-wrap { height:250px; }
+ #studyHistoryCard .sh-entry-head { grid-template-columns:1fr 1fr; }
+ #studyHistoryCard .sh-task-grid { grid-template-columns:1fr; }
+ #studyHistoryCard .sh-entry-head .sh-chevron { display:none; }
+}
+
 </style>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 
@@ -1835,6 +1880,69 @@ THANG THỜI GIAN TÍNH ĐIỂM
 
 </div>
 
+</div>
+
+
+
+<!-- =====================================================
+     BIỂU ĐỒ VÀ LỊCH SỬ ĐIỂM HẰNG NGÀY
+     Đặt ngay trước NHẬP ĐIỂM / XÓA DỮ LIỆU
+===================================================== -->
+<div class="card" id="studyHistoryCard">
+    <h2 class="section-title">📈 BIỂU ĐỒ VÀ LỊCH SỬ ĐIỂM HẰNG NGÀY</h2>
+    <div class="sh-muted">Mỗi ngày một điểm riêng, không cộng dồn. Ngày chỉ được ghi vào lịch sử sau khi kết thúc.</div>
+
+    <div class="sh-panel">
+        <div class="sh-head">
+            <h3 style="font-size:17px;margin:0;">Biểu đồ điểm theo ngày</h3>
+            <div class="sh-controls">
+                <label class="sh-muted">Biểu đồ
+                    <select id="shChartType">
+                        <option value="line">Đường</option>
+                        <option value="bar">Cột</option>
+                    </select>
+                </label>
+                <label class="sh-muted">Khoảng thời gian
+                    <select id="shRange">
+                        <option value="7">7 ngày</option>
+                        <option value="30" selected>30 ngày</option>
+                        <option value="all">Từ ngày bắt đầu</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+        <div class="sh-summary">
+            <div class="sh-metric"><span class="sh-muted">Ngày có dữ liệu</span><b id="shDays">0 ngày</b></div>
+            <div class="sh-metric"><span class="sh-muted">Điểm cao nhất</span><b id="shBest">0 điểm</b></div>
+            <div class="sh-metric"><span class="sh-muted">Điểm trung bình</span><b id="shAverage">0 điểm</b></div>
+        </div>
+        <div class="sh-chart-wrap"><canvas id="shScoreChart"></canvas></div>
+        <div id="shTooltip" class="sh-foot sh-tooltip">Chưa có dữ liệu điểm đã kết thúc.</div>
+        <div class="sh-foot">Rê chuột hoặc nhấn giữ/kéo trên biểu đồ để xem ngày và điểm. Nhấn điểm để mở chi tiết ngày đó.</div>
+    </div>
+
+    <div class="sh-panel">
+        <div class="sh-head">
+            <h3 style="font-size:17px;margin:0;">🗓️ Lịch sử từng ngày</h3>
+            <div class="sh-controls">
+                <label class="sh-muted">Hiển thị
+                    <select id="shHistoryRange">
+                        <option value="7" selected>7 ngày</option>
+                        <option value="30">30 ngày</option>
+                        <option value="all">Tất cả</option>
+                    </select>
+                </label>
+                <label class="sh-muted">Sắp xếp
+                    <select id="shSort">
+                        <option value="new">Mới nhất trước</option>
+                        <option value="old">Cũ nhất trước</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+        <div class="sh-list"><div id="shHistoryList" class="sh-empty">Chưa có lịch sử điểm.</div></div>
+        <div class="sh-foot">Lịch sử nằm trong dữ liệu chính studyBattleData nên được lưu cùng dữ liệu Firebase của ứng dụng.</div>
+    </div>
 </div>
 
 
@@ -2355,6 +2463,9 @@ function createDefaultData() {
         ============================================= */
 
         dailyTasks: createDefaultDailyTasks(),
+
+        // Lịch sử điểm từng ngày, đồng bộ cùng data/Firebase.
+        dailyHistory: {},
 
 
         /* =============================================
@@ -2956,6 +3067,9 @@ function checkNewDay() {
 
     }
 
+
+    // Lưu bản ghi của ngày vừa kết thúc TRƯỚC KHI reset điểm sang ngày mới.
+    captureClosedStudyDay();
 
     data.date =
         today;
@@ -6647,6 +6761,257 @@ if (
     );
 
 }
+
+
+/* =====================================================
+   BIỂU ĐỒ + LỊCH SỬ ĐIỂM HẰNG NGÀY
+   Bản ghi được lưu trong data.dailyHistory, không sửa logic điểm hiện có.
+===================================================== */
+let shChart = null;
+
+function shDateLabel(key) {
+    const p = String(key || "").split("-");
+    return p.length === 3 ? `${p[2]}/${p[1]}/${p[0]}` : key;
+}
+
+function captureClosedStudyDay() {
+    if (!data || !data.date || !data.startDate) return;
+
+    const dayKey = data.date;
+    const todayKey = getToday();
+
+    // Chỉ ghi ngày đã kết thúc, bắt đầu từ ngày tích lũy đã chọn.
+    if (dayKey >= todayKey || dayKey < data.startDate) return;
+
+    if (!data.dailyHistory || typeof data.dailyHistory !== "object") {
+        data.dailyHistory = {};
+    }
+
+    // Mỗi ngày chỉ được chốt một lần để không ghi đè dữ liệu cũ.
+    if (data.dailyHistory[dayKey]) return;
+
+    const tasks = Array.isArray(data.dailyTasks) ? data.dailyTasks : [];
+    const study = Math.max(0, Number(data.myStudyPoints) || 0);
+    const exercise = Math.max(0, Number(data.myExercisePoints) || 0);
+    const score = Math.max(0, Math.min(MAX_SCORE, study + exercise));
+
+    data.dailyHistory[dayKey] = {
+        date: dayKey,
+        score: score,
+        studyHours: study,
+        exerciseHours: exercise,
+        tasks: DAILY_TASK_CONFIG.map(function (task, i) {
+            const item = tasks[i] || {};
+            return {
+                label: task.label.replace(" - ", "–"),
+                name: task.title.replace("📚 ", ""),
+                completed: item.completed === true,
+                creditedHours: Math.max(0, Number(item.creditedHours) || 0),
+                status: item.completed === true ? "completed" : "incomplete"
+            };
+        }),
+        updatedAt: new Date().toISOString(),
+        source: "studyBattleData"
+    };
+}
+
+function shRecords() {
+    const source = data && data.dailyHistory && typeof data.dailyHistory === "object"
+        ? data.dailyHistory : {};
+    return Object.values(source)
+        .filter(function (item) {
+            return item && item.date && item.date >= (data.startDate || "0000-00-00") && item.date < getToday();
+        })
+        .sort(function (a, b) { return a.date.localeCompare(b.date); });
+}
+
+function shFilteredRecords(rangeId) {
+    let list = shRecords();
+    const range = document.getElementById(rangeId).value;
+    if (range !== "all") list = list.slice(-Number(range));
+    return list;
+}
+
+function shToggleEntry(element) {
+    element.classList.toggle("open");
+}
+
+function shEscape(value) {
+    return String(value == null ? "" : value).replace(/[&<>"']/g, function (c) {
+        return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+    });
+}
+
+function shRenderChart() {
+    const list = shFilteredRecords("shRange");
+    const labels = list.map(function (r) { return shDateLabel(r.date); });
+    const values = list.map(function (r) { return Math.max(0, Math.min(MAX_SCORE, Number(r.score) || 0)); });
+    const type = document.getElementById("shChartType").value;
+
+    document.getElementById("shDays").textContent = list.length + " ngày";
+    document.getElementById("shBest").textContent = (values.length ? Math.max.apply(null, values) : 0) + " điểm";
+    document.getElementById("shAverage").textContent = (values.length ? (values.reduce(function(a,b){return a+b;},0)/values.length).toFixed(1) : "0") + " điểm";
+
+    if (shChart) shChart.destroy();
+
+    const canvas = document.getElementById("shScoreChart");
+    if (!canvas || typeof Chart === "undefined") {
+        document.getElementById("shTooltip").textContent = "Không tải được thư viện biểu đồ. Hãy kiểm tra kết nối Internet.";
+        return;
+    }
+
+    const colors = values.map(function (v) { return v < 15 ? "#ef4444" : "#22c55e"; });
+    shChart = new Chart(canvas, {
+        type: type,
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Điểm trong ngày",
+                data: values,
+                borderColor: type === "line" ? "#3b82f6" : colors,
+                backgroundColor: type === "line" ? "rgba(59,130,246,.12)" : colors,
+                pointBackgroundColor: colors,
+                pointBorderColor: colors,
+                pointRadius: type === "line" ? 4 : 0,
+                pointHoverRadius: type === "line" ? 7 : 0,
+                pointHitRadius: 15,
+                borderWidth: type === "line" ? 3 : 1,
+                tension: .25,
+                fill: false,
+                maxBarThickness: 42
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: false,
+            interaction: { mode: "nearest", intersect: type === "bar", axis: "x" },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        title: function (items) { return items.length ? "Ngày: " + labels[items[0].dataIndex] : ""; },
+                        label: function (item) { return "Điểm: " + item.parsed.y + "/" + MAX_SCORE; },
+                        afterLabel: function (item) { return item.parsed.y < 15 ? "Chưa đạt mốc 15 điểm" : "Đạt mốc 15 điểm"; }
+                    }
+                }
+            },
+            scales: {
+                x: { ticks: { color: getComputedStyle(document.body).color, maxRotation: 0, autoSkip: true }, grid: { color: "rgba(148,163,184,.10)" } },
+                y: { beginAtZero: true, min: 0, max: MAX_SCORE, ticks: { stepSize: 3, color: getComputedStyle(document.body).color }, grid: { color: "rgba(148,163,184,.12)" } }
+            },
+            onClick: function (event, elements) {
+                if (!elements.length) return;
+                const rec = list[elements[0].index];
+                const entry = document.querySelector('#studyHistoryCard [data-sh-date="' + rec.date + '"]');
+                if (entry) {
+                    entry.classList.add("open");
+                    entry.scrollIntoView({ behavior: "smooth", block: "center" });
+                }
+            }
+        }
+    });
+
+    const tip = document.getElementById("shTooltip");
+    if (!values.length) {
+        tip.textContent = "Chưa có ngày nào đã kết thúc kể từ ngày bắt đầu tích lũy.";
+    } else {
+        tip.textContent = "Rê chuột hoặc nhấn giữ/kéo trên biểu đồ để xem ngày và điểm.";
+    }
+
+    // Trên điện thoại và máy tính có thể rê/kéo để xem chính xác từng ngày.
+    canvas.onpointerdown = null;
+    canvas.onpointermove = null;
+    canvas.onpointerup = null;
+    canvas.onpointercancel = null;
+    if (type === "line" && values.length) {
+        let dragging = false;
+        function inspect(event) {
+            if (!shChart) return;
+            const rect = canvas.getBoundingClientRect();
+            const px = (event.clientX - rect.left) * shChart.width / rect.width;
+            const pos = shChart.scales.x.getValueForPixel(px);
+            if (!Number.isFinite(pos)) return;
+            const i = Math.max(0, Math.min(values.length - 1, Math.round(pos)));
+            tip.textContent = "Ngày " + labels[i] + " · " + values[i] + " điểm";
+        }
+        canvas.onpointerdown = function (event) {
+            dragging = true;
+            inspect(event);
+            if (canvas.setPointerCapture) canvas.setPointerCapture(event.pointerId);
+        };
+        canvas.onpointermove = function (event) {
+            if (dragging || event.pointerType === "mouse") inspect(event);
+        };
+        canvas.onpointerup = function (event) {
+            if (dragging) inspect(event);
+            dragging = false;
+        };
+        canvas.onpointercancel = function () { dragging = false; };
+    }
+}
+
+function shRenderList() {
+    let list = shFilteredRecords("shHistoryRange");
+    if (document.getElementById("shSort").value === "new") list.reverse();
+
+    const host = document.getElementById("shHistoryList");
+    if (!list.length) {
+        host.className = "sh-empty";
+        host.textContent = "Chưa có lịch sử ngày đã kết thúc. Dữ liệu sẽ bắt đầu xuất hiện sau ngày đầu tiên tích lũy kết thúc.";
+        return;
+    }
+    host.className = "";
+    host.innerHTML = list.map(function (r) {
+        const score = Math.max(0, Math.min(MAX_SCORE, Number(r.score) || 0));
+        const complete = score >= 15;
+        const tasks = (r.tasks || []).slice(0, 4).map(function (task, i) {
+            const labels = ["03:00–06:00", "07:00–11:00", "13:00–17:00", "19:00–24:00"];
+            return '<div class="sh-task"><span class="sh-muted">' +
+                shEscape(task.label || labels[i]) + '</span><strong style="display:block;margin:6px 0;">' +
+                shEscape(task.name || "Học bài") + '</strong><span class="' +
+                (task.completed ? "sh-green" : "sh-red") + '">' +
+                (task.completed ? "✓ Hoàn thành" : "✕ Chưa hoàn thành") +
+                '</span><div class="sh-muted">Điểm nhiệm vụ: ' + (Number(task.creditedHours) || 0) + '</div></div>';
+        }).join("");
+
+        return '<article class="sh-entry" data-sh-date="' + shEscape(r.date) + '">' +
+            '<div class="sh-entry-head" role="button" tabindex="0" onclick="shToggleEntry(this.parentElement)" ' +
+            'onkeydown="if(event.key===\'Enter\'||event.key===\' \' ){event.preventDefault();shToggleEntry(this.parentElement)}">' +
+            '<div><b>Ngày ' + shDateLabel(r.date) + '</b><div class="sh-muted">Học ' +
+            (Number(r.studyHours) || 0) + ' · Tập ' + (Number(r.exerciseHours) || 0) + '</div></div>' +
+            '<div><span class="sh-muted">Tổng điểm</span><div class="sh-points ' + (complete ? "sh-green" : "sh-red") + '">' + score + "/" + MAX_SCORE + '</div></div>' +
+            '<div><span class="sh-muted">Trạng thái</span><div><span class="sh-pill ' + (complete ? "sh-ok" : "sh-bad") + '">' +
+            (complete ? "ĐẠT 15 ĐIỂM" : "DƯỚI 15 ĐIỂM") + '</span></div></div><div class="sh-chevron">⌄</div></div>' +
+            '<div class="sh-detail"><h4 style="margin:0 0 10px;">Trạng thái 4 nhiệm vụ</h4><div class="sh-task-grid">' +
+            (tasks || '<div class="sh-muted">Không có dữ liệu nhiệm vụ.</div>') + '</div></div></article>';
+    }).join("");
+}
+
+function renderStudyHistory() {
+    if (!document.getElementById("studyHistoryCard")) return;
+    shRenderChart();
+    shRenderList();
+}
+
+document.getElementById("shChartType").addEventListener("change", shRenderChart);
+document.getElementById("shRange").addEventListener("change", shRenderChart);
+document.getElementById("shHistoryRange").addEventListener("change", shRenderList);
+document.getElementById("shSort").addEventListener("change", shRenderList);
+
+// Cập nhật biểu đồ khi dữ liệu chính được lưu hoặc đồng bộ từ Firebase.
+const shOriginalSaveData = saveData;
+saveData = function () {
+    shOriginalSaveData();
+    if (document.getElementById("studyHistoryCard")) renderStudyHistory();
+};
+
+window.addEventListener("focus", renderStudyHistory);
+window.addEventListener("storage", function (event) {
+    if (event.key === STORAGE_KEY) renderStudyHistory();
+});
+window.addEventListener("load", renderStudyHistory);
+setTimeout(renderStudyHistory, 0);
 
 </script>
 
